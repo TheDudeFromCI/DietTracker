@@ -17,6 +17,7 @@ public class ResourceLoader{
 			for(int a = 0; a<entries; a++){
 				FoodEntry f = new FoodEntry(file.getString(9));
 				for(int b = 0; b<DietNumbers.SIZE; b++)f.getStats().stats[b]=(int)file.getNumber(16);
+				foods.add(f);
 			}
 			entries=(int)file.getNumber(16);
 			for(int a = 0; a<entries; a++)menu.add(foods.get((int)file.getNumber(16)));
