@@ -28,11 +28,12 @@ public class CurrentStats extends JPanel{
 		warningStage=new Color[DietNumbers.SIZE];
 		broken=new boolean[DietNumbers.SIZE];
 		darkerGray=new Color(0.1f, 0.1f, 0.1f);
+		dietNumbers=Loader.getResourceLoader().loadTodaysStats();
+		maxDietNumbers=Loader.getResourceLoader().loadMaxDiet();
+		tempDietNumbers=new DietNumbers();
 		reload();
 	}
 	public void reload(){
-		tempDietNumbers=new DietNumbers();
-		load();
 		new Timer().scheduleAtFixedRate(new TimerTask(){
 			public void run(){
 				int checks = 0;
@@ -57,10 +58,6 @@ public class CurrentStats extends JPanel{
 				if(checks==DietNumbers.SIZE)cancel();
 			}
 		}, 50, 50);
-	}
-	private void load(){
-		dietNumbers=Loader.getResourceLoader().loadTodaysStats();
-		maxDietNumbers=Loader.getResourceLoader().loadMaxDiet();
 	}
 	@Override public void paint(Graphics g1){
 		Graphics2D g = (Graphics2D)g1;
@@ -89,6 +86,7 @@ public class CurrentStats extends JPanel{
 		g.dispose();
 	}
 	public void addFoodEntry(FoodEntry foodEntry){
-		//TODO Add diet numbers.
+		for(int a = 0; a<DietNumbers.SIZE; a++)dietNumbers.stats[a]+=foodEntry.getStats().stats[a];
+		reload();
 	}
 }

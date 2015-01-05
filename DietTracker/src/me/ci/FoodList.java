@@ -181,13 +181,15 @@ public class FoodList extends JPanel{
 		if(p.y>=0&&p.y<25&&p.x>=175&&p.x<200)new AddNewFood();
 		else if(foodHoverElement>-1){
 			if(foodHoverIcon==0){
+				final int index = foodHoverElement;
 				new ConfirmPanel("Are you sure you want to add this item to your menu?", new Runnable(){
-					public void run(){ Loader.getInstance().getCurrentStats().addFoodEntry(foods.get(foodHoverElement)); }
+					public void run(){ Loader.getInstance().getCurrentStats().addFoodEntry(foods.get(index)); }
 				}, null);
 			}else if(foodHoverIcon==1){
+				final int index = foodHoverElement;
 				new ConfirmPanel("Are you sure you want to remove this item?", new Runnable(){
 					public void run(){
-						foods.remove(foodHoverElement);
+						foods.remove(index);
 						Loader.getResourceLoader().save();
 						repaint();
 					}
