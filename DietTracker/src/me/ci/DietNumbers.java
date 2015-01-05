@@ -16,4 +16,11 @@ public class DietNumbers{
 		for(int i = 0; i<SIZE; i++)high=Math.max(stats[i], high);
 		return high;
 	}
+	@Override public boolean equals(Object o){
+		if(o instanceof DietNumbers){
+			for(int i = 0; i<SIZE; i++)if(stats[i]!=((DietNumbers)o).stats[i])return false;
+			return true;
+		}
+		return false;
+	}
 }

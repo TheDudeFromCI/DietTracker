@@ -7,6 +7,7 @@ public class FoodEntry{
 		this.name=name;
 		stats=new DietNumbers();
 	}
+	@Override public boolean equals(Object o){ return o instanceof FoodEntry&&((FoodEntry)o).stats.equals(stats); }
 	public String getName(){ return name; }
 	public DietNumbers getStats(){ return stats; }
 }
