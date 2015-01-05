@@ -59,10 +59,11 @@ public class Loader extends JFrame{
 		FlowLayout flowLayout = (FlowLayout)currentStats.getLayout();
 		flowLayout.setAlignment(FlowLayout.RIGHT);
 		panel.add(currentStats, BorderLayout.CENTER);
-		JPanel panel_1 = new JPanel();
-		panel.add(panel_1, BorderLayout.SOUTH);
 		JPanel panel_2 = new JPanel();
 		panel.add(panel_2, BorderLayout.WEST);
+		
+		OptionsMenu optionsMenu = new OptionsMenu();
+		panel.add(optionsMenu, BorderLayout.SOUTH);
 	}
 	public void maximize(){
 		x=getX();

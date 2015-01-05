@@ -19,6 +19,7 @@ public class CurrentStats extends JPanel{
 	private boolean[] broken;
 	private Font font1, font2, font3;
 	private Color darkerGray;
+	private Timer t;
 	public CurrentStats(){
 		setPreferredSize(new Dimension(400, 400));
 		setMinimumSize(new Dimension(100, 100));
@@ -34,7 +35,9 @@ public class CurrentStats extends JPanel{
 		reload();
 	}
 	public void reload(){
-		new Timer().scheduleAtFixedRate(new TimerTask(){
+		if(t!=null)t.cancel();
+		t=new Timer();
+		t.scheduleAtFixedRate(new TimerTask(){
 			public void run(){
 				int checks = 0;
 				for(int i = 0; i<DietNumbers.SIZE; i++){
@@ -89,4 +92,6 @@ public class CurrentStats extends JPanel{
 		for(int a = 0; a<DietNumbers.SIZE; a++)dietNumbers.stats[a]+=foodEntry.getStats().stats[a];
 		reload();
 	}
+	public DietNumbers getMaxStats(){ return maxDietNumbers; }
+	public DietNumbers getTempStats(){ return tempDietNumbers; }
 }
