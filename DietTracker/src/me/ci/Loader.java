@@ -31,6 +31,7 @@ public class Loader extends JFrame{
 		setTitle("Diet Tracker");
 		setSize(900, 480);
 		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setBackground(Color.DARK_GRAY);
 		setMinimumSize(new Dimension(900, 480));
 		setUndecorated(true);

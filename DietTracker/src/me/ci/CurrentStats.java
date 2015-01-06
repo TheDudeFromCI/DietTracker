@@ -43,7 +43,7 @@ public class CurrentStats extends JPanel{
 				int checks = 0;
 				for(int i = 0; i<DietNumbers.SIZE; i++){
 					if(dietNumbers.stats[i]>tempDietNumbers.stats[i]){
-						tempDietNumbers.stats[i]+=Math.max(Math.round(0.025f*maxDietNumbers.max()), 1);
+						tempDietNumbers.stats[i]+=Math.max(Math.round(0.05f*Math.abs(dietNumbers.stats[i]-tempDietNumbers.stats[i])), 1);
 						if(tempDietNumbers.stats[i]>dietNumbers.stats[i]){
 							tempDietNumbers.stats[i]=dietNumbers.stats[i];
 							checks++;
@@ -57,7 +57,7 @@ public class CurrentStats extends JPanel{
 							broken[i]=true;
 						}
 					}else if(dietNumbers.stats[i]<tempDietNumbers.stats[i]){
-						tempDietNumbers.stats[i]-=Math.max(Math.round(0.025f*maxDietNumbers.max()), 1);
+						tempDietNumbers.stats[i]-=Math.max(Math.round(0.05f*Math.abs(dietNumbers.stats[i]-tempDietNumbers.stats[i])), 1);
 						if(tempDietNumbers.stats[i]<dietNumbers.stats[i]){
 							tempDietNumbers.stats[i]=dietNumbers.stats[i];
 							checks++;
