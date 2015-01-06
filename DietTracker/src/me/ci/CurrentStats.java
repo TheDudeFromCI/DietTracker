@@ -55,7 +55,12 @@ public class CurrentStats extends JPanel{
 							warningStage[i]=new Color(Math.max(1.1f-percent, 0.9f), 0, 0);
 							broken[i]=true;
 						}
-					}else checks++;
+					}else{
+						if(tempDietNumbers.stats[i]==0){
+							warningStage[i]=new Color(0, 1f, 0);
+						}
+						checks++;
+					}
 				}
 				repaint();
 				if(checks==DietNumbers.SIZE)cancel();
