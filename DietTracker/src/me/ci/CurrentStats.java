@@ -21,7 +21,7 @@ public class CurrentStats extends JPanel{
 	private Color darkerGray;
 	private Timer t;
 	public CurrentStats(){
-		setPreferredSize(new Dimension(400, 400));
+		setPreferredSize(new Dimension(400, 40*DietNumbers.SIZE));
 		setMinimumSize(new Dimension(100, 100));
 		font1=new Font("Tahoma", Font.BOLD, 40);
 		font2=new Font("Tahoma", Font.ITALIC, 40);

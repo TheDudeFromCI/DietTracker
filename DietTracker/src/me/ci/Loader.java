@@ -7,7 +7,6 @@ import java.awt.Color;
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import javax.swing.JPanel;
-import java.awt.FlowLayout;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.GridLayout;
@@ -53,10 +52,6 @@ public class Loader extends JFrame{
 		panel.setBackground(Color.DARK_GRAY);
 		getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(new BorderLayout(0, 0));
-		getContentPane().add(currentStats=new CurrentStats(), BorderLayout.EAST);
-		FlowLayout flowLayout = (FlowLayout)currentStats.getLayout();
-		flowLayout.setAlignment(FlowLayout.RIGHT);
-		panel.add(currentStats, BorderLayout.CENTER);
 		JPanel panel_2 = new JPanel();
 		panel.add(panel_2, BorderLayout.WEST);
 		panel_2.setLayout(new GridLayout(0, 1, 0, 0));
@@ -64,6 +59,11 @@ public class Loader extends JFrame{
 		panel_2.add(menu);
 		OptionsMenu optionsMenu = new OptionsMenu();
 		panel.add(optionsMenu, BorderLayout.SOUTH);
+		JPanel panel_1 = new JPanel();
+		panel.add(panel_1, BorderLayout.CENTER);
+		panel_1.setLayout(new BorderLayout(0, 0));
+		getContentPane().add(currentStats=new CurrentStats(), BorderLayout.EAST);
+		panel_1.add(currentStats, BorderLayout.NORTH);
 	}
 	public void maximize(){
 		x=getX();
