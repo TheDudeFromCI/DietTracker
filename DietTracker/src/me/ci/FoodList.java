@@ -39,7 +39,7 @@ public class FoodList extends JPanel{
 	private static final int TITLE_SIZE = 20;
 	private static final int STATS_SIZE = 15;
 	private static final int ENTRY_SIZE = TITLE_SIZE+(DietNumbers.SIZE+1)*STATS_SIZE;
-	private static final int WIDTH = 273;
+	private static final int WIDTH = 373;
 	public FoodList(){
 		addMouseWheelListener(new MouseWheelListener(){
 			public void mouseWheelMoved(MouseWheelEvent e){
@@ -82,7 +82,13 @@ public class FoodList extends JPanel{
 			}
 			@Override public void mouseReleased(MouseEvent e){ scrollingBar=false; }
 			@Override public void mouseExited(MouseEvent e){ updateHover(e.getPoint()); }
-			@Override public void mouseClicked(MouseEvent e){ click(e.getPoint()); }
+			@Override public void mouseClicked(MouseEvent e){
+				if(Loader.POP_UP_OPEN){
+					Loader.POP_UP.requestFocus();
+					return;
+				}
+				click(e.getPoint());
+			}
 		});
 		addMouseMotionListener(new MouseMotionAdapter(){
 			@Override public void mouseDragged(MouseEvent e){

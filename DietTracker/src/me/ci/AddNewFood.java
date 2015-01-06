@@ -25,9 +25,9 @@ public class AddNewFood extends JFrame{
 	public AddNewFood(){
 		addWindowFocusListener(new WindowFocusListener(){
 			public void windowGainedFocus(WindowEvent e){
-				if(Loader.POP_UP!=AddNewFood.this){
+				if(Loader.POP_UP_OPEN&&Loader.POP_UP!=AddNewFood.this){
 					Toolkit.getDefaultToolkit().beep();
-					requestFocus();
+					Loader.POP_UP.requestFocus();
 				}
 			}
 			public void windowLostFocus(WindowEvent e){}
