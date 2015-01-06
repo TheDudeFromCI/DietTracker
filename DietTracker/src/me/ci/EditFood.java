@@ -34,7 +34,7 @@ public class EditFood extends JFrame{
 			public void windowGainedFocus(WindowEvent e){
 				if(Loader.POP_UP!=EditFood.this){
 					Toolkit.getDefaultToolkit().beep();
-					Loader.POP_UP.requestFocus();
+					requestFocus();
 				}
 			}
 			public void windowLostFocus(WindowEvent e){}
