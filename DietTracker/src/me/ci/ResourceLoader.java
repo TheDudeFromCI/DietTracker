@@ -12,9 +12,7 @@ public class ResourceLoader{
 	public ResourceLoader(){
 		file=new CompactBinaryFile("Config.dat");
 		if(!file.exists()){
-			try{
-				file.getParentFile().mkdirs();
-				file.createNewFile();
+			try{ file.createNewFile();
 			}catch(Exception exception){ exception.printStackTrace(); }
 		}
 		file.read();
