@@ -22,17 +22,17 @@ public class Menu extends JPanel{
 		reload();
 	}
 	public void reload(){
-		HashMap<String,Integer> itemCounts = new HashMap<>();
+		HashMap<FoodEntry,Integer> itemCounts = new HashMap<>();
 		for(FoodEntry f : Loader.getResourceLoader().getMenu()){
-			if(itemCounts.containsKey(f.getName()))itemCounts.put(f.getName(), itemCounts.get(f.getName())+1);
-			else itemCounts.put(f.getName(), 1);
+			if(itemCounts.containsKey(f))itemCounts.put(f, itemCounts.get(f)+1);
+			else itemCounts.put(f, 1);
 		}
 		items=new String[itemCounts.size()];
 		int index = 0;
 		int c;
-		for(String s : itemCounts.keySet()){
+		for(FoodEntry s : itemCounts.keySet()){
 			c=itemCounts.get(s);
-			items[index]=s+(c==1?"":" x"+c);
+			items[index]=s.getName()+(c==1?"":" x"+c);
 			index++;
 		}
 		repaint();
