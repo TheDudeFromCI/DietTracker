@@ -134,7 +134,6 @@ public class FoodList extends JPanel{
 			food=foods.get(i);
 			int y = i*ENTRY_SIZE-scrollPos;
 			scrollBufGraphics.setFont(font1);
-			
 			boolean overKill = false;
 			for(int a = 0; a<DietNumbers.SIZE; a++){
 				if(food.getStats().stats[a]>0&&food.getStats().stats[a]+currentStats.stats[a]>maxStats.stats[a]){
