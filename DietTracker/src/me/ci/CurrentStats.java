@@ -35,6 +35,7 @@ public class CurrentStats extends JPanel{
 		reload();
 	}
 	public void reload(){
+		if(Loader.getInstance()!=null)Loader.getInstance().getFoodList().repaint();
 		if(t!=null)t.cancel();
 		t=new Timer();
 		t.scheduleAtFixedRate(new TimerTask(){

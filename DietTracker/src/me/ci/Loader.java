@@ -61,7 +61,6 @@ public class Loader extends JFrame{
 		panel.add(currentStats, BorderLayout.CENTER);
 		JPanel panel_2 = new JPanel();
 		panel.add(panel_2, BorderLayout.WEST);
-		
 		OptionsMenu optionsMenu = new OptionsMenu();
 		panel.add(optionsMenu, BorderLayout.SOUTH);
 	}

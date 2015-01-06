@@ -57,6 +57,7 @@ public class OptionsMenu extends JPanel{
 					Loader.getInstance().getCurrentStats().getMaxStats().stats[a]=(int)spinner.getValue();
 					Loader.getInstance().getCurrentStats().getTempStats().stats[a]=0;
 					Loader.getInstance().getCurrentStats().reload();
+					Loader.getInstance().getFoodList().repaint();
 					Loader.getResourceLoader().save();
 				}
 			});

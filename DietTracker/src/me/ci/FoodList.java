@@ -126,16 +126,28 @@ public class FoodList extends JPanel{
 		scrollBufGraphics.fillRect(0, 0, scrollWidth, scrollHeight);
 		FoodEntry food;
 		foodHoverElement=-1;
+		DietNumbers currentStats = Loader.getResourceLoader().loadTodaysStats();
+		DietNumbers maxStats = Loader.getResourceLoader().loadMaxDiet();
 		for(int i = 0; i<foods.size(); i++){
 			if(i*ENTRY_SIZE+ENTRY_SIZE<=scrollPos)continue;
 			if(i*ENTRY_SIZE>scrollPos+scrollHeight)continue;
 			food=foods.get(i);
 			int y = i*ENTRY_SIZE-scrollPos;
 			scrollBufGraphics.setFont(font1);
-			scrollBufGraphics.setColor(Color.WHITE);
+			
+			boolean overKill = false;
+			for(int a = 0; a<DietNumbers.SIZE; a++){
+				if(food.getStats().stats[a]>0&&food.getStats().stats[a]+currentStats.stats[a]>maxStats.stats[a]){
+					overKill=true;
+					break;
+				}
+			}
+			if(overKill)scrollBufGraphics.setColor(Color.RED);
+			else scrollBufGraphics.setColor(Color.WHITE);
 			scrollBufGraphics.drawString(food.getName(), 5, y+TITLE_SIZE);
 			scrollBufGraphics.setFont(font2);
-			scrollBufGraphics.setColor(Color.LIGHT_GRAY);
+			if(overKill)scrollBufGraphics.setColor(Color.RED);
+			else scrollBufGraphics.setColor(Color.LIGHT_GRAY);
 			for(int j = 0; j<DietNumbers.SIZE+1; j++){
 				if(j==DietNumbers.SIZE)scrollBufGraphics.drawString("---------------------------------------------", 12, y+TITLE_SIZE+STATS_SIZE*(j+1));
 				else scrollBufGraphics.drawString(DietNumbers.NAMES[j]+": "+food.getStats().stats[j], 12, y+TITLE_SIZE+STATS_SIZE*(j+1));
