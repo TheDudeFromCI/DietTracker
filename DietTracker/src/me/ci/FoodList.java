@@ -39,7 +39,7 @@ public class FoodList extends JPanel{
 	private static final int TITLE_SIZE = 20;
 	private static final int STATS_SIZE = 15;
 	private static final int ENTRY_SIZE = TITLE_SIZE+(DietNumbers.SIZE+1)*STATS_SIZE;
-	private static final int WIDTH = 473;
+	private static final int WIDTH = 493;
 	public FoodList(){
 		addMouseWheelListener(new MouseWheelListener(){
 			public void mouseWheelMoved(MouseWheelEvent e){
@@ -155,7 +155,7 @@ public class FoodList extends JPanel{
 			if(overKill)scrollBufGraphics.setColor(Color.RED);
 			else scrollBufGraphics.setColor(Color.LIGHT_GRAY);
 			for(int j = 0; j<DietNumbers.SIZE+1; j++){
-				if(j==DietNumbers.SIZE)scrollBufGraphics.drawString("------------------------------------------------------------------------", 0, y+TITLE_SIZE+STATS_SIZE*(j+1));
+				if(j==DietNumbers.SIZE)scrollBufGraphics.drawString("-----------------------------------------------------------------------------------------------------------------------------------------", 0, y+TITLE_SIZE+STATS_SIZE*(j+1));
 				else scrollBufGraphics.drawString(DietNumbers.NAMES[j]+": "+food.getStats().stats[j], 12, y+TITLE_SIZE+STATS_SIZE*(j+1));
 			}
 			int bufImageStartPos = (int)(y+ENTRY_SIZE/2f-27.5f);
