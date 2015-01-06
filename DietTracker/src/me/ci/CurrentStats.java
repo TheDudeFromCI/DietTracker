@@ -113,6 +113,7 @@ public class CurrentStats extends JPanel{
 		Loader.getResourceLoader().save();
 		for(int a = 0; a<DietNumbers.SIZE; a++)dietNumbers.stats[a]+=foodEntry.getStats().stats[a];
 		reload();
+		Loader.getInstance().getMenu().reload();
 	}
 	public DietNumbers getMaxStats(){ return maxDietNumbers; }
 	public DietNumbers getTempStats(){ return tempDietNumbers; }

@@ -12,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import java.awt.GridLayout;
 
 @SuppressWarnings({"serial", "unused"})
 public class Loader extends JFrame{
@@ -23,6 +24,7 @@ public class Loader extends JFrame{
 	public static boolean POP_UP_OPEN = false;
 	public static JFrame POP_UP;
 	private static Loader LOADER;
+	private Menu menu;
 	private Loader(){
 		init();
 		addComponents();
@@ -61,6 +63,9 @@ public class Loader extends JFrame{
 		panel.add(currentStats, BorderLayout.CENTER);
 		JPanel panel_2 = new JPanel();
 		panel.add(panel_2, BorderLayout.WEST);
+		panel_2.setLayout(new GridLayout(0, 1, 0, 0));
+		menu=new Menu();
+		panel_2.add(menu);
 		OptionsMenu optionsMenu = new OptionsMenu();
 		panel.add(optionsMenu, BorderLayout.SOUTH);
 	}
@@ -79,6 +84,7 @@ public class Loader extends JFrame{
 	public void setPosition(int x, int y){ setLocation(x, y); }
 	public FoodList getFoodList(){ return foodList; }
 	public CurrentStats getCurrentStats(){ return currentStats; }
+	public Menu getMenu(){ return menu; }
 	public static void main(String[] args){
 		resourceLoader=new ResourceLoader();
 		try{ UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
