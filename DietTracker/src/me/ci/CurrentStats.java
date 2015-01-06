@@ -56,6 +56,20 @@ public class CurrentStats extends JPanel{
 							warningStage[i]=new Color(Math.max(1.1f-percent, 0.9f), 0, 0);
 							broken[i]=true;
 						}
+					}else if(dietNumbers.stats[i]<tempDietNumbers.stats[i]){
+						tempDietNumbers.stats[i]-=Math.max(Math.round(0.015f*dietNumbers.max()), 1);
+						if(tempDietNumbers.stats[i]<dietNumbers.stats[i]){
+							tempDietNumbers.stats[i]=dietNumbers.stats[i];
+							checks++;
+						}
+						float percent = tempDietNumbers.stats[i]/(float)maxDietNumbers.stats[i];
+						if(percent<=1){
+							warningStage[i]=new Color(percent, 1-percent, 0);
+							broken[i]=false;
+						}else{
+							warningStage[i]=new Color(Math.max(1.1f-percent, 0.9f), 0, 0);
+							broken[i]=true;
+						}
 					}else{
 						if(tempDietNumbers.stats[i]==0){
 							warningStage[i]=new Color(0, 1f, 0);

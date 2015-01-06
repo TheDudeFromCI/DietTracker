@@ -23,4 +23,5 @@ public class DietNumbers{
 		}
 		return false;
 	}
+	public void clear(){ for(int a = 0; a<SIZE; a++)stats[a]=0; }
 }

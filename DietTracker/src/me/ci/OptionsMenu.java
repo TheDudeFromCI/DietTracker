@@ -13,6 +13,8 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 @SuppressWarnings("serial")
 public class OptionsMenu extends JPanel{
@@ -33,6 +35,14 @@ public class OptionsMenu extends JPanel{
 		FlowLayout flowLayout = (FlowLayout) panel_1.getLayout();
 		flowLayout.setAlignment(FlowLayout.TRAILING);
 		JButton btnClearTodaysMenu = new JButton("Clear Today's Menu");
+		btnClearTodaysMenu.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				Loader.getResourceLoader().getMenu().clear();
+				Loader.getResourceLoader().loadTodaysStats().clear();
+				Loader.getInstance().getCurrentStats().reload();
+				Loader.getResourceLoader().save();
+			}
+		});
 		btnClearTodaysMenu.setBackground(Color.GRAY);
 		btnClearTodaysMenu.setForeground(Color.WHITE);
 		panel_1.add(btnClearTodaysMenu);
