@@ -8,7 +8,7 @@ public class DietNumbers{
 		"Sodium",
 		"Calories",
 		"Fat",
-		"Carb",
+		"Carbs",
 		"Sat. Fat",
 		"Trans Fat"
 	};
