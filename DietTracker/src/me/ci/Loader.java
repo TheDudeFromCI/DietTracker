@@ -35,9 +35,6 @@ public class Loader extends JFrame{
 		getContentPane().setBackground(Color.DARK_GRAY);
 		setMinimumSize(new Dimension(900, 480));
 		setUndecorated(true);
-		ComponentResizer cr = new ComponentResizer();
-		cr.registerComponent(this);
-		cr.setMinimumSize(new Dimension(900, 480));
 		addWindowFocusListener(new WindowFocusListener(){
 			public void windowGainedFocus(WindowEvent e){
 				if(Loader.POP_UP_OPEN){

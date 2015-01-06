@@ -39,6 +39,7 @@ public class FoodList extends JPanel{
 	private static final int TITLE_SIZE = 20;
 	private static final int STATS_SIZE = 15;
 	private static final int ENTRY_SIZE = TITLE_SIZE+(DietNumbers.SIZE+1)*STATS_SIZE;
+	private static final int WIDTH = 273;
 	public FoodList(){
 		addMouseWheelListener(new MouseWheelListener(){
 			public void mouseWheelMoved(MouseWheelEvent e){
@@ -58,7 +59,7 @@ public class FoodList extends JPanel{
 		font2=new Font("Tahoma", Font.PLAIN, 10);
 		scrollMenuColor=new Color(0.2f, 0.2f, 0.2f);
 		foods=Loader.getResourceLoader().loadFoodList();
-		setPreferredSize(new Dimension(223, 200));
+		setPreferredSize(new Dimension(WIDTH, 200));
 		addMouseListener(new MouseAdapter(){
 			@Override public void mousePressed(MouseEvent e){
 				if(Loader.POP_UP_OPEN){
@@ -69,7 +70,7 @@ public class FoodList extends JPanel{
 				int maxScroll = Math.max(ENTRY_SIZE*foods.size()-scrollHeight+10, 0);
 				if(maxScroll>0){
 					float percent = scrollPos/(float)maxScroll;
-					if(e.getX()>=200&&e.getY()>=(int)(percent*(getHeight()-130)+25)&&e.getY()<(int)(percent*(getHeight()-130)+25)+100)scrollingBar=true;
+					if(e.getX()>=WIDTH-23&&e.getY()>=(int)(percent*(getHeight()-130)+25)&&e.getY()<(int)(percent*(getHeight()-130)+25)+100)scrollingBar=true;
 					else return;
 					startingScrollPosition=scrollPos;
 					mouseDragY=e.getY();
@@ -116,8 +117,8 @@ public class FoodList extends JPanel{
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.drawImage(foodlistTitle, 0, 0, null);
-		if(hover)g.drawImage(foodlistAddHover, 175, 0, null);
-		else g.drawImage(foodlistAdd, 175, 0, null);
+		if(hover)g.drawImage(foodlistAddHover, WIDTH-25, 0, null);
+		else g.drawImage(foodlistAdd, WIDTH-25, 0, null);
 		if(getWidth()!=scrollWidth||getHeight()-25!=scrollHeight){
 			scrollBuf=new BufferedImage(scrollWidth=getWidth(), scrollHeight=(getHeight()-25), BufferedImage.TYPE_INT_RGB);
 			scrollBufGraphics=scrollBuf.createGraphics();
@@ -148,32 +149,32 @@ public class FoodList extends JPanel{
 			if(overKill)scrollBufGraphics.setColor(Color.RED);
 			else scrollBufGraphics.setColor(Color.LIGHT_GRAY);
 			for(int j = 0; j<DietNumbers.SIZE+1; j++){
-				if(j==DietNumbers.SIZE)scrollBufGraphics.drawString("---------------------------------------------", 12, y+TITLE_SIZE+STATS_SIZE*(j+1));
+				if(j==DietNumbers.SIZE)scrollBufGraphics.drawString("------------------------------------------------------------------------", 0, y+TITLE_SIZE+STATS_SIZE*(j+1));
 				else scrollBufGraphics.drawString(DietNumbers.NAMES[j]+": "+food.getStats().stats[j], 12, y+TITLE_SIZE+STATS_SIZE*(j+1));
 			}
 			int bufImageStartPos = (int)(y+ENTRY_SIZE/2f-27.5f);
 			int realY = bufImageStartPos+25;
-			if(mouseX>=170&&mouseX<195&&mouseY>=Math.max(realY, 25)&&mouseY<realY+25){
-				scrollBufGraphics.drawImage(eatHover, 170, bufImageStartPos, null);
+			if(mouseX>=WIDTH-53&&mouseX<WIDTH-28&&mouseY>=Math.max(realY, 25)&&mouseY<realY+25){
+				scrollBufGraphics.drawImage(eatHover, WIDTH-53, bufImageStartPos, null);
 				foodHoverElement=i;
 				foodHoverIcon=0;
-			}else scrollBufGraphics.drawImage(eat, 170, bufImageStartPos, null);
-			if(mouseX>=140&&mouseX<165&&mouseY>=Math.max(realY, 25)&&mouseY<realY+25){
-				scrollBufGraphics.drawImage(removeHover, 140, bufImageStartPos, null);
+			}else scrollBufGraphics.drawImage(eat, WIDTH-53, bufImageStartPos, null);
+			if(mouseX>=WIDTH-83&&mouseX<WIDTH-58&&mouseY>=Math.max(realY, 25)&&mouseY<realY+25){
+				scrollBufGraphics.drawImage(removeHover, WIDTH-83, bufImageStartPos, null);
 				foodHoverElement=i;
 				foodHoverIcon=1;
-			}else scrollBufGraphics.drawImage(remove, 140, bufImageStartPos, null);
-			if(mouseX>=140&&mouseX<165&&mouseY>=Math.max(realY+30, 25)&&mouseY<realY+55){
-				scrollBufGraphics.drawImage(editHover, 140, bufImageStartPos+30, null);
+			}else scrollBufGraphics.drawImage(remove, WIDTH-83, bufImageStartPos, null);
+			if(mouseX>=WIDTH-83&&mouseX<WIDTH-58&&mouseY>=Math.max(realY+30, 25)&&mouseY<realY+55){
+				scrollBufGraphics.drawImage(editHover, WIDTH-83, bufImageStartPos+30, null);
 				foodHoverElement=i;
 				foodHoverIcon=2;
-			}else scrollBufGraphics.drawImage(edit, 140, bufImageStartPos+30, null);
+			}else scrollBufGraphics.drawImage(edit, WIDTH-83, bufImageStartPos+30, null);
 		}
 		g.drawImage(scrollBuf, 0, 25, null);
 		int maxScroll = Math.max(ENTRY_SIZE*foods.size()-scrollHeight+10, 0);
 		if(maxScroll>0){
 			float percent = scrollPos/(float)maxScroll;
-			g.drawImage(scrollbar, 200, (int)(percent*(getHeight()-130)+25), null);
+			g.drawImage(scrollbar, WIDTH-23, (int)(percent*(getHeight()-130)+25), null);
 		}
 		g.dispose();
 	}
@@ -183,13 +184,13 @@ public class FoodList extends JPanel{
 			mouseX=mouseY=-1;
 			return;
 		}
-		hover=p.y>=0&&p.y<25&&p.x>=175&&p.x<200;
+		hover=p.y>=0&&p.y<25&&p.x>=WIDTH-25&&p.x<WIDTH;
 		mouseX=p.x;
 		mouseY=p.y;
 		repaint();
 	}
 	private void click(Point p){
-		if(p.y>=0&&p.y<25&&p.x>=175&&p.x<200)new AddNewFood();
+		if(p.y>=0&&p.y<25&&p.x>=WIDTH-25&&p.x<WIDTH)new AddNewFood();
 		else if(foodHoverElement>-1){
 			if(foodHoverIcon==0){
 				final int index = foodHoverElement;
