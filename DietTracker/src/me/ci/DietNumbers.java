@@ -8,7 +8,9 @@ public class DietNumbers{
 		"Sodium",
 		"Calories",
 		"Fat",
-		"Carbohydrates"
+		"Carb",
+		"Sat. Fat",
+		"Trans Fat"
 	};
 	public static final int SIZE = NAMES.length;
 	public int max(){

@@ -21,7 +21,7 @@ public class CurrentStats extends JPanel{
 	private Color darkerGray;
 	private Timer t;
 	public CurrentStats(){
-		setPreferredSize(new Dimension(400, 40*DietNumbers.SIZE));
+		setPreferredSize(new Dimension(400, 43*DietNumbers.SIZE));
 		setMinimumSize(new Dimension(100, 100));
 		font1=new Font("Tahoma", Font.BOLD, 40);
 		font2=new Font("Tahoma", Font.ITALIC, 40);
@@ -71,9 +71,7 @@ public class CurrentStats extends JPanel{
 							broken[i]=true;
 						}
 					}else{
-						if(tempDietNumbers.stats[i]==0){
-							warningStage[i]=new Color(0, 1f, 0);
-						}
+						if(tempDietNumbers.stats[i]==0)warningStage[i]=new Color(0, 1f, 0);
 						checks++;
 					}
 				}

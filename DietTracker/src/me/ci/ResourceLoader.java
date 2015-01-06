@@ -21,7 +21,7 @@ public class ResourceLoader{
 		if(!file.hasFinished()){
 			int entries = (int)file.getNumber(16);
 			for(int a = 0; a<entries; a++){
-				FoodEntry f = new FoodEntry(file.getString(9));
+				FoodEntry f = new FoodEntry(file.getString(16));
 				for(int b = 0; b<DietNumbers.SIZE; b++)f.getStats().stats[b]=(int)file.getNumber(16);
 				foods.add(f);
 			}
@@ -36,7 +36,7 @@ public class ResourceLoader{
 		file.write();
 		file.addNumber(foods.size(), 16);
 		for(FoodEntry f : foods){
-			file.addString(f.getName(), 9);
+			file.addString(f.getName(), 16);
 			for(int b = 0; b<DietNumbers.SIZE; b++)file.addNumber(f.getStats().stats[b], 16);
 		}
 		file.addNumber(menu.size(), 16);
