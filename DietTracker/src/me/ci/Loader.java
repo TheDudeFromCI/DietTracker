@@ -28,11 +28,11 @@ public class Loader extends JFrame{
 	}
 	private void init(){
 		setTitle("Diet Tracker");
-		setSize(900, 640);
+		setSize(1100, 640);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setBackground(Color.DARK_GRAY);
-		setMinimumSize(new Dimension(900, 480));
+		setMinimumSize(new Dimension(1100, 640));
 		setUndecorated(true);
 		addWindowFocusListener(new WindowFocusListener(){
 			public void windowGainedFocus(WindowEvent e){

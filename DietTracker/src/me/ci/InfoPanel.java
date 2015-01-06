@@ -1,6 +1,7 @@
 package me.ci;
 
 import java.awt.Color;
+import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -41,6 +42,11 @@ public class InfoPanel extends JFrame{
 		JButton btnOk = new JButton("Ok");
 		btnOk.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
+				if(Loader.POP_UP_OPEN&&Loader.POP_UP!=InfoPanel.this){
+					Toolkit.getDefaultToolkit().beep();
+					Loader.POP_UP.requestFocus();
+					return;
+				}
 				Loader.POP_UP_OPEN=false;
 				Loader.POP_UP=null;
 				dispose();

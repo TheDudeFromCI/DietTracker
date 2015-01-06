@@ -84,6 +84,11 @@ public class AddNewFood extends JFrame{
 		JButton btnOk = new JButton("Ok");
 		btnOk.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
+				if(Loader.POP_UP_OPEN&&Loader.POP_UP!=AddNewFood.this){
+					Toolkit.getDefaultToolkit().beep();
+					Loader.POP_UP.requestFocus();
+					return;
+				}
 				if(textField.getText().isEmpty()){
 					Toolkit.getDefaultToolkit().beep();
 					new InfoPanel("Name cannot be empty!", new Runnable(){

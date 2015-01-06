@@ -39,7 +39,7 @@ public class FoodList extends JPanel{
 	private static final int TITLE_SIZE = 20;
 	private static final int STATS_SIZE = 15;
 	private static final int ENTRY_SIZE = TITLE_SIZE+(DietNumbers.SIZE+1)*STATS_SIZE;
-	private static final int WIDTH = 373;
+	private static final int WIDTH = 473;
 	public FoodList(){
 		addMouseWheelListener(new MouseWheelListener(){
 			public void mouseWheelMoved(MouseWheelEvent e){
