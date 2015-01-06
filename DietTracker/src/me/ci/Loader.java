@@ -8,16 +8,13 @@ import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import javax.swing.JPanel;
 import java.awt.FlowLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.GridLayout;
 
-@SuppressWarnings({"serial", "unused"})
+@SuppressWarnings("serial")
 public class Loader extends JFrame{
 	private CurrentStats currentStats;
-	private Toolbar toolbar;
 	private FoodList foodList;
 	private int x, y, w, h;
 	private static ResourceLoader resourceLoader;
@@ -51,7 +48,8 @@ public class Loader extends JFrame{
 		});
 	}
 	private void addComponents(){
-		getContentPane().add(toolbar=new Toolbar(this), BorderLayout.NORTH);
+		Toolbar toolbar = new Toolbar(this);
+		getContentPane().add(toolbar, BorderLayout.NORTH);
 		getContentPane().add(foodList=new FoodList(), BorderLayout.WEST);
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.DARK_GRAY);
