@@ -10,4 +10,5 @@ public class FoodEntry{
 	@Override public boolean equals(Object o){ return o instanceof FoodEntry&&((FoodEntry)o).stats.equals(stats); }
 	public String getName(){ return name; }
 	public DietNumbers getStats(){ return stats; }
+	public void setName(String name){ this.name=name; }
 }

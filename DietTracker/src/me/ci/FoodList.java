@@ -205,8 +205,7 @@ public class FoodList extends JPanel{
 						repaint();
 					}
 				}, null);
-			}else; //Edit
-			//TODO Add rest of click events to food list.
+			}else new EditFood(foods.get(foodHoverElement));
 		}
 	}
 	public void addFoodEntry(FoodEntry foodEntry){

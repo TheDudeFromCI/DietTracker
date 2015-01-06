@@ -24,7 +24,7 @@ public class ResourceLoader{
 			for(int b = 0; b<DietNumbers.SIZE; b++)maxDietNumbers.stats[b]=(int)file.getNumber(16);
 		}
 		file.stopReading();
-		for(FoodEntry f : menu)for(int b = 0; b<DietNumbers.SIZE; b++)currentDietNumbers.stats[b]+=f.getStats().stats[b];
+		recountTodaysStats();
 	}
 	public void save(){
 		file.write();
@@ -37,6 +37,10 @@ public class ResourceLoader{
 		for(FoodEntry f : menu)file.addNumber(foods.indexOf(f), 16);
 		for(int b = 0; b<DietNumbers.SIZE; b++)file.addNumber(maxDietNumbers.stats[b], 16);
 		file.stopWriting();
+	}
+	public void recountTodaysStats(){
+		for(int b = 0; b<DietNumbers.SIZE; b++)currentDietNumbers.stats[b]=0;
+		for(FoodEntry f : menu)for(int b = 0; b<DietNumbers.SIZE; b++)currentDietNumbers.stats[b]+=f.getStats().stats[b];
 	}
 	public ArrayList<FoodEntry> loadFoodList(){ return foods; }
 	public DietNumbers loadMaxDiet(){ return maxDietNumbers; }
