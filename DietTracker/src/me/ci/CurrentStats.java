@@ -89,6 +89,7 @@ public class CurrentStats extends JPanel{
 		g.dispose();
 	}
 	public void addFoodEntry(FoodEntry foodEntry){
+		Loader.getResourceLoader().getMenu().add(foodEntry);
 		for(int a = 0; a<DietNumbers.SIZE; a++)dietNumbers.stats[a]+=foodEntry.getStats().stats[a];
 		reload();
 	}

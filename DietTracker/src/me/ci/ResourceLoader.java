@@ -41,4 +41,5 @@ public class ResourceLoader{
 	public ArrayList<FoodEntry> loadFoodList(){ return foods; }
 	public DietNumbers loadMaxDiet(){ return maxDietNumbers; }
 	public DietNumbers loadTodaysStats(){ return currentDietNumbers; }
+	public ArrayList<FoodEntry> getMenu(){ return menu; }
 }
