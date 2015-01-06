@@ -11,6 +11,12 @@ public class ResourceLoader{
 	private CompactBinaryFile file;
 	public ResourceLoader(){
 		file=new CompactBinaryFile("Config.dat");
+		if(!file.exists()){
+			try{
+				file.getParentFile().mkdirs();
+				file.createNewFile();
+			}catch(Exception exception){ exception.printStackTrace(); }
+		}
 		file.read();
 		if(!file.hasFinished()){
 			int entries = (int)file.getNumber(16);
