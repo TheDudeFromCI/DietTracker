@@ -1,7 +1,7 @@
 package me.ci;
 
 import java.util.ArrayList;
-import wraith.library.BinaryFile.CompactBinaryFile;
+import wraith.library.File.BinaryFile.CompactBinaryFile;
 
 public class ResourceLoader{
 	private ArrayList<FoodEntry> foods = new ArrayList<>();
