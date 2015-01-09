@@ -74,7 +74,7 @@ public class EditFood extends JFrame{
 			lblCholesterol.setForeground(Color.LIGHT_GRAY);
 			panel_1.add(lblCholesterol, "cell 0 0,alignx left,aligny center");
 			spinners[index]=new JSpinner();
-			spinners[index].setModel(new SpinnerNumberModel(new Integer(foodEntry.getStats().stats[index]), new Integer(0), null, new Integer(5)));
+			spinners[index].setModel(new SpinnerNumberModel(new Integer(foodEntry.getStats().stats[index]), new Integer(0), null, new Integer(1)));
 			panel_1.add(spinners[index], "cell 2 0,grow");
 			textField.setText(foodEntry.getName());
 			index++;

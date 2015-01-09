@@ -59,7 +59,7 @@ public class OptionsMenu extends JPanel{
 			lblMaxSugar.setForeground(Color.WHITE);
 			namePanel.add(lblMaxSugar);
 			final JSpinner spinner = new JSpinner();
-			spinner.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(5)));
+			spinner.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 			spinner.setValue(Loader.getResourceLoader().loadMaxDiet().stats[a]);
 			namePanel.add(spinner);
 			panel.add(namePanel);
