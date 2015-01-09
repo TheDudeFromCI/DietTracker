@@ -21,7 +21,7 @@ public class CurrentStats extends JPanel{
 	private Color darkerGray;
 	private Timer t;
 	public CurrentStats(){
-		setPreferredSize(new Dimension(400, 43*DietNumbers.SIZE));
+		setPreferredSize(new Dimension(400, 52*DietNumbers.SIZE));
 		setMinimumSize(new Dimension(100, 100));
 		font1=new Font("Tahoma", Font.BOLD, 40);
 		font2=new Font("Tahoma", Font.ITALIC, 40);
@@ -82,17 +82,14 @@ public class CurrentStats extends JPanel{
 	}
 	@Override public void paint(Graphics g1){
 		Graphics2D g = (Graphics2D)g1;
-		g.setColor(Color.DARK_GRAY);
-		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setColor(darkerGray);
 		FontMetrics fontMetrics = g.getFontMetrics();
 		g.setFont(font1);
 		int fontHeight = g.getFontMetrics().getHeight();
-		g.fillRect(0, (int)(getHeight()/2f-(fontHeight*DietNumbers.SIZE/2f)-fontHeight/2f), getWidth(), fontHeight*DietNumbers.SIZE);
+		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setColor(Color.WHITE);
-		float startPos = getHeight()/2f+(DietNumbers.SIZE/2f*fontHeight-DietNumbers.SIZE*fontHeight)+(fontMetrics.getLeading()+fontMetrics.getAscent());
 		for(int i = 0; i<DietNumbers.SIZE; i++){
-			int y = (int)(startPos+fontHeight*i);
+			int y = fontHeight*(i+1);
 			g.drawString(DietNumbers.NAMES[i]+":", 10, y);
 		}
 		for(int i = 0; i<DietNumbers.SIZE; i++){
@@ -100,7 +97,7 @@ public class CurrentStats extends JPanel{
 			else g.setFont(font2);
 			fontMetrics=g.getFontMetrics();
 			g.setColor(warningStage[i]);
-			int y = (int)(startPos+fontHeight*i);
+			int y = fontHeight*(i+1);
 			int x = (int)(getWidth()-(fontMetrics.getStringBounds(tempDietNumbers.stats[i]+"/"+maxDietNumbers.stats[i], g).getWidth()+10));
 			g.drawString(tempDietNumbers.stats[i]+"/"+maxDietNumbers.stats[i], x, y);
 		}
