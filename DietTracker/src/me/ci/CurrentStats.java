@@ -21,11 +21,11 @@ public class CurrentStats extends JPanel{
 	private Color darkerGray;
 	private Timer t;
 	public CurrentStats(){
-		setPreferredSize(new Dimension(400, 52*DietNumbers.SIZE));
+		setPreferredSize(new Dimension(400, 39*DietNumbers.SIZE));
 		setMinimumSize(new Dimension(100, 100));
-		font1=new Font("Tahoma", Font.BOLD, 40);
-		font2=new Font("Tahoma", Font.ITALIC, 40);
-		font3=new Font("Tahoma", Font.ITALIC|Font.BOLD, 40);
+		font1=new Font("Tahoma", Font.BOLD, 30);
+		font2=new Font("Tahoma", Font.ITALIC, 30);
+		font3=new Font("Tahoma", Font.ITALIC|Font.BOLD, 30);
 		warningStage=new Color[DietNumbers.SIZE];
 		broken=new boolean[DietNumbers.SIZE];
 		darkerGray=new Color(0.1f, 0.1f, 0.1f);
