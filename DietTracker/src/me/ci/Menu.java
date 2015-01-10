@@ -18,7 +18,7 @@ public class Menu extends JPanel{
 		font=new Font("Tahoma", Font.PLAIN, 12);
 		font1=new Font("Tahoma", Font.BOLD, 15);
 		darkGray=new Color(0.1f, 0.1f, 0.1f);
-		setPreferredSize(new Dimension(200, 500));
+		setPreferredSize(new Dimension(300, 300));
 		reload();
 	}
 	public void reload(){
@@ -32,7 +32,7 @@ public class Menu extends JPanel{
 		int c;
 		for(FoodEntry s : itemCounts.keySet()){
 			c=itemCounts.get(s);
-			items[index]=s.getName()+(c==1?"":" x"+c);
+			items[index]="x"+c+" "+s.getName();
 			index++;
 		}
 		repaint();
