@@ -43,7 +43,7 @@ public class EditFood extends JFrame{
 	private void init(){
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setResizable(false);
-		setSize(320, 320);
+		setSize(320, 640);
 		setLocationRelativeTo(null);
 		setTitle("Edit Food Entry");
 		getContentPane().setBackground(Color.DARK_GRAY);
