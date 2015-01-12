@@ -22,7 +22,7 @@ import java.awt.event.MouseWheelEvent;
 public class FoodList extends JPanel{
 	private BufferedImage foodlistTitle, foodlistAdd, foodlistAddHover, eat, eatHover, scrollbar, remove, removeHover, edit, editHover;
 	private boolean hover;
-	private Font font1, font2;
+	private Font font1, font2, font3;
 	private ArrayList<FoodEntry> foods;
 	private int scrollPos;
 	private BufferedImage scrollBuf;
@@ -57,6 +57,7 @@ public class FoodList extends JPanel{
 		});
 		font1=new Font("Tahoma", Font.ITALIC|Font.BOLD, 15);
 		font2=new Font("Tahoma", Font.PLAIN, 10);
+		font3=new Font("Tahoma", Font.ITALIC, 30);
 		scrollMenuColor=new Color(0.2f, 0.2f, 0.2f);
 		foods=Loader.getResourceLoader().loadFoodList();
 		setPreferredSize(new Dimension(WIDTH, 200));
@@ -141,13 +142,8 @@ public class FoodList extends JPanel{
 			food=foods.get(i);
 			int y = i*ENTRY_SIZE-scrollPos;
 			scrollBufGraphics.setFont(font1);
-			boolean overKill = false;
-			for(int a = 0; a<DietNumbers.SIZE; a++){
-				if(food.getStats().stats[a]>0&&food.getStats().stats[a]+currentStats.stats[a]>maxStats.stats[a]){
-					overKill=true;
-					break;
-				}
-			}
+			int remainingBuys = food.getRemaining(currentStats, maxStats);
+			boolean overKill = remainingBuys==0;
 			if(overKill)scrollBufGraphics.setColor(Color.RED);
 			else scrollBufGraphics.setColor(Color.WHITE);
 			scrollBufGraphics.drawString(food.getName(), 5, y+TITLE_SIZE);
@@ -175,6 +171,11 @@ public class FoodList extends JPanel{
 				foodHoverElement=i;
 				foodHoverIcon=2;
 			}else scrollBufGraphics.drawImage(edit, WIDTH-83, bufImageStartPos+30, null);
+			scrollBufGraphics.setFont(font3);
+			if(overKill)scrollBufGraphics.setColor(Color.RED);
+			else scrollBufGraphics.setColor(Color.WHITE);
+			String left = remainingBuys==-1?"N/A":"x"+remainingBuys;
+			scrollBufGraphics.drawString(left, (int)(WIDTH-90-scrollBufGraphics.getFontMetrics().getStringBounds(left, scrollBufGraphics).getWidth()), bufImageStartPos+54);
 		}
 		g.drawImage(scrollBuf, 0, 25, null);
 		int maxScroll = Math.max(ENTRY_SIZE*foods.size()-scrollHeight+10, 0);
