@@ -28,7 +28,7 @@ public class OptionsMenu extends JPanel{
 		JPanel panel = new JPanel();
 		panel_2.add(panel, BorderLayout.NORTH);
 		panel.setBackground(Color.DARK_GRAY);
-		panel.setLayout(new GridLayout(1, 0, 10, 0));
+		panel.setLayout(new GridLayout(2, 0, 10, 0));
 		JPanel panel_1 = new JPanel();
 		panel_2.add(panel_1, BorderLayout.SOUTH);
 		panel_1.setBackground(Color.DARK_GRAY);
@@ -59,8 +59,7 @@ public class OptionsMenu extends JPanel{
 			lblMaxSugar.setForeground(Color.WHITE);
 			namePanel.add(lblMaxSugar);
 			final JSpinner spinner = new JSpinner();
-			spinner.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-			spinner.setValue(Loader.getResourceLoader().loadMaxDiet().stats[a]);
+			spinner.setModel(new SpinnerNumberModel(new Integer(Loader.getResourceLoader().loadMaxDiet().stats[a]), new Integer(0), null, new Integer(1)));
 			namePanel.add(spinner);
 			panel.add(namePanel);
 			spinner.addChangeListener(new ChangeListener(){
@@ -75,7 +74,7 @@ public class OptionsMenu extends JPanel{
 		}
 		JLabel lblDailyMaxValues = new JLabel("Daily Max Values");
 		lblDailyMaxValues.setForeground(new Color(0.7f, 0.7f, 0.7f));
-		lblDailyMaxValues.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 20));
+		lblDailyMaxValues.setFont(new Font("Dialog", Font.BOLD|Font.ITALIC, 20));
 		lblDailyMaxValues.setHorizontalAlignment(SwingConstants.CENTER);
 		add(lblDailyMaxValues, BorderLayout.NORTH);
 	}
