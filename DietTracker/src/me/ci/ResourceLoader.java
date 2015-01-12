@@ -9,6 +9,7 @@ public class ResourceLoader{
 	private DietNumbers maxDietNumbers = new DietNumbers();
 	private DietNumbers currentDietNumbers = new DietNumbers();
 	private CompactBinaryFile file;
+	public static final byte FILE_VERSION = -127;
 	public ResourceLoader(){
 		file=new CompactBinaryFile("Config.dat");
 		if(!file.exists()){
@@ -17,21 +18,39 @@ public class ResourceLoader{
 		}
 		file.read();
 		if(!file.hasFinished()){
-			int entries = (int)file.getNumber(16);
-			for(int a = 0; a<entries; a++){
-				FoodEntry f = new FoodEntry(file.getString(16));
-				for(int b = 0; b<DietNumbers.SIZE; b++)f.getStats().stats[b]=(int)file.getNumber(16);
-				foods.add(f);
-			}
-			entries=(int)file.getNumber(16);
-			for(int a = 0; a<entries; a++)menu.add(foods.get((int)file.getNumber(16)));
-			for(int b = 0; b<DietNumbers.SIZE; b++)maxDietNumbers.stats[b]=(int)file.getNumber(16);
+			byte version = (byte)file.getNumber(8);
+			if(version==-127)loadFileVersion2(file);
+			loadFileVersion1(file);
 		}
 		file.stopReading();
 		recountTodaysStats();
 	}
+	private void loadFileVersion2(CompactBinaryFile file){
+		int entries = (int)file.getNumber(16);
+		for(int a = 0; a<entries; a++){
+			FoodEntry f = new FoodEntry(file.getString(16));
+			for(int b = 0; b<DietNumbers.SIZE; b++)f.getStats().stats[b]=(int)file.getNumber(16);
+			foods.add(f);
+		}
+		entries=(int)file.getNumber(16);
+		for(int a = 0; a<entries; a++)menu.add(foods.get((int)file.getNumber(16)));
+		for(int b = 0; b<DietNumbers.SIZE; b++)maxDietNumbers.stats[b]=(int)file.getNumber(16);
+	}
+	private void loadFileVersion1(CompactBinaryFile file){
+		file.resetIterator();
+		int entries = (int)file.getNumber(16);
+		for(int a = 0; a<entries; a++){
+			FoodEntry f = new FoodEntry(file.getString(16));
+			for(int b = 0; b<8; b++)f.getStats().stats[b]=(int)file.getNumber(16);
+			foods.add(f);
+		}
+		entries=(int)file.getNumber(16);
+		for(int a = 0; a<entries; a++)menu.add(foods.get((int)file.getNumber(16)));
+		for(int b = 0; b<8; b++)maxDietNumbers.stats[b]=(int)file.getNumber(16);
+	}
 	public void save(){
 		file.write();
+		file.addNumber(FILE_VERSION, 8);
 		file.addNumber(foods.size(), 16);
 		for(FoodEntry f : foods){
 			file.addString(f.getName(), 16);

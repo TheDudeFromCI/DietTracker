@@ -7,7 +7,6 @@ import java.awt.Color;
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import javax.swing.JPanel;
-import org.omg.CORBA.REBIND;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.GridLayout;

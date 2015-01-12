@@ -27,7 +27,7 @@ public class Toolbar extends JPanel{
 		"Main",
 		"Recipe Builder"
 	};
-	public static final int TAB_WIDTH = 94;
+	public static final int TAB_WIDTH = 100;
 	public Toolbar(Loader loader, int currentIndex){
 		this.currentIndex=currentIndex;
 		this.loader=loader;

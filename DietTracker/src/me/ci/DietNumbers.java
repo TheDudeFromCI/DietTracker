@@ -10,7 +10,14 @@ public class DietNumbers{
 		"Fat",
 		"Carbs",
 		"Sat. Fat",
-		"Trans Fat"
+		"Trans Fat",
+		"Protein",
+		"Iron",
+		"Calcium",
+		"Folic Acid",
+		"Vitamin A",
+		"Vitamin C",
+		"Vitamin D"
 	};
 	public static final int SIZE = NAMES.length;
 	public int max(){
