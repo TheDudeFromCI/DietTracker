@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import javax.swing.JPanel;
+import org.omg.CORBA.REBIND;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.GridLayout;
@@ -23,7 +24,8 @@ public class Loader extends JFrame{
 	private Menu menu;
 	private Loader(){
 		init();
-		addComponents();
+//		buildMainTab();
+		buildRecipeBuilderTab();
 		setVisible(true);
 	}
 	private void init(){
@@ -44,8 +46,16 @@ public class Loader extends JFrame{
 			public void windowLostFocus(WindowEvent e){}
 		});
 	}
-	private void addComponents(){
-		Toolbar toolbar = new Toolbar(this);
+	public void maximize(){
+		x=getX();
+		y=getY();
+		w=getWidth();
+		h=getHeight();
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+	}
+	public void buildMainTab(){
+		getContentPane().removeAll();
+		Toolbar toolbar = new Toolbar(this, 0);
 		getContentPane().add(toolbar, BorderLayout.NORTH);
 		getContentPane().add(foodList=new FoodList(), BorderLayout.WEST);
 		JPanel panel = new JPanel();
@@ -64,13 +74,15 @@ public class Loader extends JFrame{
 		panel_1.setLayout(new BorderLayout(0, 0));
 		getContentPane().add(currentStats=new CurrentStats(), BorderLayout.EAST);
 		panel_1.add(currentStats, BorderLayout.NORTH);
+		validate();
+		repaint();
 	}
-	public void maximize(){
-		x=getX();
-		y=getY();
-		w=getWidth();
-		h=getHeight();
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
+	public void buildRecipeBuilderTab(){
+		getContentPane().removeAll();
+		Toolbar toolbar = new Toolbar(this, 1);
+		getContentPane().add(toolbar, BorderLayout.NORTH);
+		validate();
+		repaint();
 	}
 	public void normalize(){
 		setExtendedState(JFrame.NORMAL);
