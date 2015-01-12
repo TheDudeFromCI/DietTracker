@@ -23,8 +23,8 @@ public class Loader extends JFrame{
 	private Menu menu;
 	private Loader(){
 		init();
-//		buildMainTab();
-		buildRecipeBuilderTab();
+		buildMainTab();
+//		buildRecipeBuilderTab();
 		setVisible(true);
 	}
 	private void init(){

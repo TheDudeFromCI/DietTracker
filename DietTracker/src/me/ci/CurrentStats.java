@@ -21,11 +21,11 @@ public class CurrentStats extends JPanel{
 	private Color darkerGray;
 	private Timer t;
 	public CurrentStats(){
-		setPreferredSize(new Dimension(400, 39*DietNumbers.SIZE));
+		setPreferredSize(new Dimension(400, 26*DietNumbers.SIZE));
 		setMinimumSize(new Dimension(100, 100));
-		font1=new Font("Tahoma", Font.BOLD, 30);
-		font2=new Font("Tahoma", Font.ITALIC, 30);
-		font3=new Font("Tahoma", Font.ITALIC|Font.BOLD, 30);
+		font1=new Font("Tahoma", Font.BOLD, 20);
+		font2=new Font("Tahoma", Font.ITALIC, 20);
+		font3=new Font("Tahoma", Font.ITALIC|Font.BOLD, 20);
 		warningStage=new Color[DietNumbers.SIZE];
 		broken=new boolean[DietNumbers.SIZE];
 		darkerGray=new Color(0.1f, 0.1f, 0.1f);
@@ -90,7 +90,7 @@ public class CurrentStats extends JPanel{
 		g.setColor(Color.WHITE);
 		for(int i = 0; i<DietNumbers.SIZE; i++){
 			int y = fontHeight*(i+1);
-			g.drawString(DietNumbers.NAMES[i]+":", 10, y);
+			g.drawString(DietNumbers.NAMES[i]+":", 1, y);
 		}
 		for(int i = 0; i<DietNumbers.SIZE; i++){
 			if(broken[i])g.setFont(font3);
@@ -98,7 +98,7 @@ public class CurrentStats extends JPanel{
 			fontMetrics=g.getFontMetrics();
 			g.setColor(warningStage[i]);
 			int y = fontHeight*(i+1);
-			int x = (int)(getWidth()-(fontMetrics.getStringBounds(tempDietNumbers.stats[i]+"/"+maxDietNumbers.stats[i], g).getWidth()+10));
+			int x = (int)(getWidth()-(fontMetrics.getStringBounds(tempDietNumbers.stats[i]+"/"+maxDietNumbers.stats[i], g).getWidth()+5));
 			g.drawString(tempDietNumbers.stats[i]+"/"+maxDietNumbers.stats[i], x, y);
 		}
 		g.dispose();
