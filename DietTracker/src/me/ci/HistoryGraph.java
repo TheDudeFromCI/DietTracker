@@ -5,6 +5,9 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -33,6 +36,34 @@ public class HistoryGraph extends JPanel{
 			System.exit(1);
 		}
 	}
+	public HistoryGraph(){
+		addMouseMotionListener(new MouseAdapter(){
+			@Override public void mouseMoved(MouseEvent e){
+				int x = e.getX();
+				int y = e.getY();
+				int w;
+				for(int i = 0; i<DietNumbers.SIZE; i++){
+					w=i*STAT_NAME_HEIGHT+(STAT_NAME_HEIGHT-CHECKBOX_SIZE)/2+7;
+					if(y>=w&&y<w+CHECKBOX_SIZE&&x>=5&&x<5+CHECKBOX_SIZE){
+						hover=i;
+						repaint();
+						return;
+					}
+				}
+				hover=-1;
+				repaint();
+			}
+		});
+		addMouseListener(new MouseAdapter(){
+			@Override public void mousePressed(MouseEvent e){
+				if(hover!=-1){
+					usedStats[hover]=!usedStats[hover];
+					recalculateValues();
+				}
+			}
+		});
+		recalculateValues();
+	}
 	@Override public void paint(Graphics g1){
 		Graphics2D g = (Graphics2D)g1;
 		if(getHeight()<MINIMUM_HEIGHT){
@@ -54,7 +85,7 @@ public class HistoryGraph extends JPanel{
 			g.setFont(NAME_FONT);
 			for(int i = 0; i<DietNumbers.SIZE; i++){
 				g.drawImage(usedStats[i]?checkboxTrue:checkboxFalse, 5, i*STAT_NAME_HEIGHT+(STAT_NAME_HEIGHT-CHECKBOX_SIZE)/2+7, null);
-				if(hover==i)g.drawImage(checkboxHover, 5, i*STAT_NAME_HEIGHT+(STAT_NAME_HEIGHT-CHECKBOX_SIZE/2), null);
+				if(hover==i)g.drawImage(checkboxHover, 5, i*STAT_NAME_HEIGHT+(STAT_NAME_HEIGHT-CHECKBOX_SIZE)/2+7, null);
 				g.drawString(DietNumbers.NAMES[i], CHECKBOX_SIZE+10, (i+1)*STAT_NAME_HEIGHT);
 			}
 		}
@@ -62,6 +93,6 @@ public class HistoryGraph extends JPanel{
 	}
 	private void recalculateValues(){
 		//TODO Recalculate values.
+		repaint();
 	}
-	public HistoryGraph(){ recalculateValues(); }
 }
