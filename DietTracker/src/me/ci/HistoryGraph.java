@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -14,14 +13,17 @@ import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class HistoryGraph extends JPanel{
-	private float[] values = new float[7];
+	private int[] values = new int[7];
 	private int usedStat = 0;
 	private int hover = -1;
+	private int highestValue;
 	private static BufferedImage checkboxFalse, checkboxTrue, checkboxHover;
 	private static final int SIDEBAR_WIDTH = 150;
 	private static final int MINIMUM_HEIGHT = 400;
 	private static final int STAT_NAME_HEIGHT = 30;
 	private static final int CHECKBOX_SIZE = 25;
+	private static final int LINE_GRAPH_TOP_BUFFER = 50;
+	private static final int LINE_GRAPH_BOTTOM_BUFFER = 10;
 	private static final Color DARK_GRAY = new Color(0.15f, 0.15f, 0.15f);
 	private static final Color LIGHT_GRAY = new Color(0.17f, 0.17f, 0.17f);
 	private static final Font NAME_FONT = new Font("Tahoma", Font.PLAIN, 20);
@@ -88,11 +90,25 @@ public class HistoryGraph extends JPanel{
 				if(hover==i)g.drawImage(checkboxHover, 5, i*STAT_NAME_HEIGHT+(STAT_NAME_HEIGHT-CHECKBOX_SIZE)/2+7, null);
 				g.drawString(DietNumbers.NAMES[i], CHECKBOX_SIZE+10, (i+1)*STAT_NAME_HEIGHT);
 			}
+			double columWidth = (getWidth()-SIDEBAR_WIDTH)/values.length;
+			int graphHeight = getHeight()-LINE_GRAPH_TOP_BUFFER-LINE_GRAPH_BOTTOM_BUFFER;
+			for(int i = 0; i<values.length; i++){
+				if(i>0){
+					g.setColor(Color.BLUE);
+					g.drawLine((int)(columWidth*(i-1)+columWidth/2)+SIDEBAR_WIDTH, highestValue==0?graphHeight+LINE_GRAPH_TOP_BUFFER:(int)((1-values[values.length-1-(i-1)]/(float)highestValue)*graphHeight+LINE_GRAPH_TOP_BUFFER), (int)(columWidth*i+columWidth/2)+SIDEBAR_WIDTH, highestValue==0?graphHeight+LINE_GRAPH_TOP_BUFFER:(int)((1-values[values.length-1-i]/(float)highestValue)*graphHeight+LINE_GRAPH_TOP_BUFFER));
+				}
+				g.setColor(Color.RED);
+				g.fillOval((int)(columWidth*i+columWidth/2-3)+SIDEBAR_WIDTH, highestValue==0?graphHeight+LINE_GRAPH_TOP_BUFFER-3:(int)((1-values[values.length-1-i]/(float)highestValue)*graphHeight+LINE_GRAPH_TOP_BUFFER-3), 6, 6);
+			}
 		}
 		g.dispose();
 	}
-	private void recalculateValues(){
-		for(int i = 0; i<values.length; i++)values[i]=Loader.getResourceLoader().getLog(Loader.getResourceLoader().getCurrentDay()-i).stats[usedStat];
+	public void recalculateValues(){
+		highestValue=0;
+		for(int i = 0; i<values.length; i++){
+			values[i]=Loader.getResourceLoader().getLog(Loader.getResourceLoader().getCurrentDay()-i).stats[usedStat];
+			if(values[i]>highestValue)highestValue=values[i];
+		}
 		repaint();
 	}
 }
