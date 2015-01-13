@@ -14,6 +14,7 @@ import java.awt.event.WindowFocusListener;
 public class Loader extends JFrame{
 	private CurrentStats currentStats;
 	private FoodList foodList;
+	private HistoryGraph historyGraph;
 	private int x, y, w, h;
 	private static ResourceLoader resourceLoader;
 	public static boolean POP_UP_OPEN = false;
@@ -69,9 +70,7 @@ public class Loader extends JFrame{
 		panel_1.add(currentStats, BorderLayout.CENTER);
 		menu=new Menu();
 		panel_1.add(menu, BorderLayout.WEST);
-		
-		HistoryGraph historyGraph = new HistoryGraph();
-		panel.add(historyGraph, BorderLayout.CENTER);
+		panel.add(historyGraph=new HistoryGraph(), BorderLayout.CENTER);
 		validate();
 		repaint();
 	}
@@ -91,6 +90,7 @@ public class Loader extends JFrame{
 	public FoodList getFoodList(){ return foodList; }
 	public CurrentStats getCurrentStats(){ return currentStats; }
 	public Menu getMenu(){ return menu; }
+	public HistoryGraph getHistoryGraph(){ return historyGraph; }
 	public static void main(String[] args){
 		resourceLoader=new ResourceLoader();
 		try{ UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
