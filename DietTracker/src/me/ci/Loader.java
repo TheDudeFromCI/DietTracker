@@ -69,6 +69,9 @@ public class Loader extends JFrame{
 		panel_1.add(currentStats, BorderLayout.CENTER);
 		menu=new Menu();
 		panel_1.add(menu, BorderLayout.WEST);
+		
+		HistoryGraph historyGraph = new HistoryGraph();
+		panel.add(historyGraph, BorderLayout.CENTER);
 		validate();
 		repaint();
 	}
