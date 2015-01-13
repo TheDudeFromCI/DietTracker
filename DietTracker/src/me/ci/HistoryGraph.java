@@ -92,7 +92,16 @@ public class HistoryGraph extends JPanel{
 		g.dispose();
 	}
 	private void recalculateValues(){
-		//TODO Recalculate values.
+		for(int i = 0; i<values.length; i++){
+			values[i]=0;
+			float adverage = 0;
+			for(int j = 0; j<DietNumbers.SIZE; j++)if(usedStats[j])values[i]+=getDailyStats(i).stats[j];
+			if(adverage>1)values[i]/=adverage;
+		}
 		repaint();
+	}
+	private DietNumbers getDailyStats(int daysBack){
+		//TODO Find daily stats.
+		return null;
 	}
 }

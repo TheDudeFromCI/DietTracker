@@ -37,8 +37,7 @@ public class OptionsMenu extends JPanel{
 		JButton btnClearTodaysMenu = new JButton("Clear Today's Menu");
 		btnClearTodaysMenu.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				Loader.getResourceLoader().getMenu().clear();
-				Loader.getResourceLoader().loadTodaysStats().clear();
+				Loader.getResourceLoader().newDay();
 				Loader.getInstance().getCurrentStats().reload();
 				Loader.getInstance().getMenu().reload();
 				Loader.getResourceLoader().save();
