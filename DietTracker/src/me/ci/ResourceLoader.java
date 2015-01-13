@@ -9,7 +9,7 @@ public class ResourceLoader{
 	private DietNumbers maxDietNumbers = new DietNumbers();
 	private DietNumbers currentDietNumbers = new DietNumbers();
 	private CompactBinaryFile file;
-	public static final byte FILE_VERSION = -127;
+	public static final byte FILE_VERSION = -128;
 	public ResourceLoader(){
 		file=new CompactBinaryFile("Config.dat");
 		if(!file.exists()){
@@ -19,8 +19,8 @@ public class ResourceLoader{
 		file.read();
 		if(!file.hasFinished()){
 			byte version = (byte)file.getNumber(8);
-			if(version==-127)loadFileVersion2(file);
-			loadFileVersion1(file);
+			if(version==-128)loadFileVersion2(file);
+			else loadFileVersion1(file);
 		}
 		file.stopReading();
 		recountTodaysStats();
