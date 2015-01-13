@@ -84,6 +84,7 @@ public class ResourceLoader{
 		for(FoodEntry f : menu)for(int b = 0; b<DietNumbers.SIZE; b++)currentDietNumbers.stats[b]+=f.getStats().stats[b];
 	}
 	public DietNumbers getLog(int day){
+		if(day==dayNumber)return currentDietNumbers;
 		DietNumbers diet = new DietNumbers();
 		if(day<0)return diet;
 		CompactBinaryFile file = new CompactBinaryFile("Log-"+day+".dat");

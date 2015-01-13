@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class HistoryGraph extends JPanel{
 	private float[] values = new float[7];
-	private boolean[] usedStats = new boolean[DietNumbers.SIZE];
+	private int usedStat = 0;
 	private int hover = -1;
 	private static BufferedImage checkboxFalse, checkboxTrue, checkboxHover;
 	private static final int SIDEBAR_WIDTH = 150;
@@ -57,7 +57,7 @@ public class HistoryGraph extends JPanel{
 		addMouseListener(new MouseAdapter(){
 			@Override public void mousePressed(MouseEvent e){
 				if(hover!=-1){
-					usedStats[hover]=!usedStats[hover];
+					usedStat=hover;
 					recalculateValues();
 				}
 			}
@@ -84,7 +84,7 @@ public class HistoryGraph extends JPanel{
 			g.setColor(Color.WHITE);
 			g.setFont(NAME_FONT);
 			for(int i = 0; i<DietNumbers.SIZE; i++){
-				g.drawImage(usedStats[i]?checkboxTrue:checkboxFalse, 5, i*STAT_NAME_HEIGHT+(STAT_NAME_HEIGHT-CHECKBOX_SIZE)/2+7, null);
+				g.drawImage(usedStat==i?checkboxTrue:checkboxFalse, 5, i*STAT_NAME_HEIGHT+(STAT_NAME_HEIGHT-CHECKBOX_SIZE)/2+7, null);
 				if(hover==i)g.drawImage(checkboxHover, 5, i*STAT_NAME_HEIGHT+(STAT_NAME_HEIGHT-CHECKBOX_SIZE)/2+7, null);
 				g.drawString(DietNumbers.NAMES[i], CHECKBOX_SIZE+10, (i+1)*STAT_NAME_HEIGHT);
 			}
@@ -92,16 +92,7 @@ public class HistoryGraph extends JPanel{
 		g.dispose();
 	}
 	private void recalculateValues(){
-		for(int i = 0; i<values.length; i++){
-			values[i]=0;
-			float adverage = 0;
-			for(int j = 0; j<DietNumbers.SIZE; j++)if(usedStats[j])values[i]+=getDailyStats(i).stats[j];
-			if(adverage>1)values[i]/=adverage;
-		}
+		for(int i = 0; i<values.length; i++)values[i]=Loader.getResourceLoader().getLog(Loader.getResourceLoader().getCurrentDay()-i).stats[usedStat];
 		repaint();
-	}
-	private DietNumbers getDailyStats(int daysBack){
-		//TODO Find daily stats.
-		return null;
 	}
 }
