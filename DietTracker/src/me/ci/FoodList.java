@@ -150,7 +150,7 @@ public class FoodList extends JPanel{
 			scrollBufGraphics.setFont(font2);
 			if(overKill)scrollBufGraphics.setColor(Color.RED);
 			else scrollBufGraphics.setColor(Color.LIGHT_GRAY);
-			for(int j = 0; j<DietNumbers.SIZE+1; j++){
+			for(int j = 0; j<=DietNumbers.SIZE; j++){
 				if(j==DietNumbers.SIZE)scrollBufGraphics.drawString("-----------------------------------------------------------------------------------------------------------------------------------------", 0, y+TITLE_SIZE+STATS_SIZE*(j+1));
 				else scrollBufGraphics.drawString(DietNumbers.NAMES[j]+": "+food.getStats().stats[j], 12, y+TITLE_SIZE+STATS_SIZE*(j+1));
 			}
@@ -176,6 +176,7 @@ public class FoodList extends JPanel{
 			else scrollBufGraphics.setColor(Color.WHITE);
 			String left = remainingBuys==-1?"N/A":"x"+remainingBuys;
 			scrollBufGraphics.drawString(left, (int)(WIDTH-90-scrollBufGraphics.getFontMetrics().getStringBounds(left, scrollBufGraphics).getWidth()), bufImageStartPos+54);
+			scrollBufGraphics.drawImage(food.graph(), 120, y+TITLE_SIZE+1, null);
 		}
 		g.drawImage(scrollBuf, 0, 25, null);
 		int maxScroll = Math.max(ENTRY_SIZE*foods.size()-scrollHeight+10, 0);
