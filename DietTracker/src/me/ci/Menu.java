@@ -6,14 +6,17 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JPanel;
+import wraith.library.MiscUtil.StringUtil;
 
 @SuppressWarnings("serial")
 public class Menu extends JPanel{
 	private Font font, font1;
-	private String[] items;
+	private ArrayList<String> items = new ArrayList<>();
 	private Color darkGray;
+	private static final int WORD_WRAP_LENGTH = 45;
 	public Menu(){
 		font=new Font("Tahoma", Font.PLAIN, 12);
 		font1=new Font("Tahoma", Font.BOLD, 15);
@@ -27,13 +30,16 @@ public class Menu extends JPanel{
 			if(itemCounts.containsKey(f))itemCounts.put(f, itemCounts.get(f)+1);
 			else itemCounts.put(f, 1);
 		}
-		items=new String[itemCounts.size()];
-		int index = 0;
-		int c;
+		items.clear();
 		for(FoodEntry s : itemCounts.keySet()){
-			c=itemCounts.get(s);
-			items[index]="x"+c+" "+s.getName();
-			index++;
+			String a = "";
+			for(char c : StringUtil.wrap("x"+itemCounts.get(s)+" "+s.getName(), WORD_WRAP_LENGTH, true).toCharArray()){
+				if(c=='\n'){
+					items.add(a);
+					a="     ";
+				}else a+=c;
+			}
+			items.add(a);
 		}
 		repaint();
 	}
