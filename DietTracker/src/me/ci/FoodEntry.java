@@ -53,9 +53,12 @@ public class FoodEntry{
 			g.setColor(colors[i]);
 			float percent = percent(i);
 			if(Float.isInfinite(percent))percent=0;
-			g.fillRect(0, (int)(i*width), (int)(BAR_MAX_WIDTH*Math.min(percent, 1)), (int)width);
-			g.setColor(Color.WHITE);
-			g.drawString(Math.round(percent*100)+"%", (int)(BAR_MAX_WIDTH*Math.min(percent, 1))+3, (int)((i+1)*width-3));
+			int round = Math.round(percent*100);
+			if(round>0){
+				g.fillRect(0, (int)(i*width), (int)(BAR_MAX_WIDTH*Math.min(percent, 1)), (int)width);
+				g.setColor(Color.WHITE);
+				if(percent>0)g.drawString(round+"%", (int)(BAR_MAX_WIDTH*Math.min(percent, 1))+3, (int)((i+1)*width-3));
+			}
 		}
 	}
 	private float percent(int index){ return stats.stats[index]/(float)Loader.getResourceLoader().loadMaxDiet().stats[index]; }
