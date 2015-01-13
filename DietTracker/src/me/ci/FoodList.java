@@ -56,7 +56,7 @@ public class FoodList extends JPanel{
 			}
 		});
 		font1=new Font("Tahoma", Font.ITALIC|Font.BOLD, 15);
-		font2=new Font("Tahoma", Font.PLAIN, 10);
+		font2=new Font("Tahoma", Font.PLAIN, 15);
 		font3=new Font("Tahoma", Font.ITALIC, 30);
 		scrollMenuColor=new Color(0.2f, 0.2f, 0.2f);
 		foods=Loader.getResourceLoader().loadFoodList();
