@@ -17,10 +17,10 @@ public class HistoryGraph extends JPanel{
 	private int usedStat = 0;
 	private int hover = -1;
 	private int highestValue;
-	private static BufferedImage checkboxFalse, checkboxTrue, checkboxHover;
+	private static BufferedImage checkboxFalse, checkboxTrue, checkboxHover, spinner, spinnerLeft, spinnerRight;
 	private static final int SIDEBAR_WIDTH = 150;
 	private static final int MINIMUM_HEIGHT = 400;
-	private static final int STAT_NAME_HEIGHT = 30;
+	private static final int STAT_NAME_HEIGHT = 25;
 	private static final int CHECKBOX_SIZE = 25;
 	private static final int LINE_GRAPH_TOP_BUFFER = 50;
 	private static final int LINE_GRAPH_BOTTOM_BUFFER = 10;
@@ -28,11 +28,15 @@ public class HistoryGraph extends JPanel{
 	private static final Color LIGHT_GRAY = new Color(0.17f, 0.17f, 0.17f);
 	private static final Font NAME_FONT = new Font("Tahoma", Font.PLAIN, 20);
 	private static final Font WARNING_FONT = new Font("Tahoma", Font.BOLD, 20);
+	private static final Font SPINNER_FONT = new Font("Tahoma", Font.BOLD, 15);
 	static{
 		try{
 			checkboxFalse=ImageIO.read(HistoryGraph.class.getResource("Checkbox False.png"));
 			checkboxTrue=ImageIO.read(HistoryGraph.class.getResource("Checkbox True.png"));
 			checkboxHover=ImageIO.read(HistoryGraph.class.getResource("Checkbox Hover.png"));
+			spinner=ImageIO.read(HistoryGraph.class.getResource("Spinner.png"));
+			spinnerLeft=ImageIO.read(HistoryGraph.class.getResource("Spinner Left.png"));
+			spinnerRight=ImageIO.read(HistoryGraph.class.getResource("Spinner Right.png"));
 		}catch(Exception exception){
 			exception.printStackTrace();
 			System.exit(1);
@@ -41,6 +45,10 @@ public class HistoryGraph extends JPanel{
 	public HistoryGraph(){
 		addMouseMotionListener(new MouseAdapter(){
 			@Override public void mouseMoved(MouseEvent e){
+				if(getHeight()<MINIMUM_HEIGHT){
+					hover=-1;
+					return;
+				}
 				int x = e.getX();
 				int y = e.getY();
 				int w;
@@ -100,6 +108,18 @@ public class HistoryGraph extends JPanel{
 				g.setColor(Color.RED);
 				g.fillOval((int)(columWidth*i+columWidth/2-3)+SIDEBAR_WIDTH, highestValue==0?graphHeight+LINE_GRAPH_TOP_BUFFER-3:(int)((1-values[values.length-1-i]/(float)highestValue)*graphHeight+LINE_GRAPH_TOP_BUFFER-3), 6, 6);
 			}
+			g.setFont(SPINNER_FONT);
+			g.setColor(Color.WHITE);
+			FontMetrics fm = g.getFontMetrics();
+			String daysShown = "Days Shown";
+			String spinnerNumber = "7";
+			int x = (SIDEBAR_WIDTH-fm.stringWidth(daysShown))/2;
+			int x2 = (SIDEBAR_WIDTH-fm.stringWidth(spinnerNumber))/2;
+			int y = (fm.getAscent()+(25-(fm.getAscent()+fm.getDescent()))/2);
+			g.drawString(daysShown, x, getHeight()-35);
+			g.setColor(Color.BLACK);
+			g.drawImage(spinner, (SIDEBAR_WIDTH-75)/2, getHeight()-30, null);
+			g.drawString(spinnerNumber, x2, getHeight()-30+y);
 		}
 		g.dispose();
 	}
