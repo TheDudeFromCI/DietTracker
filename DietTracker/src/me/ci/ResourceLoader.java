@@ -31,12 +31,12 @@ public class ResourceLoader{
 		int entries = (int)file.getNumber(16);
 		for(int a = 0; a<entries; a++){
 			FoodEntry f = new FoodEntry(file.getString(16));
-			for(int b = 0; b<DietNumbers.SIZE; b++)f.getStats().stats[b]=(int)file.getNumber(16);
+			for(int b = 0; b<15; b++)f.getStats().stats[b]=(int)file.getNumber(16);
 			foods.add(f);
 		}
 		entries=(int)file.getNumber(16);
 		for(int a = 0; a<entries; a++)menu.add(foods.get((int)file.getNumber(16)));
-		for(int b = 0; b<DietNumbers.SIZE; b++)maxDietNumbers.stats[b]=(int)file.getNumber(16);
+		for(int b = 0; b<15; b++)maxDietNumbers.stats[b]=(int)file.getNumber(16);
 	}
 	private void loadFileVersion1(CompactBinaryFile file){
 		file.resetIterator();
@@ -90,8 +90,9 @@ public class ResourceLoader{
 		CompactBinaryFile file = new CompactBinaryFile("Log-"+day+".dat");
 		if(!file.exists())return diet;
 		file.read();
+		if(file.hasFinished())return diet;
 		byte fileVersion = (byte)file.getNumber(8);
-		if(fileVersion==-128)for(int i = 0; i<16; i++)diet.stats[i]=(int)file.getNumber(16);
+		if(fileVersion==-128)for(int i = 0; i<15; i++)diet.stats[i]=(int)file.getNumber(16);
 		else{
 			//Idk how to read this...
 		}

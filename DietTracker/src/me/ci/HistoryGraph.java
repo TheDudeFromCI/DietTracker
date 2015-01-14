@@ -87,7 +87,7 @@ public class HistoryGraph extends JPanel{
 					recalculateValues();
 				}else if(spinnerHover!=0){
 					if(spinnerHover==-1){
-						if(values.length>1){
+						if(values.length>5){
 							values=new int[values.length-1];
 							recalculateValues();
 						}
