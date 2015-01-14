@@ -134,7 +134,7 @@ public class HistoryGraph extends JPanel{
 			for(int i = 0; i<values.length; i++){
 				if(i%(values.length/10+1)==0){
 					g.setColor(Color.WHITE);
-					String count = String.valueOf(i);
+					String count = String.valueOf(values.length-1-i);
 					int x = (int)(columWidth*i+columWidth/2)+SIDEBAR_WIDTH;
 					g.drawString(count, x, LINE_GRAPH_TOP_BUFFER-30);
 					g.drawString(daysAgo, x, LINE_GRAPH_TOP_BUFFER-15);
