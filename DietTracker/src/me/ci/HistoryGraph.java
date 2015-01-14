@@ -17,6 +17,7 @@ public class HistoryGraph extends JPanel{
 	private int usedStat = 0;
 	private int hover = -1;
 	private int highestValue;
+	private int spinnerHover = 0;
 	private static BufferedImage checkboxFalse, checkboxTrue, checkboxHover, spinner, spinnerLeft, spinnerRight;
 	private static final int SIDEBAR_WIDTH = 150;
 	private static final int MINIMUM_HEIGHT = 400;
@@ -47,6 +48,7 @@ public class HistoryGraph extends JPanel{
 			@Override public void mouseMoved(MouseEvent e){
 				if(getHeight()<MINIMUM_HEIGHT){
 					hover=-1;
+					spinnerHover=0;
 					return;
 				}
 				int x = e.getX();
@@ -56,11 +58,25 @@ public class HistoryGraph extends JPanel{
 					w=i*STAT_NAME_HEIGHT+(STAT_NAME_HEIGHT-CHECKBOX_SIZE)/2+7;
 					if(y>=w&&y<w+CHECKBOX_SIZE&&x>=5&&x<5+CHECKBOX_SIZE){
 						hover=i;
+						spinnerHover=0;
 						repaint();
 						return;
 					}
 				}
 				hover=-1;
+				if(y>=getHeight()-30&&y<getHeight()-5){
+					int offset = (SIDEBAR_WIDTH-75)/2;
+					if(x>=offset&&x<offset+17){
+						spinnerHover=-1;
+						repaint();
+						return;
+					}else if(x>=offset+58&&x<offset+75){
+						spinnerHover=1;
+						repaint();
+						return;
+					}
+				}
+				spinnerHover=0;
 				repaint();
 			}
 		});
@@ -69,6 +85,18 @@ public class HistoryGraph extends JPanel{
 				if(hover!=-1){
 					usedStat=hover;
 					recalculateValues();
+				}else if(spinnerHover!=0){
+					if(spinnerHover==-1){
+						if(values.length>1){
+							values=new int[values.length-1];
+							recalculateValues();
+						}
+					}else if(spinnerHover==1){
+						if(values.length<511){
+							values=new int[values.length+1];
+							recalculateValues();
+						}
+					}
 				}
 			}
 		});
@@ -112,13 +140,15 @@ public class HistoryGraph extends JPanel{
 			g.setColor(Color.WHITE);
 			FontMetrics fm = g.getFontMetrics();
 			String daysShown = "Days Shown";
-			String spinnerNumber = "7";
+			String spinnerNumber = String.valueOf(values.length);
 			int x = (SIDEBAR_WIDTH-fm.stringWidth(daysShown))/2;
 			int x2 = (SIDEBAR_WIDTH-fm.stringWidth(spinnerNumber))/2;
 			int y = (fm.getAscent()+(25-(fm.getAscent()+fm.getDescent()))/2);
 			g.drawString(daysShown, x, getHeight()-35);
 			g.setColor(Color.BLACK);
-			g.drawImage(spinner, (SIDEBAR_WIDTH-75)/2, getHeight()-30, null);
+			if(spinnerHover==1)g.drawImage(spinnerRight, (SIDEBAR_WIDTH-75)/2, getHeight()-30, null);
+			else if(spinnerHover==-1)g.drawImage(spinnerLeft, (SIDEBAR_WIDTH-75)/2, getHeight()-30, null);
+			else g.drawImage(spinner, (SIDEBAR_WIDTH-75)/2, getHeight()-30, null);
 			g.drawString(spinnerNumber, x2, getHeight()-30+y);
 		}
 		g.dispose();
