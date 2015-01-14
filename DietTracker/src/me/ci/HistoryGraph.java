@@ -30,6 +30,7 @@ public class HistoryGraph extends JPanel{
 	private static final Font NAME_FONT = new Font("Tahoma", Font.PLAIN, 20);
 	private static final Font WARNING_FONT = new Font("Tahoma", Font.BOLD, 20);
 	private static final Font SPINNER_FONT = new Font("Tahoma", Font.BOLD, 15);
+	private static final Font DAY_COUNT_FONT = new Font("Tahoma", Font.PLAIN, 13);
 	static{
 		try{
 			checkboxFalse=ImageIO.read(HistoryGraph.class.getResource("Checkbox False.png"));
@@ -128,13 +129,22 @@ public class HistoryGraph extends JPanel{
 			}
 			double columWidth = (getWidth()-SIDEBAR_WIDTH)/values.length;
 			int graphHeight = getHeight()-LINE_GRAPH_TOP_BUFFER-LINE_GRAPH_BOTTOM_BUFFER;
+			String daysAgo = "Days Ago";
+			g.setFont(DAY_COUNT_FONT);
 			for(int i = 0; i<values.length; i++){
+				if(i%(values.length/10+1)==0){
+					g.setColor(Color.WHITE);
+					String count = String.valueOf(i);
+					int x = (int)(columWidth*i+columWidth/2)+SIDEBAR_WIDTH;
+					g.drawString(count, x, LINE_GRAPH_TOP_BUFFER-30);
+					g.drawString(daysAgo, x, LINE_GRAPH_TOP_BUFFER-15);
+					g.setColor(Color.GRAY);
+					g.drawLine(x, LINE_GRAPH_TOP_BUFFER, x, getHeight()-LINE_GRAPH_BOTTOM_BUFFER);
+				}
 				if(i>0){
 					g.setColor(Color.BLUE);
 					g.drawLine((int)(columWidth*(i-1)+columWidth/2)+SIDEBAR_WIDTH, highestValue==0?graphHeight+LINE_GRAPH_TOP_BUFFER:(int)((1-values[values.length-1-(i-1)]/(float)highestValue)*graphHeight+LINE_GRAPH_TOP_BUFFER), (int)(columWidth*i+columWidth/2)+SIDEBAR_WIDTH, highestValue==0?graphHeight+LINE_GRAPH_TOP_BUFFER:(int)((1-values[values.length-1-i]/(float)highestValue)*graphHeight+LINE_GRAPH_TOP_BUFFER));
 				}
-				g.setColor(Color.RED);
-				g.fillOval((int)(columWidth*i+columWidth/2-3)+SIDEBAR_WIDTH, highestValue==0?graphHeight+LINE_GRAPH_TOP_BUFFER-3:(int)((1-values[values.length-1-i]/(float)highestValue)*graphHeight+LINE_GRAPH_TOP_BUFFER-3), 6, 6);
 			}
 			g.setFont(SPINNER_FONT);
 			g.setColor(Color.WHITE);
