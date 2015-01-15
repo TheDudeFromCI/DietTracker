@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -33,6 +35,15 @@ public class Menu extends JPanel{
 		font1=new Font("Tahoma", Font.BOLD, 15);
 		darkGray=new Color(0.1f, 0.1f, 0.1f);
 		setPreferredSize(new Dimension(300, 300));
+		addMouseMotionListener(new MouseAdapter(){
+			@Override public void mouseMoved(MouseEvent e){
+				boolean hoverBefore = hover;
+				int x = e.getX();
+				int y = e.getY();
+				hover=x>=getWidth()-UNDO_BUTTON_EDGE_DISTANCE&&x<getWidth()-UNDO_BUTTON_EDGE_DISTANCE+30&&y>=getHeight()-UNDO_BUTTON_EDGE_DISTANCE&&y<getHeight()-UNDO_BUTTON_EDGE_DISTANCE+30;
+				if(hover!=hoverBefore)repaint();
+			}
+		});
 		reload();
 	}
 	public void reload(){
