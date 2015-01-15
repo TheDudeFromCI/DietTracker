@@ -1,8 +1,6 @@
 package me.ci;
 
-import java.awt.AlphaComposite;
 import java.awt.Color;
-import java.awt.Composite;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
@@ -16,16 +14,14 @@ public class DropdownMenu{
 	private String[] entries;
 	private int index;
 	private boolean open;
-	private static BufferedImage scrollbarClosed, scrollbarOpenTop, scrollbarOpenEntry, scrollbarOpenBottom, scrollbarOpenEntryHover;
+	private static BufferedImage scrollbarClosed, scrollbarOpenTop, scrollbarOpenEntry, scrollbarOpenBottom;
 	private static final Font FONT = new Font("Tahoma", Font.PLAIN, 25);
-	private static final Color BLANK = new Color(0, 0, 0, 0);
 	static{
 		try{
 			scrollbarClosed=ImageIO.read(DropdownMenu.class.getResource("Scrollbar Closed.png"));
 			scrollbarOpenTop=ImageIO.read(DropdownMenu.class.getResource("Scrollbar Top Open.png"));
 			scrollbarOpenEntry=ImageIO.read(DropdownMenu.class.getResource("Scrollbar Open Entry.png"));
 			scrollbarOpenBottom=ImageIO.read(DropdownMenu.class.getResource("Scrollbar Open Bottom.png"));
-			scrollbarOpenEntryHover=ImageIO.read(DropdownMenu.class.getResource("Scrollbar Open Entry Hover.png"));
 		}catch(Exception exception){ exception.printStackTrace(); }
 	}
 	public DropdownMenu(String[] entries){
