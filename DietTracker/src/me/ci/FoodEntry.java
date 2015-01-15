@@ -7,13 +7,14 @@ import java.awt.image.BufferedImage;
 
 public class FoodEntry{
 	private String name;
+	private String category;
 	private DietNumbers stats;
 	private BufferedImage img;
 	private Graphics2D g;
 	private Font font;
 	private static Color darkGray, lightGray;
 	private static Color[] colors;
-	public static final int BAR_MAX_WIDTH = 200;
+	public static final int BAR_MAX_WIDTH = 175;
 	public static final int POST_BAR_BUFFER = 50;
 	static{
 		darkGray=new Color(0.1f, 0.1f, 0.1f);
@@ -64,6 +65,8 @@ public class FoodEntry{
 	private float percent(int index){ return stats.stats[index]/(float)Loader.getResourceLoader().loadMaxDiet().stats[index]; }
 	@Override public boolean equals(Object o){ return o instanceof FoodEntry&&((FoodEntry)o).stats.equals(stats); }
 	public String getName(){ return name; }
+	public String getCategory(){ return category; }
+	public void setCetegory(String category){ this.category=category; }
 	public DietNumbers getStats(){ return stats; }
 	public void setName(String name){ this.name=name; }
 }

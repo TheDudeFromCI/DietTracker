@@ -20,7 +20,7 @@ import java.awt.event.WindowFocusListener;
 
 @SuppressWarnings("serial")
 public class AddNewFood extends JFrame{
-	private JTextField textField;
+	private JTextField textField, textField_1;
 	private JSpinner[] spinners;
 	public AddNewFood(){
 		addWindowFocusListener(new WindowFocusListener(){
@@ -61,6 +61,18 @@ public class AddNewFood extends JFrame{
 		textField.setBackground(Color.GRAY);
 		panel.add(textField, "cell 2 0,growx");
 		textField.setColumns(10);
+		JPanel categoryPanel = new JPanel();
+		categoryPanel.setBackground(Color.DARK_GRAY);
+		getContentPane().add(categoryPanel);
+		categoryPanel.setLayout(new MigLayout("", "[][grow][::100px,grow]", "[grow]"));
+		JLabel categoryLbl = new JLabel("Category");
+		categoryLbl.setForeground(Color.LIGHT_GRAY);
+		categoryPanel.add(categoryLbl, "cell 0 0,alignx left,aligny center");
+		textField_1=new JTextField();
+		textField_1.setFont(new Font("Dialog", Font.BOLD, 15));
+		textField_1.setForeground(Color.BLACK);
+		textField_1.setBackground(Color.GRAY);
+		categoryPanel.add(textField_1, "cell 2 0,grow");
 		int index = 0;
 		spinners=new JSpinner[DietNumbers.SIZE];
 		for(String types : DietNumbers.NAMES){
@@ -99,7 +111,18 @@ public class AddNewFood extends JFrame{
 					});
 					return;
 				}
+				if(textField_1.getText().isEmpty()){
+					Toolkit.getDefaultToolkit().beep();
+					new InfoPanel("Name cannot be empty!", new Runnable(){
+						public void run(){
+							Loader.POP_UP_OPEN=true;
+							Loader.POP_UP=AddNewFood.this;
+						}
+					});
+					return;
+				}
 				FoodEntry foodEntry = new FoodEntry(textField.getText());
+				foodEntry.setCetegory(textField_1.getText());
 				for(int i = 0; i<DietNumbers.SIZE; i++)foodEntry.getStats().stats[i]=(int)spinners[i].getValue();
 				Loader.getInstance().getFoodList().addFoodEntry(foodEntry);
 				Loader.POP_UP_OPEN=false;
