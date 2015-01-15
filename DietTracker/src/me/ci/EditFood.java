@@ -67,7 +67,7 @@ public class EditFood extends JFrame{
 		JPanel categoryPanel = new JPanel();
 		categoryPanel.setBackground(Color.DARK_GRAY);
 		getContentPane().add(categoryPanel);
-		categoryPanel.setLayout(new MigLayout("", "[][grow][::100px,grow]", "[grow]"));
+		categoryPanel.setLayout(new MigLayout("", "[][::40px,grow][grow]", "[grow]"));
 		JLabel categoryLbl = new JLabel("Category");
 		categoryLbl.setForeground(Color.LIGHT_GRAY);
 		categoryPanel.add(categoryLbl, "cell 0 0,alignx left,aligny center");
@@ -117,7 +117,7 @@ public class EditFood extends JFrame{
 				}
 				if(textField_1.getText().isEmpty()){
 					Toolkit.getDefaultToolkit().beep();
-					new InfoPanel("Name cannot be empty!", new Runnable(){
+					new InfoPanel("Category cannot be empty!", new Runnable(){
 						public void run(){
 							Loader.POP_UP_OPEN=true;
 							Loader.POP_UP=EditFood.this;
