@@ -53,7 +53,7 @@ public class FoodList extends JPanel{
 				if(scrollingBar)return;
 				scrollPos+=e.getUnitsToScroll()*5;
 				scrollPos=Math.max(scrollPos, 0);
-				scrollPos=Math.min(scrollPos, Math.max(ENTRY_SIZE*foods.size()-scrollHeight+10, 0));
+				scrollPos=Math.min(scrollPos, Math.max(ENTRY_SIZE*dropdownMenu.getFilteredList(foods).size()-scrollHeight+10, 0));
 				repaint();
 			}
 		});
@@ -81,7 +81,7 @@ public class FoodList extends JPanel{
 					}
 					repaint();
 				}else{
-					int maxScroll = Math.max(ENTRY_SIZE*foods.size()-scrollHeight+10, 0);
+					int maxScroll = Math.max(ENTRY_SIZE*dropdownMenu.getFilteredList(foods).size()-scrollHeight+10, 0);
 					if(maxScroll>0){
 						float percent = scrollPos/(float)maxScroll;
 						if(x>=WIDTH-23&&y>=(int)(percent*(getHeight()-130)+25)&&y<(int)(percent*(getHeight()-130)+25)+100)scrollingBar=true;
@@ -112,7 +112,7 @@ public class FoodList extends JPanel{
 				float toScrollUnits = ENTRY_SIZE*foods.size()-scrollHeight+10;
 				scrollPos=(int)(toScrollUnits*percentChange+startingScrollPosition);
 				scrollPos=Math.max(scrollPos, 0);
-				scrollPos=Math.min(scrollPos, Math.max(ENTRY_SIZE*foods.size()-scrollHeight+10, 0));
+				scrollPos=Math.min(scrollPos, Math.max(ENTRY_SIZE*dropdownMenu.getFilteredList(foods).size()-scrollHeight+10, 0));
 				repaint();
 			}
 			@Override public void mouseMoved(MouseEvent e){ updateHover(e.getPoint()); }
@@ -150,10 +150,11 @@ public class FoodList extends JPanel{
 		foodHoverElement=-1;
 		DietNumbers currentStats = Loader.getResourceLoader().loadTodaysStats();
 		DietNumbers maxStats = Loader.getResourceLoader().loadMaxDiet();
-		for(int i = 0; i<foods.size(); i++){
+		ArrayList<FoodEntry> tempFoods = dropdownMenu.getFilteredList(foods);
+		for(int i = 0; i<tempFoods.size(); i++){
 			if(i*ENTRY_SIZE+ENTRY_SIZE<=scrollPos)continue;
 			if(i*ENTRY_SIZE>scrollPos+scrollHeight)continue;
-			food=foods.get(i);
+			food=tempFoods.get(i);
 			int y = i*ENTRY_SIZE-scrollPos;
 			scrollBufGraphics.setFont(font1);
 			int remainingBuys = food.getRemaining(currentStats, maxStats);
@@ -193,7 +194,7 @@ public class FoodList extends JPanel{
 			scrollBufGraphics.drawImage(food.graph(), 120, y+TITLE_SIZE+1, null);
 		}
 		g.drawImage(scrollBuf, 0, 25, null);
-		int maxScroll = Math.max(ENTRY_SIZE*foods.size()-scrollHeight+10, 0);
+		int maxScroll = Math.max(ENTRY_SIZE*tempFoods.size()-scrollHeight+10, 0);
 		if(maxScroll>0){
 			float percent = scrollPos/(float)maxScroll;
 			g.drawImage(scrollbar, WIDTH-23, (int)(percent*(getHeight()-130)+25), null);
@@ -225,6 +226,7 @@ public class FoodList extends JPanel{
 				new ConfirmPanel("Are you sure you want to remove this item?", new Runnable(){
 					public void run(){
 						foods.remove(index);
+						dropdownMenu.rebuild(findAllCategories());
 						Loader.getResourceLoader().save();
 						repaint();
 					}
@@ -244,4 +246,5 @@ public class FoodList extends JPanel{
 		for(FoodEntry f : foods)if(!list.contains(f.getCategory()))list.add(f.getCategory());
 		return list.toArray(new String[list.size()]);
 	}
+	public void rebuildCategories(){ dropdownMenu.rebuild(findAllCategories()); }
 }

@@ -131,6 +131,7 @@ public class EditFood extends JFrame{
 				Loader.getResourceLoader().save();
 				Loader.getResourceLoader().recountTodaysStats();
 				Loader.getInstance().getCurrentStats().reload();
+				Loader.getInstance().getFoodList().rebuildCategories();
 				Loader.getInstance().getFoodList().repaint();
 				Loader.getInstance().getMenu().reload();
 				Loader.POP_UP_OPEN=false;

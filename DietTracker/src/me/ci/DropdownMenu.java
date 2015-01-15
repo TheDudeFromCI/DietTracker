@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 public class DropdownMenu{
@@ -14,6 +15,7 @@ public class DropdownMenu{
 	private String[] entries;
 	private int index;
 	private boolean open;
+	private ArrayList<FoodEntry> temp = new ArrayList<>();
 	private static BufferedImage scrollbarClosed, scrollbarOpenTop, scrollbarOpenEntry, scrollbarOpenBottom;
 	private static final Font FONT = new Font("Tahoma", Font.PLAIN, 25);
 	static{
@@ -68,6 +70,11 @@ public class DropdownMenu{
 			fontCenters[i][0]=(250-fm.stringWidth(entries[i]))/2;
 			fontCenters[i][1]=(fm.getAscent()+(25-(fm.getAscent()+fm.getDescent()))/2);
 		}
+	}
+	public ArrayList<FoodEntry> getFilteredList(ArrayList<FoodEntry> foods){
+		temp.clear();
+		for(FoodEntry food : foods)if(index==0||food.getCategory().equals(entries[index]))temp.add(food);
+		return temp;
 	}
 	public DropdownMenu(String[] entries){ rebuild(entries); }
 	public void setOpen(boolean open){ this.open=open; }
