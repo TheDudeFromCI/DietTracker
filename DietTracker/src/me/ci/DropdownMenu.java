@@ -24,18 +24,6 @@ public class DropdownMenu{
 			scrollbarOpenBottom=ImageIO.read(DropdownMenu.class.getResource("Scrollbar Open Bottom.png"));
 		}catch(Exception exception){ exception.printStackTrace(); }
 	}
-	public DropdownMenu(String[] entries){
-		this.entries=entries;
-		img=new BufferedImage(250, (entries.length+1)*25, BufferedImage.TYPE_INT_ARGB);
-		g=img.createGraphics();
-		g.setFont(FONT);
-		fontCenters=new int[entries.length][2];
-		FontMetrics fm = g.getFontMetrics();
-		for(int i = 0; i<entries.length; i++){
-			fontCenters[i][0]=(250-fm.stringWidth(entries[i]))/2;
-			fontCenters[i][1]=(fm.getAscent()+(25-(fm.getAscent()+fm.getDescent()))/2);
-		}
-	}
 	public BufferedImage render(){
 		g.dispose();
 		img=new BufferedImage(250, (entries.length+1)*25, BufferedImage.TYPE_INT_ARGB);
@@ -69,6 +57,19 @@ public class DropdownMenu{
 		if(y<25)return index;
 		return (y-25)/25;
 	}
+	public void rebuild(String[] entries){
+		this.entries=entries;
+		img=new BufferedImage(250, (entries.length+1)*25, BufferedImage.TYPE_INT_ARGB);
+		g=img.createGraphics();
+		g.setFont(FONT);
+		fontCenters=new int[entries.length][2];
+		FontMetrics fm = g.getFontMetrics();
+		for(int i = 0; i<entries.length; i++){
+			fontCenters[i][0]=(250-fm.stringWidth(entries[i]))/2;
+			fontCenters[i][1]=(fm.getAscent()+(25-(fm.getAscent()+fm.getDescent()))/2);
+		}
+	}
+	public DropdownMenu(String[] entries){ rebuild(entries); }
 	public void setOpen(boolean open){ this.open=open; }
 	public boolean isOpen(){ return open; }
 	public void setIndex(int index){ this.index=index; }

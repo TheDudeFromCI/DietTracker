@@ -234,6 +234,7 @@ public class FoodList extends JPanel{
 	}
 	public void addFoodEntry(FoodEntry foodEntry){
 		foods.add(foodEntry);
+		dropdownMenu.rebuild(findAllCategories());
 		Loader.getResourceLoader().save();
 		repaint();
 	}
