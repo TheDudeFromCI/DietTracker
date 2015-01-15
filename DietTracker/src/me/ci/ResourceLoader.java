@@ -44,6 +44,7 @@ public class ResourceLoader{
 		int entries = (int)file.getNumber(16);
 		for(int a = 0; a<entries; a++){
 			FoodEntry f = new FoodEntry(file.getString(16));
+			f.setCetegory("N/A");
 			for(int b = 0; b<8; b++)f.getStats().stats[b]=(int)file.getNumber(16);
 			foods.add(f);
 		}
