@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
@@ -22,7 +24,6 @@ public class Menu extends JPanel{
 	private Color darkGray;
 	private boolean hover;
 	private static BufferedImage undoButton, undoButtonHover;
-	private static final int WORD_WRAP_LENGTH = 45;
 	private static final int UNDO_BUTTON_EDGE_DISTANCE = 37;
 	static{
 		try{
@@ -31,10 +32,10 @@ public class Menu extends JPanel{
 		}catch(Exception exception){ exception.printStackTrace(); }
 	}
 	public Menu(){
-		font=new Font("Tahoma", Font.PLAIN, 12);
-		font1=new Font("Tahoma", Font.BOLD, 15);
+		font=new Font("Tahoma", Font.PLAIN, 15);
+		font1=new Font("Tahoma", Font.BOLD, 20);
 		darkGray=new Color(0.1f, 0.1f, 0.1f);
-		setPreferredSize(new Dimension(300, 300));
+		setPreferredSize(new Dimension(350, 300));
 		addMouseMotionListener(new MouseAdapter(){
 			@Override public void mouseMoved(MouseEvent e){
 				boolean hoverBefore = hover;
@@ -54,6 +55,12 @@ public class Menu extends JPanel{
 				}
 			}
 		});
+		addComponentListener(new ComponentListener(){
+			public void componentShown(ComponentEvent paramComponentEvent){ reload(); }
+			public void componentResized(ComponentEvent paramComponentEvent){ reload(); }
+			public void componentMoved(ComponentEvent paramComponentEvent){ reload(); }
+			public void componentHidden(ComponentEvent paramComponentEvent){ reload(); }
+		});
 		reload();
 	}
 	public void reload(){
@@ -63,9 +70,10 @@ public class Menu extends JPanel{
 			else itemCounts.put(f, 1);
 		}
 		items.clear();
+		int wrapLength = (getWidth()-10)/9;
 		for(FoodEntry s : itemCounts.keySet()){
 			String a = "";
-			for(char c : StringUtil.wrap("x"+itemCounts.get(s)+" "+s.getName(), WORD_WRAP_LENGTH, true).toCharArray()){
+			for(char c : StringUtil.wrap("x"+itemCounts.get(s)+" "+s.getName(), wrapLength, true).toCharArray()){
 				if(c=='\n'){
 					items.add(a);
 					a="     ";

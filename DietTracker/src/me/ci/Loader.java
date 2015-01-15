@@ -66,10 +66,8 @@ public class Loader extends JFrame{
 		JPanel panel_1 = new JPanel();
 		panel.add(panel_1, BorderLayout.NORTH);
 		panel_1.setLayout(new BorderLayout(0, 0));
-		getContentPane().add(currentStats=new CurrentStats(), BorderLayout.EAST);
-		panel_1.add(currentStats, BorderLayout.CENTER);
-		menu=new Menu();
-		panel_1.add(menu, BorderLayout.WEST);
+		panel_1.add(currentStats=new CurrentStats(), BorderLayout.EAST);
+		panel_1.add(menu=new Menu(), BorderLayout.CENTER);
 		panel.add(historyGraph=new HistoryGraph(), BorderLayout.CENTER);
 		validate();
 		repaint();
