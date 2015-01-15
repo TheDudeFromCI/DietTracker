@@ -8,6 +8,8 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
@@ -82,7 +84,22 @@ public class HistoryGraph extends JPanel{
 			}
 		});
 		addMouseListener(new MouseAdapter(){
+			private Timer t;
 			@Override public void mousePressed(MouseEvent e){
+				r();
+				t=new Timer();
+				t.scheduleAtFixedRate(new TimerTask(){
+					private int skip = 7;
+					public void run(){
+						if(skip>0){
+							skip--;
+							return;
+						}
+						r();
+					}
+				}, 50, 50);
+			}
+			private void r(){
 				if(hover!=-1){
 					usedStat=hover;
 					recalculateValues();
@@ -99,6 +116,10 @@ public class HistoryGraph extends JPanel{
 						}
 					}
 				}
+			}
+			@Override public void mouseReleased(MouseEvent e){
+				t.cancel();
+				t=null;
 			}
 		});
 		recalculateValues();
@@ -127,7 +148,7 @@ public class HistoryGraph extends JPanel{
 				if(hover==i)g.drawImage(checkboxHover, 5, i*STAT_NAME_HEIGHT+(STAT_NAME_HEIGHT-CHECKBOX_SIZE)/2+7, null);
 				g.drawString(DietNumbers.NAMES[i], CHECKBOX_SIZE+10, (i+1)*STAT_NAME_HEIGHT);
 			}
-			double columWidth = (getWidth()-SIDEBAR_WIDTH)/values.length;
+			double columWidth = (getWidth()-SIDEBAR_WIDTH)/(double)values.length;
 			int graphHeight = getHeight()-LINE_GRAPH_TOP_BUFFER-LINE_GRAPH_BOTTOM_BUFFER;
 			String daysAgo = "Days Ago";
 			g.setFont(DAY_COUNT_FONT);
