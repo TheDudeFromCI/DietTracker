@@ -6,8 +6,10 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import wraith.library.MiscUtil.StringUtil;
 
@@ -16,7 +18,16 @@ public class Menu extends JPanel{
 	private Font font, font1;
 	private ArrayList<String> items = new ArrayList<>();
 	private Color darkGray;
+	private boolean hover;
+	private static BufferedImage undoButton, undoButtonHover;
 	private static final int WORD_WRAP_LENGTH = 45;
+	private static final int UNDO_BUTTON_EDGE_DISTANCE = 37;
+	static{
+		try{
+			undoButton=ImageIO.read(Menu.class.getResource("Undo Button.png"));
+			undoButtonHover=ImageIO.read(Menu.class.getResource("Undo Button Hover.png"));
+		}catch(Exception exception){ exception.printStackTrace(); }
+	}
 	public Menu(){
 		font=new Font("Tahoma", Font.PLAIN, 12);
 		font1=new Font("Tahoma", Font.BOLD, 15);
@@ -60,6 +71,7 @@ public class Menu extends JPanel{
 			g.drawString(s, 10, 12*i+30);
 			i++;
 		}
+		g.drawImage(hover?undoButtonHover:undoButton, getWidth()-UNDO_BUTTON_EDGE_DISTANCE, getHeight()-UNDO_BUTTON_EDGE_DISTANCE, null);
 		g.dispose();
 	}
 }
