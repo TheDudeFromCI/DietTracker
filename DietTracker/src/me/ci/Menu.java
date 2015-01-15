@@ -44,6 +44,16 @@ public class Menu extends JPanel{
 				if(hover!=hoverBefore)repaint();
 			}
 		});
+		addMouseListener(new MouseAdapter(){
+			@Override public void mouseClicked(MouseEvent e){
+				if(hover&&Loader.getResourceLoader().getMenu().size()>0){
+					Loader.getResourceLoader().getMenu().remove(Loader.getResourceLoader().getMenu().size()-1);
+					Loader.getResourceLoader().recountTodaysStats();
+					Loader.getInstance().getCurrentStats().reload();
+					reload();
+				}
+			}
+		});
 		reload();
 	}
 	public void reload(){
