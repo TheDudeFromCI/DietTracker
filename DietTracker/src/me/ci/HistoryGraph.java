@@ -152,6 +152,15 @@ public class HistoryGraph extends JPanel{
 			int graphHeight = getHeight()-LINE_GRAPH_TOP_BUFFER-LINE_GRAPH_BOTTOM_BUFFER;
 			String daysAgo = "Days Ago";
 			g.setFont(DAY_COUNT_FONT);
+			for(int i = 0; i<11; i++){
+				g.setColor(Color.DARK_GRAY);
+				int y = (int)((getHeight()-LINE_GRAPH_TOP_BUFFER-LINE_GRAPH_BOTTOM_BUFFER)/10f*i)+LINE_GRAPH_TOP_BUFFER;
+				g.drawLine(SIDEBAR_WIDTH, y, getWidth(), y);
+				if(i<10){
+					g.setColor(Color.WHITE);
+					g.drawString(String.valueOf((int)(highestValue/10f*(10-i))), SIDEBAR_WIDTH, y+15);
+				}
+			}
 			for(int i = 0; i<values.length; i++){
 				if(i%(values.length/10+1)==0){
 					g.setColor(Color.WHITE);
@@ -166,6 +175,11 @@ public class HistoryGraph extends JPanel{
 					g.setColor(Color.green);
 					g.drawLine((int)(columWidth*(i-1)+columWidth/2)+SIDEBAR_WIDTH, highestValue==0?graphHeight+LINE_GRAPH_TOP_BUFFER:(int)((1-values[values.length-1-(i-1)]/(float)highestValue)*graphHeight+LINE_GRAPH_TOP_BUFFER), (int)(columWidth*i+columWidth/2)+SIDEBAR_WIDTH, highestValue==0?graphHeight+LINE_GRAPH_TOP_BUFFER:(int)((1-values[values.length-1-i]/(float)highestValue)*graphHeight+LINE_GRAPH_TOP_BUFFER));
 				}
+			}
+			for(int i = 0; i<10; i++){
+				g.setColor(Color.WHITE);
+				int y = (int)((getHeight()-LINE_GRAPH_TOP_BUFFER-LINE_GRAPH_BOTTOM_BUFFER)/10f*i)+LINE_GRAPH_TOP_BUFFER+15;
+				g.drawString(String.valueOf((int)(highestValue/10f*(10-i))), SIDEBAR_WIDTH, y);
 			}
 			g.setFont(SPINNER_FONT);
 			g.setColor(Color.WHITE);
