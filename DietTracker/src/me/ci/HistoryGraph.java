@@ -159,11 +159,11 @@ public class HistoryGraph extends JPanel{
 					int x = (int)(columWidth*i+columWidth/2)+SIDEBAR_WIDTH;
 					g.drawString(count, x, LINE_GRAPH_TOP_BUFFER-30);
 					g.drawString(daysAgo, x, LINE_GRAPH_TOP_BUFFER-15);
-					g.setColor(Color.GRAY);
+					g.setColor(Color.DARK_GRAY);
 					g.drawLine(x, LINE_GRAPH_TOP_BUFFER, x, getHeight()-LINE_GRAPH_BOTTOM_BUFFER);
 				}
 				if(i>0){
-					g.setColor(Color.BLUE);
+					g.setColor(Color.green);
 					g.drawLine((int)(columWidth*(i-1)+columWidth/2)+SIDEBAR_WIDTH, highestValue==0?graphHeight+LINE_GRAPH_TOP_BUFFER:(int)((1-values[values.length-1-(i-1)]/(float)highestValue)*graphHeight+LINE_GRAPH_TOP_BUFFER), (int)(columWidth*i+columWidth/2)+SIDEBAR_WIDTH, highestValue==0?graphHeight+LINE_GRAPH_TOP_BUFFER:(int)((1-values[values.length-1-i]/(float)highestValue)*graphHeight+LINE_GRAPH_TOP_BUFFER));
 				}
 			}
