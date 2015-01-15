@@ -36,10 +36,12 @@ public class FoodList extends JPanel{
 	private boolean scrollingBar = false;
 	private int mouseDragY;
 	private int startingScrollPosition;
+	private DropdownMenu dropdownMenu;
 	private static final int TITLE_SIZE = 20;
 	private static final int STATS_SIZE = 15;
 	private static final int ENTRY_SIZE = TITLE_SIZE+(DietNumbers.SIZE+1)*STATS_SIZE;
 	private static final int WIDTH = 493;
+	private static final int DROP_DOWN_MENU_OFFSET = 170;
 	public FoodList(){
 		addMouseWheelListener(new MouseWheelListener(){
 			public void mouseWheelMoved(MouseWheelEvent e){
@@ -60,6 +62,7 @@ public class FoodList extends JPanel{
 		font3=new Font("Tahoma", Font.ITALIC, 30);
 		scrollMenuColor=new Color(0.2f, 0.2f, 0.2f);
 		foods=Loader.getResourceLoader().loadFoodList();
+		dropdownMenu=new DropdownMenu(findAllCategories());
 		setPreferredSize(new Dimension(WIDTH, 200));
 		addMouseListener(new MouseAdapter(){
 			@Override public void mousePressed(MouseEvent e){
@@ -68,13 +71,24 @@ public class FoodList extends JPanel{
 					Loader.POP_UP.requestFocus();
 					return;
 				}
-				int maxScroll = Math.max(ENTRY_SIZE*foods.size()-scrollHeight+10, 0);
-				if(maxScroll>0){
-					float percent = scrollPos/(float)maxScroll;
-					if(e.getX()>=WIDTH-23&&e.getY()>=(int)(percent*(getHeight()-130)+25)&&e.getY()<(int)(percent*(getHeight()-130)+25)+100)scrollingBar=true;
-					else return;
-					startingScrollPosition=scrollPos;
-					mouseDragY=e.getY();
+				int x = e.getX();
+				int y = e.getY();
+				if(dropdownMenu.overlaps(DROP_DOWN_MENU_OFFSET, x, y)){
+					if(!dropdownMenu.isOpen())dropdownMenu.setOpen(true);
+					else{
+						dropdownMenu.setIndex(dropdownMenu.indexAt(y));
+						dropdownMenu.setOpen(false);
+					}
+					repaint();
+				}else{
+					int maxScroll = Math.max(ENTRY_SIZE*foods.size()-scrollHeight+10, 0);
+					if(maxScroll>0){
+						float percent = scrollPos/(float)maxScroll;
+						if(x>=WIDTH-23&&y>=(int)(percent*(getHeight()-130)+25)&&y<(int)(percent*(getHeight()-130)+25)+100)scrollingBar=true;
+						else return;
+						startingScrollPosition=scrollPos;
+						mouseDragY=e.getY();
+					}
 				}
 			}
 			@Override public void mouseEntered(MouseEvent e){
@@ -184,6 +198,7 @@ public class FoodList extends JPanel{
 			float percent = scrollPos/(float)maxScroll;
 			g.drawImage(scrollbar, WIDTH-23, (int)(percent*(getHeight()-130)+25), null);
 		}
+		g.drawImage(dropdownMenu.render(), DROP_DOWN_MENU_OFFSET, 0, null);
 		g.dispose();
 	}
 	private void updateHover(Point p){
@@ -221,5 +236,11 @@ public class FoodList extends JPanel{
 		foods.add(foodEntry);
 		Loader.getResourceLoader().save();
 		repaint();
+	}
+	private String[] findAllCategories(){
+		ArrayList<String> list = new ArrayList<>();
+		list.add("All");
+		for(FoodEntry f : foods)if(!list.contains(f.getCategory()))list.add(f.getCategory());
+		return list.toArray(new String[list.size()]);
 	}
 }

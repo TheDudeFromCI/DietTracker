@@ -1,6 +1,8 @@
 package me.ci;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Composite;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
@@ -20,7 +22,7 @@ public class DropdownMenu{
 	static{
 		try{
 			scrollbarClosed=ImageIO.read(DropdownMenu.class.getResource("Scrollbar Closed.png"));
-			scrollbarOpenTop=ImageIO.read(DropdownMenu.class.getResource("Scrollbar Open Top.png"));
+			scrollbarOpenTop=ImageIO.read(DropdownMenu.class.getResource("Scrollbar Top Open.png"));
 			scrollbarOpenEntry=ImageIO.read(DropdownMenu.class.getResource("Scrollbar Open Entry.png"));
 			scrollbarOpenBottom=ImageIO.read(DropdownMenu.class.getResource("Scrollbar Open Bottom.png"));
 			scrollbarOpenEntryHover=ImageIO.read(DropdownMenu.class.getResource("Scrollbar Open Entry Hover.png"));
@@ -39,8 +41,10 @@ public class DropdownMenu{
 		}
 	}
 	public BufferedImage render(){
-		g.setColor(BLANK);
-		g.fillRect(0, 0, img.getWidth(), img.getHeight());
+		g.dispose();
+		img=new BufferedImage(250, (entries.length+1)*25, BufferedImage.TYPE_INT_ARGB);
+		g=img.createGraphics();
+		g.setFont(FONT);
 		g.setColor(Color.BLACK);
 		if(open){
 			for(int i = -1; i<entries.length; i++){
@@ -58,4 +62,18 @@ public class DropdownMenu{
 		}
 		return img;
 	}
+	public boolean overlaps(int offsetX, int x, int y){
+		if(x>=offsetX&&x<offsetX+250){
+			if(open)return y>=0&&y<img.getHeight();
+			return y>=0&&y<25;
+		}
+		return false;
+	}
+	public int indexAt(int y){
+		if(y<25)return index;
+		return (y-25)/25;
+	}
+	public void setOpen(boolean open){ this.open=open; }
+	public boolean isOpen(){ return open; }
+	public void setIndex(int index){ this.index=index; }
 }
