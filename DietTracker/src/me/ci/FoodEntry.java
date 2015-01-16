@@ -37,6 +37,7 @@ public class FoodEntry{
 			int p = (max.stats[a]-current.stats[a])/stats.stats[a];
 			if(p<c)c=p;
 		}
+		if(c<0)c=0;
 		return c;
 	}
 	public BufferedImage graph(){
