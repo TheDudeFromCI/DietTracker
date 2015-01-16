@@ -51,6 +51,7 @@ public class Menu extends JPanel{
 					Loader.getResourceLoader().getMenu().remove(Loader.getResourceLoader().getMenu().size()-1);
 					Loader.getResourceLoader().recountTodaysStats();
 					Loader.getInstance().getCurrentStats().reload();
+					Loader.getResourceLoader().save();
 					reload();
 				}
 			}
