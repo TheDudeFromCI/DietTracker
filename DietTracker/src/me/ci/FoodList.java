@@ -3,6 +3,7 @@ package me.ci;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -22,7 +23,7 @@ import java.awt.event.MouseWheelEvent;
 public class FoodList extends JPanel{
 	private BufferedImage foodlistTitle, foodlistAdd, foodlistAddHover, eat, eatHover, scrollbar, remove, removeHover, edit, editHover;
 	private boolean hover;
-	private Font font1, font2, font3;
+	private Font font1, font2, font3, font4;
 	private ArrayList<FoodEntry> foods;
 	private int scrollPos;
 	private BufferedImage scrollBuf;
@@ -60,6 +61,7 @@ public class FoodList extends JPanel{
 		font1=new Font("Tahoma", Font.ITALIC|Font.BOLD, 15);
 		font2=new Font("Tahoma", Font.PLAIN, 15);
 		font3=new Font("Tahoma", Font.ITALIC, 30);
+		font4=new Font("Tahoma", Font.BOLD, 19);
 		scrollMenuColor=new Color(0.2f, 0.2f, 0.2f);
 		foods=Loader.getResourceLoader().loadFoodList();
 		dropdownMenu=new DropdownMenu(findAllCategories());
@@ -192,8 +194,12 @@ public class FoodList extends JPanel{
 			if(overKill)scrollBufGraphics.setColor(Color.RED);
 			else scrollBufGraphics.setColor(Color.WHITE);
 			String left = remainingBuys==-1?"N/A":"x"+remainingBuys;
-			scrollBufGraphics.drawString(left, (int)(WIDTH-90-scrollBufGraphics.getFontMetrics().getStringBounds(left, scrollBufGraphics).getWidth()), bufImageStartPos+54);
+			FontMetrics fm = scrollBufGraphics.getFontMetrics();
+			scrollBufGraphics.drawString(left, (int)(WIDTH-90-fm.getStringBounds(left, scrollBufGraphics).getWidth()), bufImageStartPos+54);
 			scrollBufGraphics.drawImage(food.graph(), 120, y+TITLE_SIZE+1, null);
+			scrollBufGraphics.setFont(font4);
+			fm=scrollBufGraphics.getFontMetrics();
+			scrollBufGraphics.drawString(food.getCategory(), (int)(getWidth()-fm.getStringBounds(food.getCategory(), g).getWidth()-25), y+TITLE_SIZE+STATS_SIZE*DietNumbers.SIZE);
 		}
 		g.drawImage(scrollBuf, 0, 25, null);
 		int maxScroll = Math.max(ENTRY_SIZE*tempFoods.size()-scrollHeight+10, 0);
