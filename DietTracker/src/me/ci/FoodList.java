@@ -220,19 +220,19 @@ public class FoodList extends JPanel{
 			if(foodHoverIcon==0){
 				final int index = foodHoverElement;
 				new ConfirmPanel("Are you sure you want to add this item to your menu?", new Runnable(){
-					public void run(){ Loader.getInstance().getCurrentStats().addFoodEntry(foods.get(index)); }
+					public void run(){ Loader.getInstance().getCurrentStats().addFoodEntry(dropdownMenu.getFilteredList(foods).get(index)); }
 				}, null);
 			}else if(foodHoverIcon==1){
 				final int index = foodHoverElement;
 				new ConfirmPanel("Are you sure you want to remove this item?", new Runnable(){
 					public void run(){
-						foods.remove(index);
+						foods.remove(foods.indexOf(dropdownMenu.getFilteredList(foods).get(index)));
 						dropdownMenu.rebuild(findAllCategories());
 						Loader.getResourceLoader().save();
 						repaint();
 					}
 				}, null);
-			}else new EditFood(foods.get(foodHoverElement));
+			}else new EditFood(dropdownMenu.getFilteredList(foods).get(foodHoverElement));
 		}
 	}
 	public void addFoodEntry(FoodEntry foodEntry){
