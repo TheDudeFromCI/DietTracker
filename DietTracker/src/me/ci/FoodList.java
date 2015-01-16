@@ -78,6 +78,7 @@ public class FoodList extends JPanel{
 					else{
 						dropdownMenu.setIndex(dropdownMenu.indexAt(y));
 						dropdownMenu.setOpen(false);
+						if(y>=25)scrollPos=0;
 					}
 					repaint();
 				}else{
