@@ -14,7 +14,7 @@ public class DietNumbers{
 		"Protein",
 		"Iron",
 		"Calcium",
-		"Folic Acid",
+		"Fiber",
 		"Vitamin A",
 		"Vitamin C",
 		"Vitamin D"
