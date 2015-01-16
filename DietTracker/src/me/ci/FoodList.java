@@ -109,11 +109,12 @@ public class FoodList extends JPanel{
 		addMouseMotionListener(new MouseMotionAdapter(){
 			@Override public void mouseDragged(MouseEvent e){
 				if(!scrollingBar)return;
+				ArrayList<FoodEntry> tempFoods = dropdownMenu.getFilteredList(foods);
 				float percentChange = (e.getY()-mouseDragY)/(getHeight()-130f);
-				float toScrollUnits = ENTRY_SIZE*foods.size()-scrollHeight+10;
+				float toScrollUnits = ENTRY_SIZE*tempFoods.size()-scrollHeight+10;
 				scrollPos=(int)(toScrollUnits*percentChange+startingScrollPosition);
 				scrollPos=Math.max(scrollPos, 0);
-				scrollPos=Math.min(scrollPos, Math.max(ENTRY_SIZE*dropdownMenu.getFilteredList(foods).size()-scrollHeight+10, 0));
+				scrollPos=Math.min(scrollPos, Math.max(ENTRY_SIZE*tempFoods.size()-scrollHeight+10, 0));
 				repaint();
 			}
 			@Override public void mouseMoved(MouseEvent e){ updateHover(e.getPoint()); }
