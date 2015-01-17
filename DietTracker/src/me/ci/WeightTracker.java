@@ -81,11 +81,6 @@ public class WeightTracker extends JPanel{
 					}
 				}
 			}
-			g.setColor(Color.WHITE);
-			for(int i = 1; i<=15; i++){
-				int num = (int)(max/15*i);
-				g.drawString((num/10)+"."+(num%10), 4, (int)(pointsV*(15-i))+12);
-			}
 		}
 		g.drawImage(updateWeightHover?updateWeightButtonHover:updateWeightButton, getWidth()-78, getHeight()-BOTTOM_BORDER_THICKNESS+3, null);
 		g.dispose();
