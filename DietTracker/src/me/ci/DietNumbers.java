@@ -3,18 +3,18 @@ package me.ci;
 public class DietNumbers{
 	public final int[] stats = new int[NAMES.length];
 	public static final String[] NAMES = new String[]{
-		"Cholesterol",
-		"Sugar",
-		"Sodium",
 		"Calories",
 		"Fat",
-		"Carbs",
 		"Sat. Fat",
 		"Trans Fat",
-		"Protein",
-		"Iron",
-		"Calcium",
+		"Cholesterol",
+		"Sodium",
+		"Carbs",
 		"Fiber",
+		"Sugar",
+		"Protein",
+		"Calcium",
+		"Iron",
 		"Vitamin A",
 		"Vitamin C",
 		"Vitamin D"

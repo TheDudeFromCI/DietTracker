@@ -10,7 +10,7 @@ public class ResourceLoader{
 	private DietNumbers currentDietNumbers = new DietNumbers();
 	private CompactBinaryFile file;
 	private short dayNumber = 0;
-	public static final byte FILE_VERSION = -128;
+	public static final byte FILE_VERSION = -127;
 	public ResourceLoader(){
 		file=new CompactBinaryFile("Config.dat");
 		if(!file.exists()){
@@ -21,12 +21,13 @@ public class ResourceLoader{
 		if(!file.hasFinished()){
 			byte version = (byte)file.getNumber(8);
 			if(version==-128)loadFileVersion2(file);
+			else if(version==-127)loadFileVersion3(file);
 			else loadFileVersion1(file);
 		}
 		file.stopReading();
 		recountTodaysStats();
 	}
-	private void loadFileVersion2(CompactBinaryFile file){
+	private void loadFileVersion3(CompactBinaryFile file){
 		dayNumber=(short)file.getNumber(9);
 		int entries = (int)file.getNumber(16);
 		for(int a = 0; a<entries; a++){
@@ -38,6 +39,47 @@ public class ResourceLoader{
 		entries=(int)file.getNumber(16);
 		for(int a = 0; a<entries; a++)menu.add(foods.get((int)file.getNumber(16)));
 		for(int b = 0; b<15; b++)maxDietNumbers.stats[b]=(int)file.getNumber(16);
+	}
+	private void loadFileVersion2(CompactBinaryFile file){
+		dayNumber=(short)file.getNumber(9);
+		int entries = (int)file.getNumber(16);
+		for(int a = 0; a<entries; a++){
+			FoodEntry f = new FoodEntry(file.getString(16));
+			f.setCetegory(file.getString(8));
+			f.getStats().stats[3]=(int)file.getNumber(16);
+			f.getStats().stats[4]=(int)file.getNumber(16);
+			f.getStats().stats[6]=(int)file.getNumber(16);
+			f.getStats().stats[7]=(int)file.getNumber(16);
+			f.getStats().stats[0]=(int)file.getNumber(16);
+			f.getStats().stats[2]=(int)file.getNumber(16);
+			f.getStats().stats[5]=(int)file.getNumber(16);
+			f.getStats().stats[11]=(int)file.getNumber(16);
+			f.getStats().stats[1]=(int)file.getNumber(16);
+			f.getStats().stats[8]=(int)file.getNumber(16);
+			f.getStats().stats[10]=(int)file.getNumber(16);
+			f.getStats().stats[9]=(int)file.getNumber(16);
+			f.getStats().stats[12]=(int)file.getNumber(16);
+			f.getStats().stats[13]=(int)file.getNumber(16);
+			f.getStats().stats[14]=(int)file.getNumber(16);
+			foods.add(f);
+		}
+		entries=(int)file.getNumber(16);
+		for(int a = 0; a<entries; a++)menu.add(foods.get((int)file.getNumber(16)));
+		maxDietNumbers.stats[3]=(int)file.getNumber(16);
+		maxDietNumbers.stats[4]=(int)file.getNumber(16);
+		maxDietNumbers.stats[6]=(int)file.getNumber(16);
+		maxDietNumbers.stats[7]=(int)file.getNumber(16);
+		maxDietNumbers.stats[0]=(int)file.getNumber(16);
+		maxDietNumbers.stats[2]=(int)file.getNumber(16);
+		maxDietNumbers.stats[5]=(int)file.getNumber(16);
+		maxDietNumbers.stats[11]=(int)file.getNumber(16);
+		maxDietNumbers.stats[1]=(int)file.getNumber(16);
+		maxDietNumbers.stats[8]=(int)file.getNumber(16);
+		maxDietNumbers.stats[10]=(int)file.getNumber(16);
+		maxDietNumbers.stats[9]=(int)file.getNumber(16);
+		maxDietNumbers.stats[12]=(int)file.getNumber(16);
+		maxDietNumbers.stats[13]=(int)file.getNumber(16);
+		maxDietNumbers.stats[14]=(int)file.getNumber(16);
 	}
 	private void loadFileVersion1(CompactBinaryFile file){
 		file.resetIterator();
@@ -95,10 +137,23 @@ public class ResourceLoader{
 		file.read();
 		if(file.hasFinished())return diet;
 		byte fileVersion = (byte)file.getNumber(8);
-		if(fileVersion==-128)for(int i = 0; i<15; i++)diet.stats[i]=(int)file.getNumber(16);
-		else{
-			//Idk how to read this...
-		}
+		if(fileVersion==-128){
+			diet.stats[3]=(int)file.getNumber(16);
+			diet.stats[4]=(int)file.getNumber(16);
+			diet.stats[6]=(int)file.getNumber(16);
+			diet.stats[7]=(int)file.getNumber(16);
+			diet.stats[0]=(int)file.getNumber(16);
+			diet.stats[2]=(int)file.getNumber(16);
+			diet.stats[5]=(int)file.getNumber(16);
+			diet.stats[11]=(int)file.getNumber(16);
+			diet.stats[1]=(int)file.getNumber(16);
+			diet.stats[8]=(int)file.getNumber(16);
+			diet.stats[10]=(int)file.getNumber(16);
+			diet.stats[9]=(int)file.getNumber(16);
+			diet.stats[12]=(int)file.getNumber(16);
+			diet.stats[13]=(int)file.getNumber(16);
+			diet.stats[14]=(int)file.getNumber(16);
+		}else if(fileVersion==-127)for(int i = 0; i<15; i++)diet.stats[i]=(int)file.getNumber(16);
 		file.stopReading();
 		return diet;
 	}
