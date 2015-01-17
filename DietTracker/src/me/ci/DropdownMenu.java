@@ -71,9 +71,9 @@ public class DropdownMenu{
 			fontCenters[i][1]=(fm.getAscent()+(25-(fm.getAscent()+fm.getDescent()))/2);
 		}
 	}
-	public ArrayList<FoodEntry> getFilteredList(ArrayList<FoodEntry> foods){
+	public ArrayList<FoodEntry> getFilteredList(ArrayList<FoodEntry> foods, boolean filterReds){
 		temp.clear();
-		for(FoodEntry food : foods)if(index==0||food.getCategory().equals(entries[index]))temp.add(food);
+		for(FoodEntry food : foods)if((index==0||food.getCategory().equals(entries[index]))&&(!filterReds||food.getRemaining(Loader.getResourceLoader().loadTodaysStats(), Loader.getResourceLoader().loadMaxDiet())!=0))temp.add(food);
 		return temp;
 	}
 	public DropdownMenu(String[] entries){ rebuild(entries); }
