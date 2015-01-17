@@ -3,6 +3,7 @@ package me.ci;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import javax.swing.JFrame;
@@ -30,6 +31,9 @@ public class LogWeightPopup extends JFrame{
 				}
 			}
 			public void windowLostFocus(WindowEvent e){}
+		});
+		addWindowListener(new WindowAdapter(){
+			@Override public void windowClosing(WindowEvent e){ close(); }
 		});
 		Loader.POP_UP_OPEN=true;
 		Loader.POP_UP=this;
