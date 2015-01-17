@@ -25,7 +25,7 @@ public class Toolbar extends JPanel{
 	private boolean dragging = false;
 	private static final String[] TABS = {
 		"Main",
-		"Recipe Builder"
+		"WeightTracker"
 	};
 	public static final int TAB_WIDTH = 100;
 	public Toolbar(Loader loader, int currentIndex){
@@ -110,7 +110,7 @@ public class Toolbar extends JPanel{
 			int clickedTab = p.x/TAB_WIDTH;
 			if(clickedTab!=currentIndex){
 				if(clickedTab==0)Loader.getInstance().buildMainTab();
-				if(clickedTab==1)Loader.getInstance().buildRecipeBuilderTab();
+				if(clickedTab==1)Loader.getInstance().buildWeightTrackerTab();
 			}
 		}
 	}

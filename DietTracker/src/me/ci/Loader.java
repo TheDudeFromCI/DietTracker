@@ -24,7 +24,6 @@ public class Loader extends JFrame{
 	private Loader(){
 		init();
 		buildMainTab();
-//		buildRecipeBuilderTab();
 		setVisible(true);
 	}
 	private void init(){
@@ -72,10 +71,11 @@ public class Loader extends JFrame{
 		validate();
 		repaint();
 	}
-	public void buildRecipeBuilderTab(){
+	public void buildWeightTrackerTab(){
 		getContentPane().removeAll();
 		Toolbar toolbar = new Toolbar(this, 1);
 		getContentPane().add(toolbar, BorderLayout.NORTH);
+		getContentPane().add(new WeightTracker(), BorderLayout.CENTER);
 		validate();
 		repaint();
 	}
