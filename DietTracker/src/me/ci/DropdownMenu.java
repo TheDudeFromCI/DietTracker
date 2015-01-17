@@ -80,4 +80,7 @@ public class DropdownMenu{
 	public void setOpen(boolean open){ this.open=open; }
 	public boolean isOpen(){ return open; }
 	public void setIndex(int index){ this.index=index; }
+	public int getIndex(){ return index; }
+	public int w(){ return img.getWidth(); }
+	public int h(){ return img.getHeight(); }
 }
