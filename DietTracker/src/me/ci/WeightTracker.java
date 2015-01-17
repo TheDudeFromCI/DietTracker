@@ -72,12 +72,12 @@ public class WeightTracker extends JPanel{
 						g.drawLine((int)(points*(i-1)+points/2), (int)(percent1*(getHeight()-BOTTOM_BORDER_THICKNESS)), (int)(points*i+points/2), (int)(percent2*(getHeight()-BOTTOM_BORDER_THICKNESS)));
 						g.setColor(Color.WHITE);
 						String list = (values[i]/10)+"."+(values[i]%10);
-						g.drawString(list, (int)(points*(i-1)+points/2-fm.getStringBounds(list, g).getWidth()/2), (int)(percent1*(getHeight()-BOTTOM_BORDER_THICKNESS))-25);
+						g.drawString(list, (int)(points*i+points/2-fm.getStringBounds(list, g).getWidth()/2), (int)(percent2*(getHeight()-BOTTOM_BORDER_THICKNESS))-25);
 					}else{
 						double percent = 1-values[i]/max;
 						g.setColor(Color.WHITE);
 						String list = (values[i]/10)+"."+(values[i]%10);
-						g.drawString(list, (int)(points*(i-1)+points/2-fm.getStringBounds(list, g).getWidth()/2), (int)(percent*(getHeight()-BOTTOM_BORDER_THICKNESS))-25);
+						g.drawString(list, (int)(points*i+points/2-fm.getStringBounds(list, g).getWidth()/2), (int)(percent*(getHeight()-BOTTOM_BORDER_THICKNESS))-25);
 					}
 				}
 			}
