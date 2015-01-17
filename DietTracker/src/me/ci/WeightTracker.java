@@ -47,22 +47,38 @@ public class WeightTracker extends JPanel{
 		g.setColor(Color.DARK_GRAY);
 		double pointsV = (getHeight()-BOTTOM_BORDER_THICKNESS)/15.0;
 		for(int i = 1; i<=15; i++)g.drawLine(0, (int)(pointsV*i), getWidth(), (int)(pointsV*i));
-		for(int i = 1; i<values.length; i++){
-			double percent1 = 1-values[i-1]/max;
-			double percent2 = 1-values[i]/max;
-			g.setColor(Color.DARK_GRAY);
-			g.drawLine((int)(points*i+points/2), 0, (int)(points*i+points/2), getHeight()-BOTTOM_BORDER_THICKNESS);
-			g.setColor(Color.GREEN);
-			g.drawLine((int)(points*(i-1)+points/2), (int)(percent1*(getHeight()-BOTTOM_BORDER_THICKNESS)), (int)(points*i+points/2), (int)(percent2*(getHeight()-BOTTOM_BORDER_THICKNESS)));
+		if(values.length==1){
+			double percent = 1-values[0]/max;
+			g.drawOval(getWidth()/2-3, (int)(percent*(getHeight()-BOTTOM_BORDER_THICKNESS))-3, 6, 6);
+		}else{
+			for(int i = 1; i<values.length; i++){
+				double percent1 = 1-values[i-1]/max;
+				double percent2 = 1-values[i]/max;
+				g.setColor(Color.DARK_GRAY);
+				g.drawLine((int)(points*i+points/2), 0, (int)(points*i+points/2), getHeight()-BOTTOM_BORDER_THICKNESS);
+				g.setColor(Color.GREEN);
+				g.drawLine((int)(points*(i-1)+points/2), (int)(percent1*(getHeight()-BOTTOM_BORDER_THICKNESS)), (int)(points*i+points/2), (int)(percent2*(getHeight()-BOTTOM_BORDER_THICKNESS)));
+			}
 		}
 		g.setColor(Color.WHITE);
 		for(int i = 0; i<15; i++)g.drawString(i+"", 4, (int)(pointsV*i)+12);
 		g.drawImage(updateWeightHover?updateWeightButtonHover:updateWeightButton, getWidth()-78, getHeight()-BOTTOM_BORDER_THICKNESS+3, null);
 		g.dispose();
 	}
+	public void logWeight(int weight){
+		int[] newValues = new int[values.length+1];
+		for(int i = 0; i<=values.length; i++){
+			if(i==values.length)newValues[i]=weight;
+			else newValues[i]=values[i];
+		}
+		Loader.getResourceLoader().setWeights(newValues);
+		Loader.getResourceLoader().save();
+		recalculateValues();
+	}
 	public void recalculateValues(){
-		values=new int[]{10, 20, 30, 40, 50, 35, 10, 12, 34, 61, 30, 48};
-		maxValue=61;
+		values=Loader.getResourceLoader().getWeights();
+		maxValue=0;
+		for(int i = 0; i<values.length; i++)maxValue=Math.max(maxValue, values[i]);
 		repaint();
 	}
 }

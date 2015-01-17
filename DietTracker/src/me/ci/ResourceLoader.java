@@ -41,7 +41,7 @@ public class ResourceLoader{
 		for(int a = 0; a<entries; a++)menu.add(foods.get((int)file.getNumber(16)));
 		for(int b = 0; b<15; b++)maxDietNumbers.stats[b]=(int)file.getNumber(16);
 		weights=new int[(int)file.getNumber(16)];
-		for(int i = 0; i<weights.length; i++)weights[i]=(int)file.getNumber(12);
+		for(int i = 0; i<weights.length; i++)weights[i]=(int)file.getNumber(14);
 	}
 	private void loadFileVersion3(CompactBinaryFile file){
 		dayNumber=(short)file.getNumber(9);
@@ -113,7 +113,7 @@ public class ResourceLoader{
 		for(FoodEntry f : menu)file.addNumber(foods.indexOf(f), 16);
 		for(int b = 0; b<DietNumbers.SIZE; b++)file.addNumber(maxDietNumbers.stats[b], 16);
 		file.addNumber(weights.length, 16);
-		for(int i = 0; i<weights.length; i++)file.addNumber(weights[i], 12);
+		for(int i = 0; i<weights.length; i++)file.addNumber(weights[i], 14);
 		file.stopWriting();
 		logDay();
 	}
