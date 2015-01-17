@@ -10,7 +10,8 @@ public class ResourceLoader{
 	private DietNumbers currentDietNumbers = new DietNumbers();
 	private CompactBinaryFile file;
 	private short dayNumber = 0;
-	public static final byte FILE_VERSION = -127;
+	private int[] weights;
+	public static final byte FILE_VERSION = -126;
 	public ResourceLoader(){
 		file=new CompactBinaryFile("Config.dat");
 		if(!file.exists()){
@@ -22,10 +23,25 @@ public class ResourceLoader{
 			byte version = (byte)file.getNumber(8);
 			if(version==-128)loadFileVersion2(file);
 			else if(version==-127)loadFileVersion3(file);
-			else loadFileVersion1(file);
+			else if(version==-126)loadFileVersion4(file);
 		}
 		file.stopReading();
 		recountTodaysStats();
+	}
+	private void loadFileVersion4(CompactBinaryFile file){
+		dayNumber=(short)file.getNumber(9);
+		int entries = (int)file.getNumber(16);
+		for(int a = 0; a<entries; a++){
+			FoodEntry f = new FoodEntry(file.getString(16));
+			f.setCetegory(file.getString(8));
+			for(int b = 0; b<15; b++)f.getStats().stats[b]=(int)file.getNumber(16);
+			foods.add(f);
+		}
+		entries=(int)file.getNumber(16);
+		for(int a = 0; a<entries; a++)menu.add(foods.get((int)file.getNumber(16)));
+		for(int b = 0; b<15; b++)maxDietNumbers.stats[b]=(int)file.getNumber(16);
+		weights=new int[(int)file.getNumber(16)];
+		for(int i = 0; i<weights.length; i++)weights[i]=(int)file.getNumber(12);
 	}
 	private void loadFileVersion3(CompactBinaryFile file){
 		dayNumber=(short)file.getNumber(9);
@@ -39,6 +55,7 @@ public class ResourceLoader{
 		entries=(int)file.getNumber(16);
 		for(int a = 0; a<entries; a++)menu.add(foods.get((int)file.getNumber(16)));
 		for(int b = 0; b<15; b++)maxDietNumbers.stats[b]=(int)file.getNumber(16);
+		weights=new int[0];
 	}
 	private void loadFileVersion2(CompactBinaryFile file){
 		dayNumber=(short)file.getNumber(9);
@@ -80,19 +97,7 @@ public class ResourceLoader{
 		maxDietNumbers.stats[12]=(int)file.getNumber(16);
 		maxDietNumbers.stats[13]=(int)file.getNumber(16);
 		maxDietNumbers.stats[14]=(int)file.getNumber(16);
-	}
-	private void loadFileVersion1(CompactBinaryFile file){
-		file.resetIterator();
-		int entries = (int)file.getNumber(16);
-		for(int a = 0; a<entries; a++){
-			FoodEntry f = new FoodEntry(file.getString(16));
-			f.setCetegory("N/A");
-			for(int b = 0; b<8; b++)f.getStats().stats[b]=(int)file.getNumber(16);
-			foods.add(f);
-		}
-		entries=(int)file.getNumber(16);
-		for(int a = 0; a<entries; a++)menu.add(foods.get((int)file.getNumber(16)));
-		for(int b = 0; b<8; b++)maxDietNumbers.stats[b]=(int)file.getNumber(16);
+		weights=new int[0];
 	}
 	public void save(){
 		file.write();
@@ -107,6 +112,8 @@ public class ResourceLoader{
 		file.addNumber(menu.size(), 16);
 		for(FoodEntry f : menu)file.addNumber(foods.indexOf(f), 16);
 		for(int b = 0; b<DietNumbers.SIZE; b++)file.addNumber(maxDietNumbers.stats[b], 16);
+		file.addNumber(weights.length, 16);
+		for(int i = 0; i<weights.length; i++)file.addNumber(weights[i], 12);
 		file.stopWriting();
 		logDay();
 	}
@@ -162,4 +169,6 @@ public class ResourceLoader{
 	public DietNumbers loadMaxDiet(){ return maxDietNumbers; }
 	public DietNumbers loadTodaysStats(){ return currentDietNumbers; }
 	public ArrayList<FoodEntry> getMenu(){ return menu; }
+	public int[] getWeights(){ return weights; }
+	public void setWeights(int[] weights){ this.weights=weights; }
 }
