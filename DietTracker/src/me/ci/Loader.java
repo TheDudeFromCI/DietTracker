@@ -15,6 +15,7 @@ public class Loader extends JFrame{
 	private CurrentStats currentStats;
 	private FoodList foodList;
 	private HistoryGraph historyGraph;
+	private WeightTracker weightTracker;
 	private int x, y, w, h;
 	private static ResourceLoader resourceLoader;
 	public static boolean POP_UP_OPEN = false;
@@ -75,7 +76,7 @@ public class Loader extends JFrame{
 		getContentPane().removeAll();
 		Toolbar toolbar = new Toolbar(this, 1);
 		getContentPane().add(toolbar, BorderLayout.NORTH);
-		getContentPane().add(new WeightTracker(), BorderLayout.CENTER);
+		getContentPane().add(weightTracker=new WeightTracker(), BorderLayout.CENTER);
 		validate();
 		repaint();
 	}
@@ -89,6 +90,7 @@ public class Loader extends JFrame{
 	public CurrentStats getCurrentStats(){ return currentStats; }
 	public Menu getMenu(){ return menu; }
 	public HistoryGraph getHistoryGraph(){ return historyGraph; }
+	public WeightTracker getWeightTracker(){ return weightTracker; }
 	public static void main(String[] args){
 		resourceLoader=new ResourceLoader();
 		try{ UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");

@@ -34,6 +34,9 @@ public class WeightTracker extends JPanel{
 				if(updateWeightHover!=before)repaint();
 			}
 		});
+		addMouseListener(new MouseAdapter(){
+			@Override public void mouseClicked(MouseEvent e){ if(updateWeightHover)new LogWeightPopup(); }
+		});
 		recalculateValues();
 	}
 	@Override public void paint(Graphics g1){
@@ -53,17 +56,22 @@ public class WeightTracker extends JPanel{
 				g.setColor(Color.GREEN);
 				g.drawOval(getWidth()/2-3, (int)(percent*(getHeight()-BOTTOM_BORDER_THICKNESS))-3, 6, 6);
 			}else{
-				for(int i = 1; i<values.length; i++){
-					double percent1 = 1-values[i-1]/max;
-					double percent2 = 1-values[i]/max;
+				for(int i = 0; i<values.length; i++){
 					g.setColor(Color.DARK_GRAY);
 					g.drawLine((int)(points*i+points/2), 0, (int)(points*i+points/2), getHeight()-BOTTOM_BORDER_THICKNESS);
-					g.setColor(Color.GREEN);
-					g.drawLine((int)(points*(i-1)+points/2), (int)(percent1*(getHeight()-BOTTOM_BORDER_THICKNESS)), (int)(points*i+points/2), (int)(percent2*(getHeight()-BOTTOM_BORDER_THICKNESS)));
+					if(i>0){
+						double percent1 = 1-values[i-1]/max;
+						double percent2 = 1-values[i]/max;
+						g.setColor(Color.GREEN);
+						g.drawLine((int)(points*(i-1)+points/2), (int)(percent1*(getHeight()-BOTTOM_BORDER_THICKNESS)), (int)(points*i+points/2), (int)(percent2*(getHeight()-BOTTOM_BORDER_THICKNESS)));
+					}
 				}
 			}
 			g.setColor(Color.WHITE);
-			for(int i = 0; i<15; i++)g.drawString(String.valueOf(max/15*i), 4, (int)(pointsV*i)+12);
+			for(int i = 1; i<=15; i++){
+				int num = (int)(max/15*i);
+				g.drawString((num/10)+"."+(num%10), 4, (int)(pointsV*(15-i))+12);
+			}
 		}
 		g.drawImage(updateWeightHover?updateWeightButtonHover:updateWeightButton, getWidth()-78, getHeight()-BOTTOM_BORDER_THICKNESS+3, null);
 		g.dispose();
