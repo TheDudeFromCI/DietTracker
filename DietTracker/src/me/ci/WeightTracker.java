@@ -1,6 +1,7 @@
 package me.ci;
 
 import java.awt.Color;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
@@ -55,7 +56,12 @@ public class WeightTracker extends JPanel{
 				double percent = 1-values[0]/max;
 				g.setColor(Color.GREEN);
 				g.drawOval(getWidth()/2-3, (int)(percent*(getHeight()-BOTTOM_BORDER_THICKNESS))-3, 6, 6);
+				FontMetrics fm = g.getFontMetrics();
+				g.setColor(Color.WHITE);
+				String list = (values[0]/10)+"."+(values[0]%10);
+				g.drawString(list, (int)(getWidth()/2-fm.getStringBounds(list, g).getWidth()/2), (int)(percent*(getHeight()-BOTTOM_BORDER_THICKNESS))-25);
 			}else{
+				FontMetrics fm = g.getFontMetrics();
 				for(int i = 0; i<values.length; i++){
 					g.setColor(Color.DARK_GRAY);
 					g.drawLine((int)(points*i+points/2), 0, (int)(points*i+points/2), getHeight()-BOTTOM_BORDER_THICKNESS);
@@ -64,6 +70,14 @@ public class WeightTracker extends JPanel{
 						double percent2 = 1-values[i]/max;
 						g.setColor(Color.GREEN);
 						g.drawLine((int)(points*(i-1)+points/2), (int)(percent1*(getHeight()-BOTTOM_BORDER_THICKNESS)), (int)(points*i+points/2), (int)(percent2*(getHeight()-BOTTOM_BORDER_THICKNESS)));
+						g.setColor(Color.WHITE);
+						String list = (values[i]/10)+"."+(values[i]%10);
+						g.drawString(list, (int)(points*(i-1)+points/2-fm.getStringBounds(list, g).getWidth()/2), (int)(percent1*(getHeight()-BOTTOM_BORDER_THICKNESS))-25);
+					}else{
+						double percent = 1-values[i]/max;
+						g.setColor(Color.WHITE);
+						String list = (values[i]/10)+"."+(values[i]%10);
+						g.drawString(list, (int)(points*(i-1)+points/2-fm.getStringBounds(list, g).getWidth()/2), (int)(percent*(getHeight()-BOTTOM_BORDER_THICKNESS))-25);
 					}
 				}
 			}
