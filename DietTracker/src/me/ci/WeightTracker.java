@@ -86,7 +86,9 @@ public class WeightTracker extends JPanel{
 		}
 		g.drawImage(updateWeightHover?updateWeightButtonHover:updateWeightButton, getWidth()-78, getHeight()-BOTTOM_BORDER_THICKNESS+3, null);
 		g.setFont(INFO_FONT);
-		int num = values[0]-values[values.length-1];
+		int num;
+		if(values.length>0)num=values[0]-values[values.length-1];
+		else num=0;
 		g.drawString("Total Weight Lost: "+(num/10)+"."+(num%10), 5, getHeight()-10);
 		g.dispose();
 	}

@@ -10,7 +10,7 @@ public class ResourceLoader{
 	private DietNumbers currentDietNumbers = new DietNumbers();
 	private CompactBinaryFile file;
 	private short dayNumber = 0;
-	private int[] weights;
+	private int[] weights = new int[0];
 	public static final byte FILE_VERSION = -126;
 	public ResourceLoader(){
 		file=new CompactBinaryFile("Config.dat");
