@@ -1,6 +1,7 @@
 package me.ci;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -19,6 +20,7 @@ public class WeightTracker extends JPanel{
 	private static final int BOTTOM_BORDER_THICKNESS = 40;
 	private static final Color DARK_GRAY = new Color(0.1f, 0.1f, 0.1f);
 	private static final Color LIGHT_GRAY = new Color(0.2f, 0.2f, 0.2f);
+	private static final Font INFO_FONT = new Font("Tahoma", Font.BOLD, 20);
 	static{
 		try{
 			updateWeightButton=ImageIO.read(WeightTracker.class.getResource("Update Weight Button.png"));
@@ -83,6 +85,9 @@ public class WeightTracker extends JPanel{
 			}
 		}
 		g.drawImage(updateWeightHover?updateWeightButtonHover:updateWeightButton, getWidth()-78, getHeight()-BOTTOM_BORDER_THICKNESS+3, null);
+		g.setFont(INFO_FONT);
+		int num = values[0]-values[values.length-1];
+		g.drawString("Total Weight Lost: "+(num/10)+"."+(num%10), 5, getHeight()-10);
 		g.dispose();
 	}
 	public void logWeight(int weight){
