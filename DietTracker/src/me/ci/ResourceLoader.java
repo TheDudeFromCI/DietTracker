@@ -25,6 +25,7 @@ public class ResourceLoader{
 			else if(version==-127)loadFileVersion3(file);
 			else if(version==-126)loadFileVersion4(file);
 		}
+		System.out.println(dayNumber);
 		file.stopReading();
 		recountTodaysStats();
 	}
@@ -160,7 +161,9 @@ public class ResourceLoader{
 			diet.stats[12]=(int)file.getNumber(16);
 			diet.stats[13]=(int)file.getNumber(16);
 			diet.stats[14]=(int)file.getNumber(16);
-		}else if(fileVersion==-127)for(int i = 0; i<15; i++)diet.stats[i]=(int)file.getNumber(16);
+		}else if(fileVersion==-127){
+			for(int i = 0; i<15; i++)diet.stats[i]=(int)file.getNumber(16);
+		}else if(fileVersion==-126)for(int i = 0; i<15; i++)diet.stats[i]=(int)file.getNumber(16);
 		file.stopReading();
 		return diet;
 	}
