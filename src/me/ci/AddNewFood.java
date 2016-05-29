@@ -126,7 +126,7 @@ public class AddNewFood extends JFrame{
 					});
 					return;
 				}
-				FoodEntry foodEntry = new FoodEntry(textField.getText());
+				FoodEntry foodEntry = new FoodEntry(textField.getText(), null);
 				foodEntry.setCetegory(textField_1.getText());
 				for(int i = 0; i<DietNumbers.SIZE; i++){
 					foodEntry.getStats().stats[i] = (int)spinners[i].getValue();

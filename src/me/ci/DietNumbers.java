@@ -3,12 +3,12 @@ package me.ci;
 import java.util.Arrays;
 
 public class DietNumbers{
-	public final int[] stats = new int[NAMES.length];
 	public static final String[] NAMES = new String[]{
 		"Calories", "Fat", "Sat. Fat", "Trans Fat", "Cholesterol", "Sodium", "Carbs", "Fiber", "Sugar", "Protein", "Calcium", "Iron", "Vitamin A",
 		"Vitamin C", "Vitamin D"
 	};
 	public static final int SIZE = NAMES.length;
+	public final int[] stats = new int[NAMES.length];
 	public int max(){
 		int high = 0;
 		for(int i = 0; i<SIZE; i++){

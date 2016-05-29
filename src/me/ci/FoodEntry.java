@@ -7,12 +7,21 @@ import java.awt.image.BufferedImage;
 import java.util.Objects;
 
 public class FoodEntry{
+	private static String randomUUID(){
+		final int uuidSize = 16;
+		StringBuilder sb = new StringBuilder(uuidSize);
+		for(int i = 0; i<uuidSize; i++){
+			sb.append(Integer.toHexString((int)(Math.random()*16)));
+		}
+		return sb.toString();
+	}
 	private String name;
 	private String category;
 	private final DietNumbers stats;
 	private final BufferedImage img;
 	private final Graphics2D g;
 	private final Font font;
+	private final String uuid;
 	private static final Color DARK_GRAY, LIGHT_GRAY;
 	private static final Color[] colors;
 	public static final int BAR_MAX_WIDTH = 175;
@@ -25,12 +34,13 @@ public class FoodEntry{
 			colors[i] = new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
 		}
 	}
-	public FoodEntry(String name){
+	public FoodEntry(String name, String uuid){
 		this.name = name;
 		stats = new DietNumbers();
 		img = new BufferedImage(BAR_MAX_WIDTH+POST_BAR_BUFFER, 15*DietNumbers.SIZE, BufferedImage.TYPE_INT_ARGB);
 		g = img.createGraphics();
 		font = new Font("Tahoma", Font.ITALIC|Font.BOLD, 13);
+		this.uuid = uuid==null?randomUUID():uuid;
 	}
 	public int getRemaining(DietNumbers current, DietNumbers max){
 		if(stats.max()==0){
@@ -107,5 +117,8 @@ public class FoodEntry{
 	}
 	public void setName(String name){
 		this.name = name;
+	}
+	public String getUUID(){
+		return uuid;
 	}
 }

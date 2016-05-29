@@ -209,7 +209,7 @@ public class HistoryGraph extends JPanel{
 	public void recalculateValues(){
 		highestValue = 0;
 		for(int i = 0; i<values.length; i++){
-			values[i] = Loader.getResourceLoader().getLog(Loader.getResourceLoader().getCurrentDay()-i).stats[dropdownMenu.getIndex()];
+			values[i] = Loader.getResourceLoader().getLog(Loader.getResourceLoader().getCurrentDay()-i).getNumbers().stats[dropdownMenu.getIndex()];
 			if(values[i]>highestValue){
 				highestValue = values[i];
 			}

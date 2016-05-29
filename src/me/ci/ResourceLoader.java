@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import me.ci.util.CompactBinaryFile;
 
 public class ResourceLoader{
+	public static final byte FILE_VERSION = -125;
 	private ArrayList<FoodEntry> foods = new ArrayList<>(16);
 	private ArrayList<FoodEntry> menu = new ArrayList<>(16);
 	private DietNumbers maxDietNumbers = new DietNumbers();
@@ -11,7 +12,6 @@ public class ResourceLoader{
 	private CompactBinaryFile file;
 	private short dayNumber = 0;
 	private int[] weights = new int[0];
-	public static final byte FILE_VERSION = -126;
 	public ResourceLoader(){
 		file = new CompactBinaryFile("Config.dat");
 		if(!file.exists()){
@@ -34,6 +34,9 @@ public class ResourceLoader{
 				case -126:
 					loadFileVersion4(file);
 					break;
+				case -125:
+					loadFileVersion5(file);
+					break;
 				default:
 					throw new RuntimeException("Unabled to file file!");
 			}
@@ -42,11 +45,35 @@ public class ResourceLoader{
 		file.stopReading();
 		recountTodaysStats();
 	}
+	private void loadFileVersion5(CompactBinaryFile file){
+		dayNumber = (short)file.getNumber(9);
+		int entries = (int)file.getNumber(16);
+		for(int a = 0; a<entries; a++){
+			String uuid = file.getString(5);
+			FoodEntry f = new FoodEntry(file.getString(16), uuid);
+			f.setCetegory(file.getString(8));
+			for(int b = 0; b<15; b++){
+				f.getStats().stats[b] = (int)file.getNumber(16);
+			}
+			foods.add(f);
+		}
+		entries = (int)file.getNumber(16);
+		for(int a = 0; a<entries; a++){
+			menu.add(foods.get((int)file.getNumber(16)));
+		}
+		for(int b = 0; b<15; b++){
+			maxDietNumbers.stats[b] = (int)file.getNumber(16);
+		}
+		weights = new int[(int)file.getNumber(16)];
+		for(int i = 0; i<weights.length; i++){
+			weights[i] = (int)file.getNumber(14);
+		}
+	}
 	private void loadFileVersion4(CompactBinaryFile file){
 		dayNumber = (short)file.getNumber(9);
 		int entries = (int)file.getNumber(16);
 		for(int a = 0; a<entries; a++){
-			FoodEntry f = new FoodEntry(file.getString(16));
+			FoodEntry f = new FoodEntry(file.getString(16), null);
 			f.setCetegory(file.getString(8));
 			for(int b = 0; b<15; b++){
 				f.getStats().stats[b] = (int)file.getNumber(16);
@@ -69,7 +96,7 @@ public class ResourceLoader{
 		dayNumber = (short)file.getNumber(9);
 		int entries = (int)file.getNumber(16);
 		for(int a = 0; a<entries; a++){
-			FoodEntry f = new FoodEntry(file.getString(16));
+			FoodEntry f = new FoodEntry(file.getString(16), null);
 			f.setCetegory(file.getString(8));
 			for(int b = 0; b<15; b++){
 				f.getStats().stats[b] = (int)file.getNumber(16);
@@ -89,7 +116,7 @@ public class ResourceLoader{
 		dayNumber = (short)file.getNumber(9);
 		int entries = (int)file.getNumber(16);
 		for(int a = 0; a<entries; a++){
-			FoodEntry f = new FoodEntry(file.getString(16));
+			FoodEntry f = new FoodEntry(file.getString(16), null);
 			f.setCetegory(file.getString(8));
 			f.getStats().stats[3] = (int)file.getNumber(16);
 			f.getStats().stats[4] = (int)file.getNumber(16);
@@ -135,6 +162,7 @@ public class ResourceLoader{
 		file.addNumber(dayNumber, 9);
 		file.addNumber(foods.size(), 16);
 		for(FoodEntry f : foods){
+			file.addString(f.getUUID(), 5);
 			file.addString(f.getName(), 16);
 			file.addString(f.getCategory(), 8);
 			for(int b = 0; b<DietNumbers.SIZE; b++){
@@ -163,6 +191,10 @@ public class ResourceLoader{
 		for(int a = 0; a<DietNumbers.SIZE; a++){
 			bin.addNumber(currentDietNumbers.stats[a], 16);
 		}
+		bin.addNumber(menu.size(), 14);
+		for(FoodEntry food : menu){
+			bin.addString(food.getUUID(), 5);
+		}
 		bin.stopWriting();
 	}
 	public void newDay(){
@@ -181,21 +213,23 @@ public class ResourceLoader{
 			}
 		}
 	}
-	public DietNumbers getLog(int day){
+	public LogFile getLog(int day){
 		if(day==dayNumber){
-			return currentDietNumbers;
+			LogFile log = new LogFile(currentDietNumbers);
+			return log;
 		}
 		DietNumbers diet = new DietNumbers();
+		LogFile log = new LogFile(diet);
 		if(day<0){
-			return diet;
+			return log;
 		}
 		CompactBinaryFile bin = new CompactBinaryFile("Log-"+day+".dat");
 		if(!bin.exists()){
-			return diet;
+			return log;
 		}
 		bin.read();
 		if(bin.hasFinished()){
-			return diet;
+			return log;
 		}
 		byte fileVersion = (byte)bin.getNumber(8);
 		switch(fileVersion){
@@ -222,11 +256,20 @@ public class ResourceLoader{
 					diet.stats[i] = (int)bin.getNumber(16);
 				}
 				break;
+			case -125:
+				for(int i = 0; i<15; i++){
+					diet.stats[i] = (int)bin.getNumber(16);
+				}
+				int i = (int)bin.getNumber(14);
+				for(int a = 0; a<i; a++){
+					log.getFoodsEaten().add(bin.getString(5));
+				}
+				break;
 			default:
 				throw new RuntimeException("Unknown file version!");
 		}
 		bin.stopReading();
-		return diet;
+		return log;
 	}
 	public int getCurrentDay(){
 		return dayNumber;
