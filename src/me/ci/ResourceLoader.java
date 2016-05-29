@@ -1,10 +1,11 @@
 package me.ci;
 
 import java.util.ArrayList;
+import me.ci.util.CompactBinaryFile;
 
 public class ResourceLoader{
-	private ArrayList<FoodEntry> foods = new ArrayList<>();
-	private ArrayList<FoodEntry> menu = new ArrayList<>();
+	private ArrayList<FoodEntry> foods = new ArrayList<>(16);
+	private ArrayList<FoodEntry> menu = new ArrayList<>(16);
 	private DietNumbers maxDietNumbers = new DietNumbers();
 	private DietNumbers currentDietNumbers = new DietNumbers();
 	private CompactBinaryFile file;
@@ -23,12 +24,18 @@ public class ResourceLoader{
 		file.read();
 		if(!file.hasFinished()){
 			byte version = (byte)file.getNumber(8);
-			if(version==-128){
-				loadFileVersion2(file);
-			}else if(version==-127){
-				loadFileVersion3(file);
-			}else if(version==-126){
-				loadFileVersion4(file);
+			switch(version){
+				case -128:
+					loadFileVersion2(file);
+					break;
+				case -127:
+					loadFileVersion3(file);
+					break;
+				case -126:
+					loadFileVersion4(file);
+					break;
+				default:
+					throw new RuntimeException("Unabled to file file!");
 			}
 		}
 		System.out.println(dayNumber);
@@ -149,14 +156,14 @@ public class ResourceLoader{
 		logDay();
 	}
 	private void logDay(){
-		CompactBinaryFile file = new CompactBinaryFile("Log-"+dayNumber+".dat");
-		file.ensureExistance();
-		file.write();
-		file.addNumber(FILE_VERSION, 8);
+		CompactBinaryFile bin = new CompactBinaryFile("Log-"+dayNumber+".dat");
+		bin.ensureExistance();
+		bin.write();
+		bin.addNumber(FILE_VERSION, 8);
 		for(int a = 0; a<DietNumbers.SIZE; a++){
-			file.addNumber(currentDietNumbers.stats[a], 16);
+			bin.addNumber(currentDietNumbers.stats[a], 16);
 		}
-		file.stopWriting();
+		bin.stopWriting();
 	}
 	public void newDay(){
 		save();
@@ -182,41 +189,43 @@ public class ResourceLoader{
 		if(day<0){
 			return diet;
 		}
-		CompactBinaryFile file = new CompactBinaryFile("Log-"+day+".dat");
-		if(!file.exists()){
+		CompactBinaryFile bin = new CompactBinaryFile("Log-"+day+".dat");
+		if(!bin.exists()){
 			return diet;
 		}
-		file.read();
-		if(file.hasFinished()){
+		bin.read();
+		if(bin.hasFinished()){
 			return diet;
 		}
-		byte fileVersion = (byte)file.getNumber(8);
-		if(fileVersion==-128){
-			diet.stats[3] = (int)file.getNumber(16);
-			diet.stats[4] = (int)file.getNumber(16);
-			diet.stats[6] = (int)file.getNumber(16);
-			diet.stats[7] = (int)file.getNumber(16);
-			diet.stats[0] = (int)file.getNumber(16);
-			diet.stats[2] = (int)file.getNumber(16);
-			diet.stats[5] = (int)file.getNumber(16);
-			diet.stats[11] = (int)file.getNumber(16);
-			diet.stats[1] = (int)file.getNumber(16);
-			diet.stats[8] = (int)file.getNumber(16);
-			diet.stats[10] = (int)file.getNumber(16);
-			diet.stats[9] = (int)file.getNumber(16);
-			diet.stats[12] = (int)file.getNumber(16);
-			diet.stats[13] = (int)file.getNumber(16);
-			diet.stats[14] = (int)file.getNumber(16);
-		}else if(fileVersion==-127){
-			for(int i = 0; i<15; i++){
-				diet.stats[i] = (int)file.getNumber(16);
-			}
-		}else if(fileVersion==-126){
-			for(int i = 0; i<15; i++){
-				diet.stats[i] = (int)file.getNumber(16);
-			}
+		byte fileVersion = (byte)bin.getNumber(8);
+		switch(fileVersion){
+			case -128:
+				diet.stats[3] = (int)bin.getNumber(16);
+				diet.stats[4] = (int)bin.getNumber(16);
+				diet.stats[6] = (int)bin.getNumber(16);
+				diet.stats[7] = (int)bin.getNumber(16);
+				diet.stats[0] = (int)bin.getNumber(16);
+				diet.stats[2] = (int)bin.getNumber(16);
+				diet.stats[5] = (int)bin.getNumber(16);
+				diet.stats[11] = (int)bin.getNumber(16);
+				diet.stats[1] = (int)bin.getNumber(16);
+				diet.stats[8] = (int)bin.getNumber(16);
+				diet.stats[10] = (int)bin.getNumber(16);
+				diet.stats[9] = (int)bin.getNumber(16);
+				diet.stats[12] = (int)bin.getNumber(16);
+				diet.stats[13] = (int)bin.getNumber(16);
+				diet.stats[14] = (int)bin.getNumber(16);
+				break;
+			case -127:
+			case -126:
+				for(int i = 0; i<15; i++){
+					diet.stats[i] = (int)bin.getNumber(16);
+				}
+				break;
+			default:
+				throw new RuntimeException("Unknown file version!");
 		}
-		file.stopReading();
+		bin.stopReading();
 		return diet;
 	}
 	public int getCurrentDay(){

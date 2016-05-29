@@ -31,9 +31,9 @@ public class HistoryGraph extends JPanel{
 	private static final Font DAY_COUNT_FONT = new Font("Tahoma", Font.PLAIN, 13);
 	static{
 		try{
-			spinner=ImageIO.read(HistoryGraph.class.getResource("Spinner.png"));
-			spinnerLeft=ImageIO.read(HistoryGraph.class.getResource("Spinner Left.png"));
-			spinnerRight=ImageIO.read(HistoryGraph.class.getResource("Spinner Right.png"));
+			spinner = ImageIO.read(HistoryGraph.class.getResource("/assets/Spinner.png"));
+			spinnerLeft = ImageIO.read(HistoryGraph.class.getResource("/assets/Spinner Left.png"));
+			spinnerRight = ImageIO.read(HistoryGraph.class.getResource("/assets/Spinner Right.png"));
 		}catch(Exception exception){
 			exception.printStackTrace();
 			System.exit(1);
@@ -41,14 +41,15 @@ public class HistoryGraph extends JPanel{
 	}
 	public HistoryGraph(){
 		addMouseMotionListener(new MouseAdapter(){
-			@Override public void mouseMoved(MouseEvent e){
+			@Override
+			public void mouseMoved(MouseEvent e){
 				int x = e.getX();
 				int y = e.getY();
 				int w;
 				for(int i = 0; i<DietNumbers.SIZE; i++){
-					w=i*STAT_NAME_HEIGHT+(STAT_NAME_HEIGHT-CHECKBOX_SIZE)/2+7;
+					w = i*STAT_NAME_HEIGHT+(STAT_NAME_HEIGHT-CHECKBOX_SIZE)/2+7;
 					if(y>=w&&y<w+CHECKBOX_SIZE&&x>=5&&x<5+CHECKBOX_SIZE){
-						spinnerHover=0;
+						spinnerHover = 0;
 						repaint();
 						return;
 					}
@@ -56,27 +57,31 @@ public class HistoryGraph extends JPanel{
 				if(y>=getHeight()-30&&y<getHeight()-5){
 					int offset = (SIDEBAR_WIDTH-75)/2;
 					if(x>=offset&&x<offset+17){
-						spinnerHover=-1;
+						spinnerHover = -1;
 						repaint();
 						return;
 					}else if(x>=offset+58&&x<offset+75){
-						spinnerHover=1;
+						spinnerHover = 1;
 						repaint();
 						return;
 					}
 				}
-				spinnerHover=0;
+				spinnerHover = 0;
 				repaint();
 			}
 		});
 		addMouseListener(new MouseAdapter(){
 			private Timer t;
-			@Override public void mousePressed(MouseEvent e){
-				if(dropdownMenu.overlaps(0, e.getX(), e.getY()))return;
+			@Override
+			public void mousePressed(MouseEvent e){
+				if(dropdownMenu.overlaps(0, e.getX(), e.getY())){
+					return;
+				}
 				r();
-				t=new Timer();
+				t = new Timer();
 				t.scheduleAtFixedRate(new TimerTask(){
 					private int skip = 7;
+					@Override
 					public void run(){
 						if(skip>0){
 							skip--;
@@ -90,30 +95,32 @@ public class HistoryGraph extends JPanel{
 				if(spinnerHover!=0){
 					if(spinnerHover==-1){
 						if(values.length>5){
-							values=new int[values.length-1];
+							values = new int[values.length-1];
 							recalculateValues();
 						}
 					}else if(spinnerHover==1){
 						if(values.length<511){
-							values=new int[values.length+1];
+							values = new int[values.length+1];
 							recalculateValues();
 						}
 					}
 				}
 			}
-			@Override public void mouseReleased(MouseEvent e){
+			@Override
+			public void mouseReleased(MouseEvent e){
 				if(t!=null){
 					t.cancel();
-					t=null;
+					t = null;
 				}
 			}
-			@Override public void mouseClicked(MouseEvent e){
+			@Override
+			public void mouseClicked(MouseEvent e){
 				int x = e.getX();
 				int y = e.getY();
 				if(x>=0&&x<150){
 					if(dropdownMenu.isOpen()){
 						if(y>=0&&y<(int)(dropdownMenu.h()*0.6)){
-							y/=0.6;
+							y /= 0.6;
 							dropdownMenu.setIndex(dropdownMenu.indexAt(y));
 							dropdownMenu.setOpen(false);
 							recalculateValues();
@@ -125,10 +132,11 @@ public class HistoryGraph extends JPanel{
 				}
 			}
 		});
-		dropdownMenu=new DropdownMenu(DietNumbers.NAMES);
+		dropdownMenu = new DropdownMenu(DietNumbers.NAMES);
 		recalculateValues();
 	}
-	@Override public void paint(Graphics g1){
+	@Override
+	public void paint(Graphics g1){
 		Graphics2D g = (Graphics2D)g1;
 		g.setColor(LIGHT_GRAY);
 		g.fillRect(0, 0, SIDEBAR_WIDTH, getHeight());
@@ -160,7 +168,11 @@ public class HistoryGraph extends JPanel{
 			}
 			if(i>0){
 				g.setColor(Color.green);
-				g.drawLine((int)(columWidth*(i-1)+columWidth/2)+SIDEBAR_WIDTH, highestValue==0?graphHeight+LINE_GRAPH_TOP_BUFFER:(int)((1-values[values.length-1-(i-1)]/(float)highestValue)*graphHeight+LINE_GRAPH_TOP_BUFFER), (int)(columWidth*i+columWidth/2)+SIDEBAR_WIDTH, highestValue==0?graphHeight+LINE_GRAPH_TOP_BUFFER:(int)((1-values[values.length-1-i]/(float)highestValue)*graphHeight+LINE_GRAPH_TOP_BUFFER));
+				g.drawLine((int)(columWidth*(i-1)+columWidth/2)+SIDEBAR_WIDTH,
+					highestValue==0?graphHeight+LINE_GRAPH_TOP_BUFFER
+						:(int)((1-values[values.length-1-(i-1)]/(float)highestValue)*graphHeight+LINE_GRAPH_TOP_BUFFER),
+					(int)(columWidth*i+columWidth/2)+SIDEBAR_WIDTH, highestValue==0?graphHeight+LINE_GRAPH_TOP_BUFFER
+						:(int)((1-values[values.length-1-i]/(float)highestValue)*graphHeight+LINE_GRAPH_TOP_BUFFER));
 			}
 		}
 		for(int i = 0; i<10; i++){
@@ -178,18 +190,29 @@ public class HistoryGraph extends JPanel{
 		int y = (fm.getAscent()+(25-(fm.getAscent()+fm.getDescent()))/2);
 		g.drawString(daysShown, x, getHeight()-35);
 		g.setColor(Color.BLACK);
-		if(spinnerHover==1)g.drawImage(spinnerRight, (SIDEBAR_WIDTH-75)/2, getHeight()-30, null);
-		else if(spinnerHover==-1)g.drawImage(spinnerLeft, (SIDEBAR_WIDTH-75)/2, getHeight()-30, null);
-		else g.drawImage(spinner, (SIDEBAR_WIDTH-75)/2, getHeight()-30, null);
+		switch(spinnerHover){
+			case 1:
+				g.drawImage(spinnerRight, (SIDEBAR_WIDTH-75)/2, getHeight()-30, null);
+				break;
+			case -1:
+				g.drawImage(spinnerLeft, (SIDEBAR_WIDTH-75)/2, getHeight()-30, null);
+				break;
+			default:
+				g.drawImage(spinner, (SIDEBAR_WIDTH-75)/2, getHeight()-30, null);
+				break;
+		}
 		g.drawString(spinnerNumber, x2, getHeight()-30+y);
-		g.drawImage(dropdownMenu.render(), 0, 0, (int)(dropdownMenu.w()*0.6), (int)(dropdownMenu.h()*0.6), 0, 0, dropdownMenu.w(), dropdownMenu.h(), null);
+		g.drawImage(dropdownMenu.render(), 0, 0, (int)(dropdownMenu.w()*0.6), (int)(dropdownMenu.h()*0.6), 0, 0, dropdownMenu.w(), dropdownMenu.h(),
+			null);
 		g.dispose();
 	}
 	public void recalculateValues(){
-		highestValue=0;
+		highestValue = 0;
 		for(int i = 0; i<values.length; i++){
-			values[i]=Loader.getResourceLoader().getLog(Loader.getResourceLoader().getCurrentDay()-i).stats[dropdownMenu.getIndex()];
-			if(values[i]>highestValue)highestValue=values[i];
+			values[i] = Loader.getResourceLoader().getLog(Loader.getResourceLoader().getCurrentDay()-i).stats[dropdownMenu.getIndex()];
+			if(values[i]>highestValue){
+				highestValue = values[i];
+			}
 		}
 		repaint();
 	}

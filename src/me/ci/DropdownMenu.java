@@ -15,21 +15,23 @@ public class DropdownMenu{
 	private String[] entries;
 	private int index;
 	private boolean open;
-	private ArrayList<FoodEntry> temp = new ArrayList<>();
+	private final ArrayList<FoodEntry> temp = new ArrayList<>(16);
 	private static BufferedImage scrollbarClosed, scrollbarOpenTop, scrollbarOpenEntry, scrollbarOpenBottom;
 	private static final Font FONT = new Font("Tahoma", Font.PLAIN, 25);
 	static{
 		try{
-			scrollbarClosed=ImageIO.read(DropdownMenu.class.getResource("Scrollbar Closed.png"));
-			scrollbarOpenTop=ImageIO.read(DropdownMenu.class.getResource("Scrollbar Top Open.png"));
-			scrollbarOpenEntry=ImageIO.read(DropdownMenu.class.getResource("Scrollbar Open Entry.png"));
-			scrollbarOpenBottom=ImageIO.read(DropdownMenu.class.getResource("Scrollbar Open Bottom.png"));
-		}catch(Exception exception){ exception.printStackTrace(); }
+			scrollbarClosed = ImageIO.read(DropdownMenu.class.getResource("/assets/Scrollbar Closed.png"));
+			scrollbarOpenTop = ImageIO.read(DropdownMenu.class.getResource("/assets/Scrollbar Top Open.png"));
+			scrollbarOpenEntry = ImageIO.read(DropdownMenu.class.getResource("/assets/Scrollbar Open Entry.png"));
+			scrollbarOpenBottom = ImageIO.read(DropdownMenu.class.getResource("/assets/Scrollbar Open Bottom.png"));
+		}catch(Exception exception){
+			exception.printStackTrace();
+		}
 	}
 	public BufferedImage render(){
 		g.dispose();
-		img=new BufferedImage(250, (entries.length+1)*25, BufferedImage.TYPE_INT_ARGB);
-		g=img.createGraphics();
+		img = new BufferedImage(250, (entries.length+1)*25, BufferedImage.TYPE_INT_ARGB);
+		g = img.createGraphics();
 		g.setFont(FONT);
 		g.setColor(Color.BLACK);
 		if(open){
@@ -50,37 +52,60 @@ public class DropdownMenu{
 	}
 	public boolean overlaps(int offsetX, int x, int y){
 		if(x>=offsetX&&x<offsetX+250){
-			if(open)return y>=0&&y<img.getHeight();
+			if(open){
+				return y>=0&&y<img.getHeight();
+			}
 			return y>=0&&y<25;
 		}
 		return false;
 	}
 	public int indexAt(int y){
-		if(y<25)return index;
+		if(y<25){
+			return index;
+		}
 		return (y-25)/25;
 	}
 	public void rebuild(String[] entries){
-		this.entries=entries;
-		img=new BufferedImage(250, (entries.length+1)*25, BufferedImage.TYPE_INT_ARGB);
-		g=img.createGraphics();
+		this.entries = entries;
+		img = new BufferedImage(250, (entries.length+1)*25, BufferedImage.TYPE_INT_ARGB);
+		g = img.createGraphics();
 		g.setFont(FONT);
-		fontCenters=new int[entries.length][2];
+		fontCenters = new int[entries.length][2];
 		FontMetrics fm = g.getFontMetrics();
 		for(int i = 0; i<entries.length; i++){
-			fontCenters[i][0]=(250-fm.stringWidth(entries[i]))/2;
-			fontCenters[i][1]=(fm.getAscent()+(25-(fm.getAscent()+fm.getDescent()))/2);
+			fontCenters[i][0] = (250-fm.stringWidth(entries[i]))/2;
+			fontCenters[i][1] = (fm.getAscent()+(25-(fm.getAscent()+fm.getDescent()))/2);
 		}
 	}
 	public ArrayList<FoodEntry> getFilteredList(ArrayList<FoodEntry> foods, boolean filterReds){
 		temp.clear();
-		for(FoodEntry food : foods)if((index==0||food.getCategory().equals(entries[index]))&&(!filterReds||food.getRemaining(Loader.getResourceLoader().loadTodaysStats(), Loader.getResourceLoader().loadMaxDiet())!=0))temp.add(food);
+		for(FoodEntry food : foods){
+			if((index==0||food.getCategory().equals(entries[index]))
+				&&(!filterReds||food.getRemaining(Loader.getResourceLoader().loadTodaysStats(), Loader.getResourceLoader().loadMaxDiet())!=0)){
+				temp.add(food);
+			}
+		}
 		return temp;
 	}
-	public DropdownMenu(String[] entries){ rebuild(entries); }
-	public void setOpen(boolean open){ this.open=open; }
-	public boolean isOpen(){ return open; }
-	public void setIndex(int index){ this.index=index; }
-	public int getIndex(){ return index; }
-	public int w(){ return img.getWidth(); }
-	public int h(){ return img.getHeight(); }
+	public DropdownMenu(String[] entries){
+		rebuild(entries);
+	}
+	public void setOpen(boolean open){
+		this.open = open;
+	}
+	public boolean isOpen(){
+		return open;
+	}
+	public void setIndex(int index){
+		this.index = index;
+	}
+	public int getIndex(){
+		return index;
+	}
+	public int w(){
+		return img.getWidth();
+	}
+	public int h(){
+		return img.getHeight();
+	}
 }

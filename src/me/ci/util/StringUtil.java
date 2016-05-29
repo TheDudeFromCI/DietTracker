@@ -2,7 +2,7 @@
  * To change this license header, choose License Headers in Project Properties. To change this template file, choose Tools | Templates and open the
  * template in the editor.
  */
-package me.ci;
+package me.ci.util;
 
 /**
  * @author thedudefromci
@@ -76,7 +76,7 @@ public class StringUtil{
 		return arrayToString((Object[])array);
 	}
 	private static String arrayToString(Object[] o){
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder(64);
 		String comma = ", ";
 		String empty = "";
 		sb.append("[");
@@ -87,7 +87,7 @@ public class StringUtil{
 		return sb.toString();
 	}
 	private static String arrayToString(byte[] o){
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder(64);
 		String comma = ", ";
 		String empty = "";
 		sb.append("[");
@@ -98,7 +98,7 @@ public class StringUtil{
 		return sb.toString();
 	}
 	private static String arrayToString(short[] o){
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder(64);
 		String comma = ", ";
 		String empty = "";
 		sb.append("[");
@@ -109,7 +109,7 @@ public class StringUtil{
 		return sb.toString();
 	}
 	private static String arrayToString(int[] o){
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder(64);
 		String comma = ", ";
 		String empty = "";
 		sb.append("[");
@@ -120,7 +120,7 @@ public class StringUtil{
 		return sb.toString();
 	}
 	private static String arrayToString(long[] o){
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder(64);
 		String comma = ", ";
 		String empty = "";
 		sb.append("[");
@@ -131,7 +131,7 @@ public class StringUtil{
 		return sb.toString();
 	}
 	private static String arrayToString(float[] o){
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder(64);
 		String comma = ", ";
 		String empty = "";
 		sb.append("[");
@@ -142,7 +142,7 @@ public class StringUtil{
 		return sb.toString();
 	}
 	private static String arrayToString(double[] o){
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder(64);
 		String comma = ", ";
 		String empty = "";
 		sb.append("[");
@@ -153,7 +153,7 @@ public class StringUtil{
 		return sb.toString();
 	}
 	private static String arrayToString(boolean[] o){
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder(64);
 		String comma = ", ";
 		String empty = "";
 		sb.append("[");
@@ -164,7 +164,7 @@ public class StringUtil{
 		return sb.toString();
 	}
 	private static String arrayToString(char[] o){
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder(64);
 		String comma = ", ";
 		String empty = "";
 		sb.append("[");
@@ -176,7 +176,7 @@ public class StringUtil{
 	}
 	public static String getFileExtension(String s){
 		char[] c = s.toCharArray();
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder(64);
 		for(int i = c.length-1; i>=0; i--){
 			if(c[i]=='.'){
 				break;

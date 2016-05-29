@@ -1,4 +1,4 @@
-package me.ci;
+package me.ci.util;
 
 import java.io.File;
 import java.net.URI;
@@ -90,22 +90,31 @@ public class CompactBinaryFile extends File{
 			}
 			binary = temp;
 		}
-		if(subPos==0){
-			binary[pos] = bit?(byte)(binary[pos]|0b10000000):(byte)(binary[pos]&0b01111111);
-		}else if(subPos==1){
-			binary[pos] = bit?(byte)(binary[pos]|0b01000000):(byte)(binary[pos]&0b10111111);
-		}else if(subPos==2){
-			binary[pos] = bit?(byte)(binary[pos]|0b00100000):(byte)(binary[pos]&0b11011111);
-		}else if(subPos==3){
-			binary[pos] = bit?(byte)(binary[pos]|0b00010000):(byte)(binary[pos]&0b11101111);
-		}else if(subPos==4){
-			binary[pos] = bit?(byte)(binary[pos]|0b00001000):(byte)(binary[pos]&0b11110111);
-		}else if(subPos==5){
-			binary[pos] = bit?(byte)(binary[pos]|0b00000100):(byte)(binary[pos]&0b11111011);
-		}else if(subPos==6){
-			binary[pos] = bit?(byte)(binary[pos]|0b00000010):(byte)(binary[pos]&0b11111101);
-		}else{
-			binary[pos] = bit?(byte)(binary[pos]|0b00000001):(byte)(binary[pos]&0b11111110);
+		switch(subPos){
+			case 0:
+				binary[pos] = bit?(byte)(binary[pos]|0b10000000):(byte)(binary[pos]&0b01111111);
+				break;
+			case 1:
+				binary[pos] = bit?(byte)(binary[pos]|0b01000000):(byte)(binary[pos]&0b10111111);
+				break;
+			case 2:
+				binary[pos] = bit?(byte)(binary[pos]|0b00100000):(byte)(binary[pos]&0b11011111);
+				break;
+			case 3:
+				binary[pos] = bit?(byte)(binary[pos]|0b00010000):(byte)(binary[pos]&0b11101111);
+				break;
+			case 4:
+				binary[pos] = bit?(byte)(binary[pos]|0b00001000):(byte)(binary[pos]&0b11110111);
+				break;
+			case 5:
+				binary[pos] = bit?(byte)(binary[pos]|0b00000100):(byte)(binary[pos]&0b11111011);
+				break;
+			case 6:
+				binary[pos] = bit?(byte)(binary[pos]|0b00000010):(byte)(binary[pos]&0b11111101);
+				break;
+			default:
+				binary[pos] = bit?(byte)(binary[pos]|0b00000001):(byte)(binary[pos]&0b11111110);
+				break;
 		}
 		subPos++;
 		if(subPos==8){

@@ -1,26 +1,26 @@
 package me.ci;
 
-import java.awt.Color;
-import java.awt.Toolkit;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import javax.swing.JButton;
+import java.awt.Color;
 import java.awt.FlowLayout;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import java.awt.event.ActionListener;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 public class InfoPanel extends JFrame{
-	private String msg;
-	private Runnable onClose;
+	private final String msg;
+	private final Runnable onClose;
 	public InfoPanel(String msg, Runnable onClose){
-		Loader.POP_UP_OPEN=true;
-		Loader.POP_UP=this;
-		this.msg=msg;
-		this.onClose=onClose;
+		Loader.POP_UP_OPEN = true;
+		Loader.POP_UP = this;
+		this.msg = msg;
+		this.onClose = onClose;
 		init();
 		addComponents();
 		setVisible(true);
@@ -41,16 +41,19 @@ public class InfoPanel extends JFrame{
 		panel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
 		JButton btnOk = new JButton("Ok");
 		btnOk.addActionListener(new ActionListener(){
+			@Override
 			public void actionPerformed(ActionEvent e){
 				if(Loader.POP_UP_OPEN&&Loader.POP_UP!=InfoPanel.this){
 					Toolkit.getDefaultToolkit().beep();
 					Loader.POP_UP.requestFocus();
 					return;
 				}
-				Loader.POP_UP_OPEN=false;
-				Loader.POP_UP=null;
+				Loader.POP_UP_OPEN = false;
+				Loader.POP_UP = null;
 				dispose();
-				if(onClose!=null)onClose.run();
+				if(onClose!=null){
+					onClose.run();
+				}
 			}
 		});
 		btnOk.setBackground(Color.GRAY);

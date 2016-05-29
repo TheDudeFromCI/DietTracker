@@ -1,4 +1,4 @@
-package me.ci;
+package me.ci.util;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -174,11 +174,9 @@ public class BinaryFileUtil{
 		byte[] c = new byte[massLength];
 		byte[] d;
 		int index = 0;
-		for(int i = 0; i<a.length; i++){
-			d = a[i];
-			for(int j = 0; j<d.length; j++){
-				c[j+index] = d[j];
-			}
+		for(byte[] a1 : a){
+			d = a1;
+			System.arraycopy(d, 0, c, index, d.length);
 			index += d.length;
 		}
 		return c;
@@ -281,15 +279,5 @@ public class BinaryFileUtil{
 	 */
 	public static int byteArrayToInteger(byte[] b){
 		return b[3]&0xFF|(b[2]&0xFF)<<8|(b[1]&0xFF)<<16|(b[0]&0xFF)<<24;
-	}
-	/**
-	 * Converts a byte array to a long.
-	 *
-	 * @param b
-	 *            - The byte array. Must be a length of at least 8.
-	 * @return The long.
-	 */
-	public static long byteArrayToLong(byte[] b){
-		return b[7]&0xFF|(b[6]&0xFF)<<8|(b[5]&0xFF)<<16|(b[4]&0xFF)<<24|(b[3]&0xFF)<<32L|(b[2]&0xFF)<<40L|(b[1]&0xFF)<<48L|(b[0]&0xFF)<<56L;
 	}
 }

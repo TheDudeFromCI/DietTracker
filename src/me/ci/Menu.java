@@ -15,19 +15,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+import me.ci.util.StringUtil;
 
 @SuppressWarnings("serial")
 public class Menu extends JPanel{
-	private Font font, font1;
-	private ArrayList<String> items = new ArrayList<>();
-	private Color darkGray;
+	private final Font font, font1;
+	private final ArrayList<String> items = new ArrayList<>(16);
+	private final Color darkGray;
 	private boolean hover;
 	private static BufferedImage undoButton, undoButtonHover;
 	private static final int UNDO_BUTTON_EDGE_DISTANCE = 37;
 	static{
 		try{
-			undoButton = ImageIO.read(Menu.class.getResource("Undo Button.png"));
-			undoButtonHover = ImageIO.read(Menu.class.getResource("Undo Button Hover.png"));
+			undoButton = ImageIO.read(Menu.class.getResource("/assets/Undo Button.png"));
+			undoButtonHover = ImageIO.read(Menu.class.getResource("/assets/Undo Button Hover.png"));
 		}catch(Exception exception){
 			exception.printStackTrace();
 		}
@@ -63,15 +64,19 @@ public class Menu extends JPanel{
 			}
 		});
 		addComponentListener(new ComponentListener(){
+			@Override
 			public void componentShown(ComponentEvent paramComponentEvent){
 				reload();
 			}
+			@Override
 			public void componentResized(ComponentEvent paramComponentEvent){
 				reload();
 			}
+			@Override
 			public void componentMoved(ComponentEvent paramComponentEvent){
 				reload();
 			}
+			@Override
 			public void componentHidden(ComponentEvent paramComponentEvent){
 				reload();
 			}
@@ -79,7 +84,7 @@ public class Menu extends JPanel{
 		reload();
 	}
 	public void reload(){
-		HashMap<FoodEntry,Integer> itemCounts = new HashMap<>();
+		HashMap<FoodEntry,Integer> itemCounts = new HashMap<>(16);
 		for(FoodEntry f : Loader.getResourceLoader().getMenu()){
 			if(itemCounts.containsKey(f)){
 				itemCounts.put(f, itemCounts.get(f)+1);

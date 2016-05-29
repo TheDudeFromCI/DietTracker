@@ -1,20 +1,20 @@
 package me.ci;
 
-import javax.swing.JPanel;
-import java.awt.Color;
 import java.awt.BorderLayout;
-import javax.swing.JButton;
+import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 @SuppressWarnings("serial")
 public class OptionsMenu extends JPanel{
@@ -32,10 +32,11 @@ public class OptionsMenu extends JPanel{
 		JPanel panel_1 = new JPanel();
 		panel_2.add(panel_1, BorderLayout.SOUTH);
 		panel_1.setBackground(Color.DARK_GRAY);
-		FlowLayout flowLayout = (FlowLayout) panel_1.getLayout();
+		FlowLayout flowLayout = (FlowLayout)panel_1.getLayout();
 		flowLayout.setAlignment(FlowLayout.TRAILING);
 		JButton btnClearTodaysMenu = new JButton("Clear Today's Menu");
 		btnClearTodaysMenu.addActionListener(new ActionListener(){
+			@Override
 			public void actionPerformed(ActionEvent e){
 				Loader.getResourceLoader().newDay();
 				Loader.getInstance().getCurrentStats().reload();
@@ -58,13 +59,14 @@ public class OptionsMenu extends JPanel{
 			lblMaxSugar.setForeground(Color.WHITE);
 			namePanel.add(lblMaxSugar);
 			final JSpinner spinner = new JSpinner();
-			spinner.setModel(new SpinnerNumberModel(new Integer(Loader.getResourceLoader().loadMaxDiet().stats[a]), new Integer(0), null, new Integer(1)));
+			spinner.setModel(new SpinnerNumberModel(Loader.getResourceLoader().loadMaxDiet().stats[a], 0, null, 1));
 			namePanel.add(spinner);
 			panel.add(namePanel);
 			spinner.addChangeListener(new ChangeListener(){
+				@Override
 				public void stateChanged(ChangeEvent e){
-					Loader.getInstance().getCurrentStats().getMaxStats().stats[a]=(int)spinner.getValue();
-					Loader.getInstance().getCurrentStats().getTempStats().stats[a]=0;
+					Loader.getInstance().getCurrentStats().getMaxStats().stats[a] = (int)spinner.getValue();
+					Loader.getInstance().getCurrentStats().getTempStats().stats[a] = 0;
 					Loader.getInstance().getCurrentStats().reload();
 					Loader.getInstance().getFoodList().repaint();
 					Loader.getResourceLoader().save();

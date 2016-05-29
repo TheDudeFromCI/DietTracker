@@ -1,42 +1,47 @@
 package me.ci;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import javax.swing.JButton;
 import javax.swing.JFrame;
-import java.awt.BorderLayout;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import java.awt.Font;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
-import java.awt.Dimension;
-import java.awt.Cursor;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 public class LogWeightPopup extends JFrame{
 	public LogWeightPopup(){
 		addWindowFocusListener(new WindowFocusListener(){
+			@Override
 			public void windowGainedFocus(WindowEvent e){
 				if(Loader.POP_UP_OPEN&&Loader.POP_UP!=LogWeightPopup.this){
 					Toolkit.getDefaultToolkit().beep();
 					Loader.POP_UP.requestFocus();
 				}
 			}
+			@Override
 			public void windowLostFocus(WindowEvent e){}
 		});
 		addWindowListener(new WindowAdapter(){
-			@Override public void windowClosing(WindowEvent e){ close(); }
+			@Override
+			public void windowClosing(WindowEvent e){
+				close();
+			}
 		});
-		Loader.POP_UP_OPEN=true;
-		Loader.POP_UP=this;
+		Loader.POP_UP_OPEN = true;
+		Loader.POP_UP = this;
 		init();
 		addComponents();
 		setVisible(true);
@@ -77,6 +82,7 @@ public class LogWeightPopup extends JFrame{
 		panel_1.add(spinner);
 		JButton btnOk = new JButton("Ok");
 		btnOk.addActionListener(new ActionListener(){
+			@Override
 			public void actionPerformed(ActionEvent e){
 				Loader.getInstance().getWeightTracker().logWeight((int)((double)spinner.getValue()*10));
 				close();
@@ -85,8 +91,8 @@ public class LogWeightPopup extends JFrame{
 		panel_1.add(btnOk);
 	}
 	private void close(){
-		Loader.POP_UP_OPEN=false;
-		Loader.POP_UP=null;
+		Loader.POP_UP_OPEN = false;
+		Loader.POP_UP = null;
 		dispose();
 	}
 }

@@ -4,40 +4,51 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.Objects;
 
 public class FoodEntry{
 	private String name;
 	private String category;
-	private DietNumbers stats;
-	private BufferedImage img;
-	private Graphics2D g;
-	private Font font;
-	private static Color darkGray, lightGray;
-	private static Color[] colors;
+	private final DietNumbers stats;
+	private final BufferedImage img;
+	private final Graphics2D g;
+	private final Font font;
+	private static final Color DARK_GRAY, LIGHT_GRAY;
+	private static final Color[] colors;
 	public static final int BAR_MAX_WIDTH = 175;
 	public static final int POST_BAR_BUFFER = 50;
 	static{
-		darkGray=new Color(0.1f, 0.1f, 0.1f);
-		lightGray=new Color(0.2f, 0.2f, 0.2f);
-		colors=new Color[DietNumbers.SIZE];
-		for(int i = 0; i<colors.length; i++)colors[i]=new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
+		DARK_GRAY = new Color(0.1f, 0.1f, 0.1f);
+		LIGHT_GRAY = new Color(0.2f, 0.2f, 0.2f);
+		colors = new Color[DietNumbers.SIZE];
+		for(int i = 0; i<colors.length; i++){
+			colors[i] = new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
+		}
 	}
 	public FoodEntry(String name){
-		this.name=name;
-		stats=new DietNumbers();
-		img=new BufferedImage(BAR_MAX_WIDTH+POST_BAR_BUFFER, 15*DietNumbers.SIZE, BufferedImage.TYPE_INT_ARGB);
-		g=img.createGraphics();
-		font=new Font("Tahoma", Font.ITALIC|Font.BOLD, 13);
+		this.name = name;
+		stats = new DietNumbers();
+		img = new BufferedImage(BAR_MAX_WIDTH+POST_BAR_BUFFER, 15*DietNumbers.SIZE, BufferedImage.TYPE_INT_ARGB);
+		g = img.createGraphics();
+		font = new Font("Tahoma", Font.ITALIC|Font.BOLD, 13);
 	}
 	public int getRemaining(DietNumbers current, DietNumbers max){
-		if(stats.max()==0)return -1;
+		if(stats.max()==0){
+			return -1;
+		}
 		int c = Integer.MAX_VALUE;
 		for(int a = 0; a<DietNumbers.SIZE; a++){
-			if(stats.stats[a]==0)continue;
+			if(stats.stats[a]==0){
+				continue;
+			}
 			int p = (max.stats[a]-current.stats[a])/stats.stats[a];
-			if(p<c)c=p;
+			if(p<c){
+				c = p;
+			}
 		}
-		if(c<0)c=0;
+		if(c<0){
+			c = 0;
+		}
 		return c;
 	}
 	public BufferedImage graph(){
@@ -46,28 +57,55 @@ public class FoodEntry{
 	}
 	private void paint(){
 		g.setFont(font);
-		g.setColor(darkGray);
+		g.setColor(DARK_GRAY);
 		g.fillRect(0, 0, BAR_MAX_WIDTH, img.getHeight());
-		g.setColor(lightGray);
+		g.setColor(LIGHT_GRAY);
 		g.fillRect(BAR_MAX_WIDTH, 0, POST_BAR_BUFFER, img.getHeight());
 		double width = img.getHeight()/(double)DietNumbers.SIZE;
 		for(int i = 0; i<DietNumbers.SIZE; i++){
 			g.setColor(colors[i]);
 			float percent = percent(i);
-			if(Float.isInfinite(percent))percent=0;
+			if(Float.isInfinite(percent)){
+				percent = 0;
+			}
 			int round = Math.round(percent*100);
 			if(round>0){
 				g.fillRect(0, (int)(i*width), (int)(BAR_MAX_WIDTH*Math.min(percent, 1)), (int)width);
 				g.setColor(Color.WHITE);
-				if(percent>0)g.drawString(round+"%", (int)(BAR_MAX_WIDTH*Math.min(percent, 1))+3, (int)((i+1)*width-3));
+				if(percent>0){
+					g.drawString(round+"%", (int)(BAR_MAX_WIDTH*Math.min(percent, 1))+3, (int)((i+1)*width-3));
+				}
 			}
 		}
 	}
-	private float percent(int index){ return stats.stats[index]/(float)Loader.getResourceLoader().loadMaxDiet().stats[index]; }
-	@Override public boolean equals(Object o){ return o instanceof FoodEntry&&((FoodEntry)o).stats.equals(stats); }
-	public String getName(){ return name; }
-	public String getCategory(){ return category; }
-	public void setCetegory(String category){ this.category=category; }
-	public DietNumbers getStats(){ return stats; }
-	public void setName(String name){ this.name=name; }
+	private float percent(int index){
+		return stats.stats[index]/(float)Loader.getResourceLoader().loadMaxDiet().stats[index];
+	}
+	@Override
+	public boolean equals(Object o){
+		return o instanceof FoodEntry&&((FoodEntry)o).stats.equals(stats);
+	}
+	@Override
+	public int hashCode(){
+		int hash = 3;
+		hash = 97*hash+Objects.hashCode(this.name);
+		hash = 97*hash+Objects.hashCode(this.category);
+		hash = 97*hash+Objects.hashCode(this.stats);
+		return hash;
+	}
+	public String getName(){
+		return name;
+	}
+	public String getCategory(){
+		return category;
+	}
+	public void setCetegory(String category){
+		this.category = category;
+	}
+	public DietNumbers getStats(){
+		return stats;
+	}
+	public void setName(String name){
+		this.name = name;
+	}
 }

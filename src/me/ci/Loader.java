@@ -1,14 +1,14 @@
 package me.ci;
 
-import javax.swing.JFrame;
-import javax.swing.UIManager;
-import java.awt.Dimension;
-import java.awt.Color;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Toolkit;
-import javax.swing.JPanel;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 @SuppressWarnings("serial")
 public class Loader extends JFrame{
@@ -36,27 +36,29 @@ public class Loader extends JFrame{
 		setMinimumSize(new Dimension(1100, 640));
 		setUndecorated(true);
 		addWindowFocusListener(new WindowFocusListener(){
+			@Override
 			public void windowGainedFocus(WindowEvent e){
 				if(Loader.POP_UP_OPEN){
 					Toolkit.getDefaultToolkit().beep();
 					Loader.POP_UP.requestFocus();
 				}
 			}
+			@Override
 			public void windowLostFocus(WindowEvent e){}
 		});
 	}
 	public void maximize(){
-		x=getX();
-		y=getY();
-		w=getWidth();
-		h=getHeight();
+		x = getX();
+		y = getY();
+		w = getWidth();
+		h = getHeight();
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
 	public void buildMainTab(){
 		getContentPane().removeAll();
 		Toolbar toolbar = new Toolbar(this, 0);
 		getContentPane().add(toolbar, BorderLayout.NORTH);
-		getContentPane().add(foodList=new FoodList(), BorderLayout.WEST);
+		getContentPane().add(foodList = new FoodList(), BorderLayout.WEST);
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.DARK_GRAY);
 		getContentPane().add(panel, BorderLayout.CENTER);
@@ -66,9 +68,9 @@ public class Loader extends JFrame{
 		JPanel panel_1 = new JPanel();
 		panel.add(panel_1, BorderLayout.NORTH);
 		panel_1.setLayout(new BorderLayout(0, 0));
-		panel_1.add(currentStats=new CurrentStats(), BorderLayout.EAST);
-		panel_1.add(menu=new Menu(), BorderLayout.CENTER);
-		panel.add(historyGraph=new HistoryGraph(), BorderLayout.CENTER);
+		panel_1.add(currentStats = new CurrentStats(), BorderLayout.EAST);
+		panel_1.add(menu = new Menu(), BorderLayout.CENTER);
+		panel.add(historyGraph = new HistoryGraph(), BorderLayout.CENTER);
 		validate();
 		repaint();
 	}
@@ -76,7 +78,7 @@ public class Loader extends JFrame{
 		getContentPane().removeAll();
 		Toolbar toolbar = new Toolbar(this, 1);
 		getContentPane().add(toolbar, BorderLayout.NORTH);
-		getContentPane().add(weightTracker=new WeightTracker(), BorderLayout.CENTER);
+		getContentPane().add(weightTracker = new WeightTracker(), BorderLayout.CENTER);
 		validate();
 		repaint();
 	}
@@ -84,19 +86,40 @@ public class Loader extends JFrame{
 		setExtendedState(JFrame.NORMAL);
 		setBounds(x, y, w, h);
 	}
-	public void minimize(){ setExtendedState(JFrame.ICONIFIED); }
-	public void setPosition(int x, int y){ setLocation(x, y); }
-	public FoodList getFoodList(){ return foodList; }
-	public CurrentStats getCurrentStats(){ return currentStats; }
-	public Menu getMenu(){ return menu; }
-	public HistoryGraph getHistoryGraph(){ return historyGraph; }
-	public WeightTracker getWeightTracker(){ return weightTracker; }
-	public static void main(String[] args){
-		resourceLoader=new ResourceLoader();
-		try{ UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-		}catch(Throwable exception){ exception.printStackTrace(); }
-		LOADER=new Loader();
+	public void minimize(){
+		setExtendedState(JFrame.ICONIFIED);
 	}
-	public static ResourceLoader getResourceLoader(){ return resourceLoader; }
-	public static Loader getInstance(){ return LOADER; }
+	public void setPosition(int x, int y){
+		setLocation(x, y);
+	}
+	public FoodList getFoodList(){
+		return foodList;
+	}
+	public CurrentStats getCurrentStats(){
+		return currentStats;
+	}
+	public Menu getMenu(){
+		return menu;
+	}
+	public HistoryGraph getHistoryGraph(){
+		return historyGraph;
+	}
+	public WeightTracker getWeightTracker(){
+		return weightTracker;
+	}
+	public static void main(String[] args){
+		resourceLoader = new ResourceLoader();
+		try{
+			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+		}catch(Throwable exception){
+			exception.printStackTrace();
+		}
+		LOADER = new Loader();
+	}
+	public static ResourceLoader getResourceLoader(){
+		return resourceLoader;
+	}
+	public static Loader getInstance(){
+		return LOADER;
+	}
 }
