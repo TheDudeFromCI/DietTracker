@@ -23,26 +23,37 @@ public class WeightTracker extends JPanel{
 	private static final Font INFO_FONT = new Font("Tahoma", Font.BOLD, 20);
 	static{
 		try{
-			updateWeightButton=ImageIO.read(WeightTracker.class.getResource("Update Weight Button.png"));
-			updateWeightButtonHover=ImageIO.read(WeightTracker.class.getResource("Update Weight Button Hover.png"));
-		}catch(Exception exception){ exception.printStackTrace(); }
+			updateWeightButton = ImageIO.read(WeightTracker.class.getResource("/assets/Update Weight Button.png"));
+			updateWeightButtonHover = ImageIO.read(WeightTracker.class.getResource("/assets/Update Weight Button Hover.png"));
+		}catch(Exception exception){
+			exception.printStackTrace();
+		}
 	}
 	public WeightTracker(){
 		addMouseMotionListener(new MouseAdapter(){
-			@Override public void mouseMoved(MouseEvent e){
+			@Override
+			public void mouseMoved(MouseEvent e){
 				int x = e.getX();
 				int y = e.getY();
 				boolean before = updateWeightHover;
-				updateWeightHover=y>=getHeight()-BOTTOM_BORDER_THICKNESS+3&&y<getHeight()-3&&x>=getWidth()-78&&x<getWidth()-3;
-				if(updateWeightHover!=before)repaint();
+				updateWeightHover = y>=getHeight()-BOTTOM_BORDER_THICKNESS+3&&y<getHeight()-3&&x>=getWidth()-78&&x<getWidth()-3;
+				if(updateWeightHover!=before){
+					repaint();
+				}
 			}
 		});
 		addMouseListener(new MouseAdapter(){
-			@Override public void mouseClicked(MouseEvent e){ if(updateWeightHover)new LogWeightPopup(); }
+			@Override
+			public void mouseClicked(MouseEvent e){
+				if(updateWeightHover){
+					new LogWeightPopup();
+				}
+			}
 		});
 		recalculateValues();
 	}
-	@Override public void paint(Graphics g1){
+	@Override
+	public void paint(Graphics g1){
 		Graphics2D g = (Graphics2D)g1;
 		g.setColor(DARK_GRAY);
 		g.fillRect(0, 0, getWidth(), getHeight()-BOTTOM_BORDER_THICKNESS);
@@ -53,7 +64,9 @@ public class WeightTracker extends JPanel{
 			double max = maxValue*1.2;
 			g.setColor(Color.DARK_GRAY);
 			double pointsV = (getHeight()-BOTTOM_BORDER_THICKNESS)/15.0;
-			for(int i = 1; i<=15; i++)g.drawLine(0, (int)(pointsV*i), getWidth(), (int)(pointsV*i));
+			for(int i = 1; i<=15; i++){
+				g.drawLine(0, (int)(pointsV*i), getWidth(), (int)(pointsV*i));
+			}
 			if(values.length==1){
 				double percent = 1-values[0]/max;
 				g.setColor(Color.GREEN);
@@ -61,7 +74,8 @@ public class WeightTracker extends JPanel{
 				FontMetrics fm = g.getFontMetrics();
 				g.setColor(Color.WHITE);
 				String list = (values[0]/10)+"."+(values[0]%10);
-				g.drawString(list, (int)(getWidth()/2-fm.getStringBounds(list, g).getWidth()/2), (int)(percent*(getHeight()-BOTTOM_BORDER_THICKNESS))-25);
+				g.drawString(list, (int)(getWidth()/2-fm.getStringBounds(list, g).getWidth()/2),
+					(int)(percent*(getHeight()-BOTTOM_BORDER_THICKNESS))-25);
 			}else{
 				FontMetrics fm = g.getFontMetrics();
 				for(int i = 0; i<values.length; i++){
@@ -71,15 +85,18 @@ public class WeightTracker extends JPanel{
 						double percent1 = 1-values[i-1]/max;
 						double percent2 = 1-values[i]/max;
 						g.setColor(Color.GREEN);
-						g.drawLine((int)(points*(i-1)+points/2), (int)(percent1*(getHeight()-BOTTOM_BORDER_THICKNESS)), (int)(points*i+points/2), (int)(percent2*(getHeight()-BOTTOM_BORDER_THICKNESS)));
+						g.drawLine((int)(points*(i-1)+points/2), (int)(percent1*(getHeight()-BOTTOM_BORDER_THICKNESS)), (int)(points*i+points/2),
+							(int)(percent2*(getHeight()-BOTTOM_BORDER_THICKNESS)));
 						g.setColor(Color.WHITE);
 						String list = (values[i]/10)+"."+(values[i]%10);
-						g.drawString(list, (int)(points*i+points/2-fm.getStringBounds(list, g).getWidth()/2), (int)(percent2*(getHeight()-BOTTOM_BORDER_THICKNESS))-25);
+						g.drawString(list, (int)(points*i+points/2-fm.getStringBounds(list, g).getWidth()/2),
+							(int)(percent2*(getHeight()-BOTTOM_BORDER_THICKNESS))-25);
 					}else{
 						double percent = 1-values[i]/max;
 						g.setColor(Color.WHITE);
 						String list = (values[i]/10)+"."+(values[i]%10);
-						g.drawString(list, (int)(points*i+points/2-fm.getStringBounds(list, g).getWidth()/2), (int)(percent*(getHeight()-BOTTOM_BORDER_THICKNESS))-25);
+						g.drawString(list, (int)(points*i+points/2-fm.getStringBounds(list, g).getWidth()/2),
+							(int)(percent*(getHeight()-BOTTOM_BORDER_THICKNESS))-25);
 					}
 				}
 			}
@@ -87,25 +104,33 @@ public class WeightTracker extends JPanel{
 		g.drawImage(updateWeightHover?updateWeightButtonHover:updateWeightButton, getWidth()-78, getHeight()-BOTTOM_BORDER_THICKNESS+3, null);
 		g.setFont(INFO_FONT);
 		int num;
-		if(values.length>0)num=values[0]-values[values.length-1];
-		else num=0;
+		if(values.length>0){
+			num = values[0]-values[values.length-1];
+		}else{
+			num = 0;
+		}
 		g.drawString("Total Weight Lost: "+(num/10)+"."+(num%10), 5, getHeight()-10);
 		g.dispose();
 	}
 	public void logWeight(int weight){
 		int[] newValues = new int[values.length+1];
 		for(int i = 0; i<=values.length; i++){
-			if(i==values.length)newValues[i]=weight;
-			else newValues[i]=values[i];
+			if(i==values.length){
+				newValues[i] = weight;
+			}else{
+				newValues[i] = values[i];
+			}
 		}
 		Loader.getResourceLoader().setWeights(newValues);
 		Loader.getResourceLoader().save();
 		recalculateValues();
 	}
 	public void recalculateValues(){
-		values=Loader.getResourceLoader().getWeights();
-		maxValue=0;
-		for(int i = 0; i<values.length; i++)maxValue=Math.max(maxValue, values[i]);
+		values = Loader.getResourceLoader().getWeights();
+		maxValue = 0;
+		for(int i = 0; i<values.length; i++){
+			maxValue = Math.max(maxValue, values[i]);
+		}
 		repaint();
 	}
 }
