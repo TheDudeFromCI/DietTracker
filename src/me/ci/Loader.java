@@ -26,6 +26,7 @@ public class Loader extends JFrame{
 		init();
 		buildMainTab();
 		setVisible(true);
+		new LogList();
 	}
 	private void init(){
 		setTitle("Diet Tracker");

@@ -44,6 +44,7 @@ public class CurrentStats extends JPanel{
 		}
 		t = new Timer();
 		t.scheduleAtFixedRate(new TimerTask(){
+			@Override
 			public void run(){
 				int checks = 0;
 				for(int i = 0; i<DietNumbers.SIZE; i++){

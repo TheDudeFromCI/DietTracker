@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 public class DietNumbers{
 	public static final String[] NAMES = new String[]{
-		"Calories", "Fat", "Sat. Fat", "Trans Fat", "Cholesterol", "Sodium", "Carbs", "Fiber", "Sugar", "Protein", "Calcium", "Iron", "Vitamin A",
-		"Vitamin C", "Vitamin D"
+		"Calories", "Fat", "Sat. Fat", "Trans Fat", "Poly", "Mono", "Cholesterol", "Sodium", "Carbs", "Fiber", "Sugar", "Protein", "Calcium", "Iron",
+		"Vitamin A", "Vitamin C", "Vitamin D"
 	};
 	public static final int SIZE = NAMES.length;
 	public final int[] stats = new int[NAMES.length];
