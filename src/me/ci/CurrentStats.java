@@ -21,7 +21,7 @@ public class CurrentStats extends JPanel{
 	private final Color darkerGray;
 	private Timer t;
 	public CurrentStats(){
-		setPreferredSize(new Dimension(250, 26*DietNumbers.SIZE));
+		setPreferredSize(new Dimension(250, 18*DietNumbers.SIZE));
 		setMinimumSize(new Dimension(100, 100));
 		font1 = new Font("Tahoma", Font.BOLD, 20);
 		font2 = new Font("Tahoma", Font.ITALIC, 20);
@@ -100,7 +100,7 @@ public class CurrentStats extends JPanel{
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setColor(Color.WHITE);
 		for(int i = 0; i<DietNumbers.SIZE; i++){
-			int y = fontHeight*(i+1);
+			int y = (int)(fontHeight*(i+1)*1.15f);
 			g.drawString(DietNumbers.NAMES[i]+":", 1, y);
 		}
 		for(int i = 0; i<DietNumbers.SIZE; i++){
@@ -111,7 +111,7 @@ public class CurrentStats extends JPanel{
 			}
 			fontMetrics = g.getFontMetrics();
 			g.setColor(warningStage[i]);
-			int y = fontHeight*(i+1);
+			int y = (int)(fontHeight*(i+1)*1.15f);
 			int x = (int)(getWidth()-(fontMetrics.getStringBounds(tempDietNumbers.stats[i]+"/"+maxDietNumbers.stats[i], g).getWidth()+10));
 			g.drawString(tempDietNumbers.stats[i]+"/"+maxDietNumbers.stats[i], x, y);
 		}
