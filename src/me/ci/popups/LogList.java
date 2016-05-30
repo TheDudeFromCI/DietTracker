@@ -2,7 +2,7 @@
  * To change this license header, choose License Headers in Project Properties. To change this template file, choose Tools | Templates and open the
  * template in the editor.
  */
-package me.ci;
+package me.ci.popups;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import me.ci.FoodEntry;
+import me.ci.Loader;
+import me.ci.LogFile;
 
 /**
  * @author thedudefromci

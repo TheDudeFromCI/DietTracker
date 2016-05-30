@@ -1,5 +1,6 @@
 package me.ci;
 
+import me.ci.popups.InfoPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;

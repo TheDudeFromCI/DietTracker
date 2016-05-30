@@ -1,4 +1,4 @@
-package me.ci;
+package me.ci.popups;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import me.ci.Loader;
 
 @SuppressWarnings("serial")
 public class LogWeightPopup extends JFrame{

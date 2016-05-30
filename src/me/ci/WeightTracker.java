@@ -1,5 +1,6 @@
 package me.ci;
 
+import me.ci.popups.LogWeightPopup;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;

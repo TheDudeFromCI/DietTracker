@@ -1,5 +1,7 @@
 package me.ci;
 
+import me.ci.popups.AddNewFood;
+import me.ci.popups.ConfirmPanel;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
