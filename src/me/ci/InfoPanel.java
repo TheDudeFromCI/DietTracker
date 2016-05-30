@@ -2,15 +2,18 @@ package me.ci;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.BevelBorder;
 
 @SuppressWarnings("serial")
 public class InfoPanel extends JFrame{
@@ -28,16 +31,19 @@ public class InfoPanel extends JFrame{
 	private void init(){
 		setTitle("Confirm");
 		setResizable(false);
-		setSize(320, 100);
-		setLocationRelativeTo(null);
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		getContentPane().setBackground(Color.DARK_GRAY);
 	}
 	private void addComponents(){
+		JPanel root = new JPanel();
+		root.setLayout(new BorderLayout());
+		root.setBackground(Color.DARK_GRAY);
+		root.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, Color.gray, Color.black));
+		getContentPane().add(root, BorderLayout.CENTER);
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.DARK_GRAY);
-		getContentPane().add(panel, BorderLayout.SOUTH);
+		root.add(panel, BorderLayout.SOUTH);
 		panel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
 		JButton btnOk = new JButton("Ok");
 		btnOk.addActionListener(new ActionListener(){
@@ -62,6 +68,8 @@ public class InfoPanel extends JFrame{
 		JLabel label = new JLabel(msg);
 		label.setForeground(Color.WHITE);
 		label.setHorizontalAlignment(SwingConstants.CENTER);
-		getContentPane().add(label, BorderLayout.CENTER);
+		setSize(new Dimension(label.getPreferredSize().width+50, 100));
+		setLocationRelativeTo(null);
+		root.add(label, BorderLayout.CENTER);
 	}
 }
