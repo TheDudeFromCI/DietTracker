@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class LogFile{
 	private final ArrayList<String> foodsEaten = new ArrayList(8);
 	private final DietNumbers numbers;
+	private int weight;
 	public LogFile(DietNumbers numbers){
 		this.numbers = numbers;
 	}
@@ -23,5 +24,11 @@ public class LogFile{
 	}
 	public ArrayList<String> getFoodsEaten(){
 		return foodsEaten;
+	}
+	public void setWeight(int weight){
+		this.weight = weight;
+	}
+	public int getWeight(){
+		return weight;
 	}
 }

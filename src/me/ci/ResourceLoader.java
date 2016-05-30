@@ -11,7 +11,7 @@ public class ResourceLoader{
 	private DietNumbers currentDietNumbers = new DietNumbers();
 	private CompactBinaryFile file;
 	private short dayNumber = 0;
-	private int[] weights = new int[0];
+	private int weight;
 	public ResourceLoader(){
 		file = new CompactBinaryFile("Config.dat");
 		if(!file.exists()){
@@ -62,10 +62,7 @@ public class ResourceLoader{
 		for(int b = 0; b<17; b++){
 			maxDietNumbers.stats[b] = (int)file.getNumber(16);
 		}
-		weights = new int[(int)file.getNumber(16)];
-		for(int i = 0; i<weights.length; i++){
-			weights[i] = (int)file.getNumber(14);
-		}
+		weight = (int)file.getNumber(16);
 	}
 	private void loadFileVersion4(CompactBinaryFile file){
 		dayNumber = (short)file.getNumber(9);
@@ -109,10 +106,6 @@ public class ResourceLoader{
 		maxDietNumbers.stats[14] = (int)file.getNumber(16);
 		maxDietNumbers.stats[15] = (int)file.getNumber(16);
 		maxDietNumbers.stats[16] = (int)file.getNumber(16);
-		weights = new int[(int)file.getNumber(16)];
-		for(int i = 0; i<weights.length; i++){
-			weights[i] = (int)file.getNumber(14);
-		}
 	}
 	public void save(){
 		file.write();
@@ -134,10 +127,7 @@ public class ResourceLoader{
 		for(int b = 0; b<DietNumbers.SIZE; b++){
 			file.addNumber(maxDietNumbers.stats[b], 16);
 		}
-		file.addNumber(weights.length, 16);
-		for(int i = 0; i<weights.length; i++){
-			file.addNumber(weights[i], 14);
-		}
+		file.addNumber(weight, 16); // Current weight.
 		file.stopWriting();
 		logDay();
 	}
@@ -153,13 +143,16 @@ public class ResourceLoader{
 		for(FoodEntry food : menu){
 			bin.addString(food.getUUID(), 5);
 		}
+		bin.addNumber(weight, 16);
 		bin.stopWriting();
 	}
 	public void newDay(){
 		save();
 		menu.clear();
 		currentDietNumbers.clear();
-		dayNumber = (short)((dayNumber+1)%512);
+		dayNumber = (short)(dayNumber+1);
+		weight = 0;
+		save();
 	}
 	public void recountTodaysStats(){
 		for(int b = 0; b<DietNumbers.SIZE; b++){
@@ -234,6 +227,7 @@ public class ResourceLoader{
 				for(int a = 0; a<i; a++){
 					log.getFoodsEaten().add(bin.getString(5));
 				}
+				log.setWeight((int)bin.getNumber(16));
 				break;
 			default:
 				throw new RuntimeException("Unknown file version!");
@@ -256,10 +250,10 @@ public class ResourceLoader{
 	public ArrayList<FoodEntry> getMenu(){
 		return menu;
 	}
-	public int[] getWeights(){
-		return weights;
+	public int getWeight(){
+		return weight;
 	}
-	public void setWeights(int[] weights){
-		this.weights = weights;
+	public void setWeights(int weight){
+		this.weight = weight;
 	}
 }

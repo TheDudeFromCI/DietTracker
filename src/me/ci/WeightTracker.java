@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
@@ -113,22 +114,29 @@ public class WeightTracker extends JPanel{
 		g.dispose();
 	}
 	public void logWeight(int weight){
-		int[] newValues = new int[values.length+1];
-		for(int i = 0; i<=values.length; i++){
-			if(i==values.length){
-				newValues[i] = weight;
-			}else{
-				newValues[i] = values[i];
-			}
-		}
-		Loader.getResourceLoader().setWeights(newValues);
-		Loader.getResourceLoader().save();
-		recalculateValues();
-	}
-	public void recalculateValues(){
-		values = Loader.getResourceLoader().getWeights();
+		values[values.length-1] = weight;
 		maxValue = 0;
 		for(int i = 0; i<values.length; i++){
+			maxValue = Math.max(maxValue, values[i]);
+		}
+		repaint();
+		Loader.getResourceLoader().setWeights(weight);
+		Loader.getResourceLoader().save();
+	}
+	public void recalculateValues(){
+		ArrayList<Integer> weights = new ArrayList(32);
+		weights.add(Loader.getResourceLoader().getWeight());
+		for(int i = Loader.getResourceLoader().getCurrentDay()-1; i>=0; i--){
+			LogFile log = Loader.getResourceLoader().getLog(i, false);
+			if(log==null||log.getWeight()==0){
+				break;
+			}
+			weights.add(log.getWeight());
+		}
+		values = new int[weights.size()];
+		maxValue = 0;
+		for(int i = 0; i<values.length; i++){
+			values[i] = weights.get(values.length-1-i);
 			maxValue = Math.max(maxValue, values[i]);
 		}
 		repaint();

@@ -38,6 +38,11 @@ public class OptionsMenu extends JPanel{
 		btnClearTodaysMenu.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
+				// First check to make sure this is a good idea.
+				if(Loader.getResourceLoader().getWeight()==0){
+					new InfoPanel("Please enter today's weight before clearing today's stats.", null);
+					return;
+				}
 				Loader.getResourceLoader().newDay();
 				Loader.getInstance().getCurrentStats().reload();
 				Loader.getInstance().getMenu().reload();
