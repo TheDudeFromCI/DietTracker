@@ -1,5 +1,6 @@
 package me.ci;
 
+import me.ci.popups.WeightTracker;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;

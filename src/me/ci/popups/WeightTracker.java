@@ -1,4 +1,4 @@
-package me.ci;
+package me.ci.popups;
 
 import me.ci.popups.LogWeightPopup;
 import java.awt.Color;
@@ -12,6 +12,8 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+import me.ci.Loader;
+import me.ci.LogFile;
 
 @SuppressWarnings("serial")
 public class WeightTracker extends JPanel{
