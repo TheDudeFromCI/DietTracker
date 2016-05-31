@@ -1,6 +1,11 @@
 package me.ci;
 
-import me.ci.popups.WeightTracker;
+import me.ci.util.comps.Toolbar;
+import me.ci.main.OptionsMenu;
+import me.ci.main.Menu;
+import me.ci.main.HistoryGraph;
+import me.ci.main.FoodList;
+import me.ci.main.CurrentStats;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -11,6 +16,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import me.ci.popups.LogList;
+import me.ci.tabs.SleepTracker;
+import me.ci.tabs.WeightTracker;
 
 @SuppressWarnings("serial")
 public class Loader extends JFrame{
@@ -19,6 +26,7 @@ public class Loader extends JFrame{
 	private HistoryGraph historyGraph;
 	private WeightTracker weightTracker;
 	private LogList logList;
+	private SleepTracker sleepTracker;
 	private int x, y, w, h;
 	private static ResourceLoader resourceLoader;
 	public static boolean POP_UP_OPEN = false;
@@ -93,6 +101,14 @@ public class Loader extends JFrame{
 		validate();
 		repaint();
 	}
+	public void buildSleepTrackerTab(){
+		getContentPane().removeAll();
+		Toolbar toolbar = new Toolbar(this, 1);
+		getContentPane().add(toolbar, BorderLayout.NORTH);
+		getContentPane().add(sleepTracker = new SleepTracker(), BorderLayout.CENTER);
+		validate();
+		repaint();
+	}
 	public void normalize(){
 		setExtendedState(JFrame.NORMAL);
 		setBounds(x, y, w, h);
@@ -120,6 +136,9 @@ public class Loader extends JFrame{
 	}
 	public LogList getLogList(){
 		return logList;
+	}
+	public SleepTracker getSleepTracker(){
+		return sleepTracker;
 	}
 	public static void main(String[] args){
 		resourceLoader = new ResourceLoader();

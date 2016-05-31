@@ -17,8 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
-import me.ci.DietNumbers;
-import me.ci.FoodEntry;
+import me.ci.util.DietNumbers;
+import me.ci.util.comps.FoodEntry;
 import me.ci.Loader;
 import net.miginfocom.swing.MigLayout;
 

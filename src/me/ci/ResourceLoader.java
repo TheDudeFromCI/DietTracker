@@ -1,5 +1,8 @@
 package me.ci;
 
+import me.ci.util.DietNumbers;
+import me.ci.util.LogFile;
+import me.ci.util.comps.FoodEntry;
 import java.util.ArrayList;
 import me.ci.util.CompactBinaryFile;
 

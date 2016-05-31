@@ -1,4 +1,4 @@
-package me.ci;
+package me.ci.main;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+import me.ci.util.comps.FoodEntry;
+import me.ci.Loader;
 import me.ci.util.StringUtil;
 
 @SuppressWarnings("serial")

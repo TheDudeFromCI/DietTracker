@@ -1,4 +1,4 @@
-package me.ci;
+package me.ci.main;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -9,6 +9,9 @@ import java.awt.Graphics2D;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JPanel;
+import me.ci.util.DietNumbers;
+import me.ci.util.comps.FoodEntry;
+import me.ci.Loader;
 
 @SuppressWarnings("serial")
 public class CurrentStats extends JPanel{

@@ -1,6 +1,5 @@
-package me.ci.popups;
+package me.ci.tabs;
 
-import me.ci.popups.LogWeightPopup;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -13,10 +12,11 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import me.ci.Loader;
-import me.ci.LogFile;
+import me.ci.popups.LogWeightPopup;
+import me.ci.util.LogFile;
 
 @SuppressWarnings("serial")
-public class WeightTracker extends JPanel{
+public class SleepTracker extends JPanel{
 	private int[] values;
 	private int maxValue;
 	private boolean updateWeightHover;
@@ -27,13 +27,13 @@ public class WeightTracker extends JPanel{
 	private static final Font INFO_FONT = new Font("Tahoma", Font.BOLD, 20);
 	static{
 		try{
-			updateWeightButton = ImageIO.read(WeightTracker.class.getResource("/assets/Update Weight Button.png"));
-			updateWeightButtonHover = ImageIO.read(WeightTracker.class.getResource("/assets/Update Weight Button Hover.png"));
+			updateWeightButton = ImageIO.read(SleepTracker.class.getResource("/assets/Update Weight Button.png"));
+			updateWeightButtonHover = ImageIO.read(SleepTracker.class.getResource("/assets/Update Weight Button Hover.png"));
 		}catch(Exception exception){
 			exception.printStackTrace();
 		}
 	}
-	public WeightTracker(){
+	public SleepTracker(){
 		addMouseMotionListener(new MouseAdapter(){
 			@Override
 			public void mouseMoved(MouseEvent e){

@@ -1,4 +1,4 @@
-package me.ci;
+package me.ci.main;
 
 import me.ci.popups.AddNewFood;
 import me.ci.popups.ConfirmPanel;
@@ -19,6 +19,11 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+import me.ci.util.DietNumbers;
+import me.ci.util.comps.DropdownMenu;
+import me.ci.popups.EditFood;
+import me.ci.util.comps.FoodEntry;
+import me.ci.Loader;
 
 @SuppressWarnings("serial")
 public class FoodList extends JPanel{

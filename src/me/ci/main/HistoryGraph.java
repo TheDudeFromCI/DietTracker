@@ -1,4 +1,4 @@
-package me.ci;
+package me.ci.main;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -12,6 +12,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+import me.ci.util.DietNumbers;
+import me.ci.util.comps.DropdownMenu;
+import me.ci.Loader;
 
 @SuppressWarnings("serial")
 public class HistoryGraph extends JPanel{

@@ -1,4 +1,4 @@
-package me.ci;
+package me.ci.main;
 
 import me.ci.popups.InfoPanel;
 import java.awt.BorderLayout;
@@ -16,6 +16,8 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import me.ci.util.DietNumbers;
+import me.ci.Loader;
 
 @SuppressWarnings("serial")
 public class OptionsMenu extends JPanel{

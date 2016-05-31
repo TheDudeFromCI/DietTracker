@@ -1,10 +1,12 @@
-package me.ci;
+package me.ci.util.comps;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.Objects;
+import me.ci.util.DietNumbers;
+import me.ci.Loader;
 
 public class FoodEntry{
 	private static String randomUUID(){

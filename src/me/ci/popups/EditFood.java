@@ -1,4 +1,4 @@
-package me.ci;
+package me.ci.popups;
 
 import me.ci.popups.InfoPanel;
 import java.awt.Color;
@@ -17,6 +17,9 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import me.ci.util.DietNumbers;
+import me.ci.util.comps.FoodEntry;
+import me.ci.Loader;
 import net.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")

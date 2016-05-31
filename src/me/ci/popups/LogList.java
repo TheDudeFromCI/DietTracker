@@ -16,9 +16,9 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import me.ci.FoodEntry;
+import me.ci.util.comps.FoodEntry;
 import me.ci.Loader;
-import me.ci.LogFile;
+import me.ci.util.LogFile;
 
 /**
  * @author thedudefromci

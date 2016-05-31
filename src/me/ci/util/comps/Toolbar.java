@@ -1,4 +1,4 @@
-package me.ci;
+package me.ci.util.comps;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,6 +12,7 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+import me.ci.Loader;
 
 @SuppressWarnings("serial")
 public class Toolbar extends JPanel{
@@ -24,7 +25,7 @@ public class Toolbar extends JPanel{
 	private Font font;
 	private boolean dragging = false;
 	private static final String[] TABS = {
-		"Main", "Weight Tracker", "Food Logs"
+		"Main", "Weight Tracker", "Food Logs", "Sleep Tracker"
 	};
 	public static final int TAB_WIDTH = 150;
 	public Toolbar(Loader loader, int currentIndex){
@@ -155,6 +156,9 @@ public class Toolbar extends JPanel{
 						break;
 					case 2:
 						Loader.getInstance().buildFoodLogTab();
+						break;
+					case 3:
+						Loader.getInstance().buildSleepTrackerTab();
 						break;
 					default:
 						// Do nothing.
