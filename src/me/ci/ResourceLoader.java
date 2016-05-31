@@ -1,10 +1,10 @@
 package me.ci;
 
+import java.util.ArrayList;
+import me.ci.util.CompactBinaryFile;
 import me.ci.util.DietNumbers;
 import me.ci.util.LogFile;
 import me.ci.util.comps.FoodEntry;
-import java.util.ArrayList;
-import me.ci.util.CompactBinaryFile;
 
 public class ResourceLoader{
 	public static final byte FILE_VERSION = -125;
@@ -14,7 +14,9 @@ public class ResourceLoader{
 	private DietNumbers currentDietNumbers = new DietNumbers();
 	private CompactBinaryFile file;
 	private short dayNumber = 0;
-	private int weight;
+	private int weight = -1;
+	private int sleep = -1;
+	private int water = -1;
 	public ResourceLoader(){
 		file = new CompactBinaryFile("Config.dat");
 		if(!file.exists()){
@@ -66,6 +68,8 @@ public class ResourceLoader{
 			maxDietNumbers.stats[b] = (int)file.getNumber(16);
 		}
 		weight = (int)file.getNumber(16);
+		sleep = (int)file.getNumber(8);
+		water = (int)file.getNumber(16);
 	}
 	private void loadFileVersion4(CompactBinaryFile file){
 		dayNumber = (short)file.getNumber(9);
@@ -131,6 +135,8 @@ public class ResourceLoader{
 			file.addNumber(maxDietNumbers.stats[b], 16);
 		}
 		file.addNumber(weight, 16); // Current weight.
+		file.addNumber(sleep, 8); // Current sleep.
+		file.addNumber(water, 16); // Current weight.
 		file.stopWriting();
 		logDay();
 	}
@@ -147,6 +153,8 @@ public class ResourceLoader{
 			bin.addString(food.getUUID(), 5);
 		}
 		bin.addNumber(weight, 16);
+		bin.addNumber(sleep, 8);
+		bin.addNumber(water, 16);
 		bin.stopWriting();
 	}
 	public void newDay(){
@@ -154,7 +162,9 @@ public class ResourceLoader{
 		menu.clear();
 		currentDietNumbers.clear();
 		dayNumber = (short)(dayNumber+1);
-		weight = 0;
+		weight = -1;
+		sleep = -1;
+		water = -1;
 		save();
 	}
 	public void recountTodaysStats(){
@@ -231,6 +241,8 @@ public class ResourceLoader{
 					log.getFoodsEaten().add(bin.getString(5));
 				}
 				log.setWeight((int)bin.getNumber(16));
+				log.setSleep((int)bin.getNumber(8));
+				log.setWater((int)bin.getNumber(16));
 				break;
 			default:
 				throw new RuntimeException("Unknown file version!");
@@ -256,7 +268,19 @@ public class ResourceLoader{
 	public int getWeight(){
 		return weight;
 	}
-	public void setWeights(int weight){
+	public void setWeight(int weight){
 		this.weight = weight;
+	}
+	public int getSleep(){
+		return sleep;
+	}
+	public int getWater(){
+		return water;
+	}
+	public void setSleep(int sleep){
+		this.sleep = sleep;
+	}
+	public void setWater(int water){
+		this.water = water;
 	}
 }

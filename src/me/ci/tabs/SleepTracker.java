@@ -1,7 +1,6 @@
 package me.ci.tabs;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -12,23 +11,22 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import me.ci.Loader;
-import me.ci.popups.LogWeightPopup;
+import me.ci.popups.LogValuePopup;
 import me.ci.util.LogFile;
 
 @SuppressWarnings("serial")
 public class SleepTracker extends JPanel{
 	private int[] values;
 	private int maxValue;
-	private boolean updateWeightHover;
-	private static BufferedImage updateWeightButton, updateWeightButtonHover;
+	private boolean updateHover;
+	private static BufferedImage button, buttonHover;
 	private static final int BOTTOM_BORDER_THICKNESS = 40;
 	private static final Color DARK_GRAY = new Color(0.1f, 0.1f, 0.1f);
 	private static final Color LIGHT_GRAY = new Color(0.2f, 0.2f, 0.2f);
-	private static final Font INFO_FONT = new Font("Tahoma", Font.BOLD, 20);
 	static{
 		try{
-			updateWeightButton = ImageIO.read(SleepTracker.class.getResource("/assets/Update Weight Button.png"));
-			updateWeightButtonHover = ImageIO.read(SleepTracker.class.getResource("/assets/Update Weight Button Hover.png"));
+			button = ImageIO.read(SleepTracker.class.getResource("/assets/Update Weight Button.png"));
+			buttonHover = ImageIO.read(SleepTracker.class.getResource("/assets/Update Weight Button Hover.png"));
 		}catch(Exception exception){
 			exception.printStackTrace();
 		}
@@ -39,9 +37,9 @@ public class SleepTracker extends JPanel{
 			public void mouseMoved(MouseEvent e){
 				int x = e.getX();
 				int y = e.getY();
-				boolean before = updateWeightHover;
-				updateWeightHover = y>=getHeight()-BOTTOM_BORDER_THICKNESS+3&&y<getHeight()-3&&x>=getWidth()-78&&x<getWidth()-3;
-				if(updateWeightHover!=before){
+				boolean before = updateHover;
+				updateHover = y>=getHeight()-BOTTOM_BORDER_THICKNESS+3&&y<getHeight()-3&&x>=getWidth()-78&&x<getWidth()-3;
+				if(updateHover!=before){
 					repaint();
 				}
 			}
@@ -49,8 +47,8 @@ public class SleepTracker extends JPanel{
 		addMouseListener(new MouseAdapter(){
 			@Override
 			public void mouseClicked(MouseEvent e){
-				if(updateWeightHover){
-					new LogWeightPopup();
+				if(updateHover){
+					new LogValuePopup("Enter Today's Sleep", "Today's Sleep", 8, 3);
 				}
 			}
 		});
@@ -105,41 +103,35 @@ public class SleepTracker extends JPanel{
 				}
 			}
 		}
-		g.drawImage(updateWeightHover?updateWeightButtonHover:updateWeightButton, getWidth()-78, getHeight()-BOTTOM_BORDER_THICKNESS+3, null);
-		g.setFont(INFO_FONT);
-		int num;
-		if(values.length>0){
-			num = values[0]-values[values.length-1];
-		}else{
-			num = 0;
-		}
-		g.drawString("Total Weight Lost: "+(num/10)+"."+(num%10), 5, getHeight()-10);
+		g.drawImage(updateHover?buttonHover:button, getWidth()-78, getHeight()-BOTTOM_BORDER_THICKNESS+3, null);
 		g.dispose();
 	}
-	public void logWeight(int weight){
-		values[values.length-1] = weight;
+	public void logSleep(int sleep){
+		values[values.length-1] = sleep;
 		maxValue = 0;
 		for(int i = 0; i<values.length; i++){
 			maxValue = Math.max(maxValue, values[i]);
 		}
 		repaint();
-		Loader.getResourceLoader().setWeights(weight);
+		Loader.getResourceLoader().setSleep(sleep);
 		Loader.getResourceLoader().save();
 	}
 	public void recalculateValues(){
-		ArrayList<Integer> weights = new ArrayList(32);
-		weights.add(Loader.getResourceLoader().getWeight());
-		for(int i = Loader.getResourceLoader().getCurrentDay()-1; i>=0; i--){
+		ArrayList<Integer> valueList = new ArrayList(7);
+		valueList.add(Loader.getResourceLoader().getSleep());
+		int day = Loader.getResourceLoader().getCurrentDay()-1;
+		int back = day-7;
+		for(int i = day; i>=back; i--){
 			LogFile log = Loader.getResourceLoader().getLog(i, false);
 			if(log==null||log.getWeight()==0){
 				break;
 			}
-			weights.add(log.getWeight());
+			valueList.add(log.getSleep());
 		}
-		values = new int[weights.size()];
+		values = new int[valueList.size()];
 		maxValue = 0;
 		for(int i = 0; i<values.length; i++){
-			values[i] = weights.get(values.length-1-i);
+			values[i] = valueList.get(values.length-1-i);
 			maxValue = Math.max(maxValue, values[i]);
 		}
 		repaint();

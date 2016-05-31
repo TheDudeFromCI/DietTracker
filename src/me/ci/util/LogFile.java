@@ -13,6 +13,8 @@ public class LogFile{
 	private final ArrayList<String> foodsEaten = new ArrayList(8);
 	private final DietNumbers numbers;
 	private int weight;
+	private int sleep;
+	private int water;
 	public LogFile(DietNumbers numbers){
 		this.numbers = numbers;
 	}
@@ -30,5 +32,17 @@ public class LogFile{
 	}
 	public int getWeight(){
 		return weight;
+	}
+	public void setSleep(int sleep){
+		this.sleep = sleep;
+	}
+	public int getSleep(){
+		return sleep;
+	}
+	public void setWater(int water){
+		this.water = water;
+	}
+	public int getWater(){
+		return water;
 	}
 }

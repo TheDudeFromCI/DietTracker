@@ -1,6 +1,5 @@
 package me.ci.main;
 
-import me.ci.popups.InfoPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -16,8 +15,9 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import me.ci.util.DietNumbers;
 import me.ci.Loader;
+import me.ci.popups.InfoPanel;
+import me.ci.util.DietNumbers;
 
 @SuppressWarnings("serial")
 public class OptionsMenu extends JPanel{
@@ -42,8 +42,16 @@ public class OptionsMenu extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e){
 				// First check to make sure this is a good idea.
-				if(Loader.getResourceLoader().getWeight()==0){
+				if(Loader.getResourceLoader().getWeight()==-1){
 					new InfoPanel("Please enter today's weight before clearing today's stats.", null);
+					return;
+				}
+				if(Loader.getResourceLoader().getSleep()==-1){
+					new InfoPanel("Please enter today's sleep before clearing today's stats.", null);
+					return;
+				}
+				if(Loader.getResourceLoader().getWater()==-1){
+					new InfoPanel("Please enter today's water before clearing today's stats.", null);
 					return;
 				}
 				Loader.getResourceLoader().newDay();

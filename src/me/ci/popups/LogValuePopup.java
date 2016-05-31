@@ -22,12 +22,20 @@ import javax.swing.SwingConstants;
 import me.ci.Loader;
 
 @SuppressWarnings("serial")
-public class LogWeightPopup extends JFrame{
-	public LogWeightPopup(){
+public class LogValuePopup extends JFrame{
+	private final String title;
+	private final String text;
+	private final int def;
+	private final int tab;
+	public LogValuePopup(String title, String text, int def, int tab){
+		this.title = title;
+		this.text = text;
+		this.def = def;
+		this.tab = tab;
 		addWindowFocusListener(new WindowFocusListener(){
 			@Override
 			public void windowGainedFocus(WindowEvent e){
-				if(Loader.POP_UP_OPEN&&Loader.POP_UP!=LogWeightPopup.this){
+				if(Loader.POP_UP_OPEN&&Loader.POP_UP!=LogValuePopup.this){
 					Toolkit.getDefaultToolkit().beep();
 					Loader.POP_UP.requestFocus();
 				}
@@ -45,14 +53,14 @@ public class LogWeightPopup extends JFrame{
 		Loader.POP_UP = this;
 		init();
 		addComponents();
+		setSize(300, 200);
+		setLocationRelativeTo(null);
 		setVisible(true);
 	}
 	private void init(){
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setResizable(false);
-		setSize(253, 171);
-		setLocationRelativeTo(null);
-		setTitle("Log Today's Weight");
+		setTitle(title);
 		getContentPane().setBackground(Color.DARK_GRAY);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 	}
@@ -66,7 +74,7 @@ public class LogWeightPopup extends JFrame{
 		lblPleaseEnterTodays.setFont(new Font("Tahoma", Font.BOLD, 25));
 		lblPleaseEnterTodays.setForeground(Color.LIGHT_GRAY);
 		lblPleaseEnterTodays.setHorizontalAlignment(SwingConstants.CENTER);
-		JLabel lblTodaysWeight = new JLabel("Today's Weight");
+		JLabel lblTodaysWeight = new JLabel(text);
 		lblTodaysWeight.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTodaysWeight.setFont(new Font("Tahoma", Font.BOLD, 25));
 		lblTodaysWeight.setForeground(Color.LIGHT_GRAY);
@@ -79,13 +87,26 @@ public class LogWeightPopup extends JFrame{
 		spinner.setBackground(Color.LIGHT_GRAY);
 		spinner.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 		spinner.setPreferredSize(new Dimension(100, 25));
-		spinner.setModel(new SpinnerNumberModel(200.0, 1.0, 800.0, 0.1));
+		spinner.setModel(new SpinnerNumberModel(def, null, null, 1));
 		panel_1.add(spinner);
 		JButton btnOk = new JButton("Ok");
 		btnOk.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				Loader.getInstance().getWeightTracker().logWeight((int)((double)spinner.getValue()*10));
+				switch(tab){
+					case 1:
+						Loader.getInstance().getWeightTracker().logWeight((int)spinner.getValue());
+						break;
+					case 3:
+						Loader.getInstance().getSleepTracker().logSleep((int)spinner.getValue());
+						break;
+					case 4:
+						// Loader.getInstance().getWeightTracker().logWater((int)spinner.getValue());
+						break;
+					default:
+						// Do nothing.
+						break;
+				}
 				close();
 			}
 		});

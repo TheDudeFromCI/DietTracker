@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import me.ci.Loader;
-import me.ci.popups.LogWeightPopup;
+import me.ci.popups.LogValuePopup;
 import me.ci.util.LogFile;
 
 @SuppressWarnings("serial")
@@ -50,7 +50,7 @@ public class WeightTracker extends JPanel{
 			@Override
 			public void mouseClicked(MouseEvent e){
 				if(updateWeightHover){
-					new LogWeightPopup();
+					new LogValuePopup("Enter Today's Weight", "Today's Weight", 200, 1);
 				}
 			}
 		});
@@ -77,7 +77,7 @@ public class WeightTracker extends JPanel{
 				g.drawOval(getWidth()/2-3, (int)(percent*(getHeight()-BOTTOM_BORDER_THICKNESS))-3, 6, 6);
 				FontMetrics fm = g.getFontMetrics();
 				g.setColor(Color.WHITE);
-				String list = (values[0]/10)+"."+(values[0]%10);
+				String list = values[0]+"";
 				g.drawString(list, (int)(getWidth()/2-fm.getStringBounds(list, g).getWidth()/2),
 					(int)(percent*(getHeight()-BOTTOM_BORDER_THICKNESS))-25);
 			}else{
@@ -113,7 +113,7 @@ public class WeightTracker extends JPanel{
 		}else{
 			num = 0;
 		}
-		g.drawString("Total Weight Lost: "+(num/10)+"."+(num%10), 5, getHeight()-10);
+		g.drawString("Total Weight Lost: "+num, 5, getHeight()-10);
 		g.dispose();
 	}
 	public void logWeight(int weight){
@@ -123,7 +123,7 @@ public class WeightTracker extends JPanel{
 			maxValue = Math.max(maxValue, values[i]);
 		}
 		repaint();
-		Loader.getResourceLoader().setWeights(weight);
+		Loader.getResourceLoader().setWeight(weight);
 		Loader.getResourceLoader().save();
 	}
 	public void recalculateValues(){
