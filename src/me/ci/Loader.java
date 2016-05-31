@@ -1,6 +1,5 @@
 package me.ci;
 
-import me.ci.popups.LogList;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,6 +9,7 @@ import java.awt.event.WindowFocusListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+import me.ci.popups.LogList;
 
 @SuppressWarnings("serial")
 public class Loader extends JFrame{
@@ -17,6 +17,7 @@ public class Loader extends JFrame{
 	private FoodList foodList;
 	private HistoryGraph historyGraph;
 	private WeightTracker weightTracker;
+	private LogList logList;
 	private int x, y, w, h;
 	private static ResourceLoader resourceLoader;
 	public static boolean POP_UP_OPEN = false;
@@ -27,7 +28,6 @@ public class Loader extends JFrame{
 		init();
 		buildMainTab();
 		setVisible(true);
-		new LogList();
 	}
 	private void init(){
 		setTitle("Diet Tracker");
@@ -84,6 +84,14 @@ public class Loader extends JFrame{
 		validate();
 		repaint();
 	}
+	public void buildFoodLogTab(){
+		getContentPane().removeAll();
+		Toolbar toolbar = new Toolbar(this, 1);
+		getContentPane().add(toolbar, BorderLayout.NORTH);
+		getContentPane().add(logList = new LogList(), BorderLayout.CENTER);
+		validate();
+		repaint();
+	}
 	public void normalize(){
 		setExtendedState(JFrame.NORMAL);
 		setBounds(x, y, w, h);
@@ -108,6 +116,9 @@ public class Loader extends JFrame{
 	}
 	public WeightTracker getWeightTracker(){
 		return weightTracker;
+	}
+	public LogList getLogList(){
+		return logList;
 	}
 	public static void main(String[] args){
 		resourceLoader = new ResourceLoader();

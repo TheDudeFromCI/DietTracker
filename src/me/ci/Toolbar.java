@@ -24,9 +24,9 @@ public class Toolbar extends JPanel{
 	private Font font;
 	private boolean dragging = false;
 	private static final String[] TABS = {
-		"Main", "WeightTracker"
+		"Main", "Weight Tracker", "Food Logs"
 	};
-	public static final int TAB_WIDTH = 100;
+	public static final int TAB_WIDTH = 150;
 	public Toolbar(Loader loader, int currentIndex){
 		this.currentIndex = currentIndex;
 		this.loader = loader;
@@ -115,11 +115,11 @@ public class Toolbar extends JPanel{
 		g.setFont(font);
 		for(int i = TABS.length-1; i>=0; i--){
 			if(i!=currentIndex){
-				g.drawImage(tabDark, i*TAB_WIDTH, 0, null);
+				g.drawImage(tabDark, i*TAB_WIDTH, 0, TAB_WIDTH, tabDark.getHeight(), null);
 				g.drawString(TABS[i], i*TAB_WIDTH+4, getHeight()-8);
 			}
 		}
-		g.drawImage(tabLight, currentIndex*TAB_WIDTH, 0, null);
+		g.drawImage(tabLight, currentIndex*TAB_WIDTH, 0, TAB_WIDTH, tabLight.getHeight(), null);
 		g.drawString(TABS[currentIndex], currentIndex*TAB_WIDTH+4, getHeight()-8);
 		g.dispose();
 	}
@@ -146,11 +146,19 @@ public class Toolbar extends JPanel{
 		}else if(p.x<TABS.length*TAB_WIDTH){
 			int clickedTab = p.x/TAB_WIDTH;
 			if(clickedTab!=currentIndex){
-				if(clickedTab==0){
-					Loader.getInstance().buildMainTab();
-				}
-				if(clickedTab==1){
-					Loader.getInstance().buildWeightTrackerTab();
+				switch(clickedTab){
+					case 0:
+						Loader.getInstance().buildMainTab();
+						break;
+					case 1:
+						Loader.getInstance().buildWeightTrackerTab();
+						break;
+					case 2:
+						Loader.getInstance().buildFoodLogTab();
+						break;
+					default:
+						// Do nothing.
+						break;
 				}
 			}
 		}

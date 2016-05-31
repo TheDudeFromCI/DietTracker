@@ -11,14 +11,9 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
 import java.util.ArrayList;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import me.ci.FoodEntry;
@@ -28,7 +23,7 @@ import me.ci.LogFile;
 /**
  * @author thedudefromci
  */
-public class LogList extends JFrame{
+public class LogList extends JPanel{
 	private static final int BUTTON_HEIGHT = 50;
 	private static final int BUTTON_SPACE_VERTICAL = 10;
 	private static final int BUTTON_SPACE_HORIZONTAL = 25;
@@ -173,36 +168,8 @@ public class LogList extends JFrame{
 		}
 	}
 	public LogList(){
-		addWindowFocusListener(new WindowFocusListener(){
-			@Override
-			public void windowGainedFocus(WindowEvent e){
-				if(Loader.POP_UP_OPEN&&Loader.POP_UP!=LogList.this){
-					Toolkit.getDefaultToolkit().beep();
-					Loader.POP_UP.requestFocus();
-				}
-			}
-			@Override
-			public void windowLostFocus(WindowEvent e){}
-		});
-		addWindowListener(new WindowAdapter(){
-			@Override
-			public void windowClosing(WindowEvent e){
-				close();
-			}
-		});
-		Loader.POP_UP_OPEN = true;
-		Loader.POP_UP = this;
-		init();
 		addComponents();
 		setVisible(true);
-	}
-	private void init(){
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setLocationRelativeTo(null);
-		setTitle("Menu Logs");
-		setMinimumSize(new Dimension(400, 400));
-		getContentPane().setBackground(Color.DARK_GRAY);
-		getContentPane().setLayout(new BorderLayout(0, 0));
 	}
 	private void addComponents(){
 		LogListPaint paint = new LogListPaint();
@@ -213,13 +180,8 @@ public class LogList extends JFrame{
 		// Finish build.
 		JScrollPane scrollPane = new JScrollPane(paint);
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		getContentPane().add(scrollPane, BorderLayout.CENTER);
-		pack();
-	}
-	private void close(){
-		Loader.POP_UP_OPEN = false;
-		Loader.POP_UP = null;
-		dispose();
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		setLayout(new BorderLayout());
+		add(scrollPane, BorderLayout.CENTER);
 	}
 }
