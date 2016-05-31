@@ -1,11 +1,5 @@
 package me.ci;
 
-import me.ci.util.comps.Toolbar;
-import me.ci.main.OptionsMenu;
-import me.ci.main.Menu;
-import me.ci.main.HistoryGraph;
-import me.ci.main.FoodList;
-import me.ci.main.CurrentStats;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -15,9 +9,16 @@ import java.awt.event.WindowFocusListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+import me.ci.main.CurrentStats;
+import me.ci.main.FoodList;
+import me.ci.main.HistoryGraph;
+import me.ci.main.Menu;
+import me.ci.main.OptionsMenu;
 import me.ci.popups.LogList;
 import me.ci.tabs.SleepTracker;
+import me.ci.tabs.WaterTracker;
 import me.ci.tabs.WeightTracker;
+import me.ci.util.comps.Toolbar;
 
 @SuppressWarnings("serial")
 public class Loader extends JFrame{
@@ -27,6 +28,7 @@ public class Loader extends JFrame{
 	private WeightTracker weightTracker;
 	private LogList logList;
 	private SleepTracker sleepTracker;
+	private WaterTracker waterTracker;
 	private int x, y, w, h;
 	private static ResourceLoader resourceLoader;
 	public static boolean POP_UP_OPEN = false;
@@ -67,7 +69,7 @@ public class Loader extends JFrame{
 	}
 	public void buildMainTab(){
 		getContentPane().removeAll();
-		Toolbar toolbar = new Toolbar(this, 0);
+		Toolbar toolbar = new Toolbar(this);
 		getContentPane().add(toolbar, BorderLayout.NORTH);
 		getContentPane().add(foodList = new FoodList(), BorderLayout.WEST);
 		JPanel panel = new JPanel();
@@ -87,7 +89,7 @@ public class Loader extends JFrame{
 	}
 	public void buildWeightTrackerTab(){
 		getContentPane().removeAll();
-		Toolbar toolbar = new Toolbar(this, 1);
+		Toolbar toolbar = new Toolbar(this);
 		getContentPane().add(toolbar, BorderLayout.NORTH);
 		getContentPane().add(weightTracker = new WeightTracker(), BorderLayout.CENTER);
 		validate();
@@ -95,7 +97,7 @@ public class Loader extends JFrame{
 	}
 	public void buildFoodLogTab(){
 		getContentPane().removeAll();
-		Toolbar toolbar = new Toolbar(this, 1);
+		Toolbar toolbar = new Toolbar(this);
 		getContentPane().add(toolbar, BorderLayout.NORTH);
 		getContentPane().add(logList = new LogList(), BorderLayout.CENTER);
 		validate();
@@ -103,9 +105,17 @@ public class Loader extends JFrame{
 	}
 	public void buildSleepTrackerTab(){
 		getContentPane().removeAll();
-		Toolbar toolbar = new Toolbar(this, 1);
+		Toolbar toolbar = new Toolbar(this);
 		getContentPane().add(toolbar, BorderLayout.NORTH);
 		getContentPane().add(sleepTracker = new SleepTracker(), BorderLayout.CENTER);
+		validate();
+		repaint();
+	}
+	public void buildWaterTrackerTab(){
+		getContentPane().removeAll();
+		Toolbar toolbar = new Toolbar(this);
+		getContentPane().add(toolbar, BorderLayout.NORTH);
+		getContentPane().add(waterTracker = new WaterTracker(), BorderLayout.CENTER);
 		validate();
 		repaint();
 	}
@@ -139,6 +149,9 @@ public class Loader extends JFrame{
 	}
 	public SleepTracker getSleepTracker(){
 		return sleepTracker;
+	}
+	public WaterTracker getWaterTracker(){
+		return waterTracker;
 	}
 	public static void main(String[] args){
 		resourceLoader = new ResourceLoader();

@@ -101,7 +101,7 @@ public class LogValuePopup extends JFrame{
 						Loader.getInstance().getSleepTracker().logSleep((int)spinner.getValue());
 						break;
 					case 4:
-						// Loader.getInstance().getWeightTracker().logWater((int)spinner.getValue());
+						Loader.getInstance().getWaterTracker().logWater((int)spinner.getValue());
 						break;
 					default:
 						// Do nothing.

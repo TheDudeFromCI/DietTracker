@@ -16,22 +16,38 @@ import me.ci.Loader;
 
 @SuppressWarnings("serial")
 public class Toolbar extends JPanel{
-	private boolean[] hover = new boolean[3];
+	private static final String[] TABS = {
+		"Main", "Weight Tracker", "Food Logs", "Sleep Tracker", "Water Tracker"
+	};
+	private static BufferedImage close, closeHover, minimize, minimizeHover, maximize, maximizeHover, normalize, normalizeHover, tabDark, tabLight;
+	private static int currentIndex;
+	private static Font font;
+	private final boolean[] hover = new boolean[3];
 	private Loader loader;
 	private boolean normalized = true;
-	private BufferedImage close, closeHover, minimize, minimizeHover, maximize, maximizeHover, normalize, normalizeHover, tabDark, tabLight;
 	private int mouseDragX, mouseDragY;
-	private int currentIndex;
-	private Font font;
 	private boolean dragging = false;
-	private static final String[] TABS = {
-		"Main", "Weight Tracker", "Food Logs", "Sleep Tracker"
-	};
 	public static final int TAB_WIDTH = 150;
-	public Toolbar(Loader loader, int currentIndex){
-		this.currentIndex = currentIndex;
+	static{
+		try{
+			close = ImageIO.read(Toolbar.class.getResource("/assets/Close.png"));
+			closeHover = ImageIO.read(Toolbar.class.getResource("/assets/Close Hover.png"));
+			minimize = ImageIO.read(Toolbar.class.getResource("/assets/Minimize.png"));
+			minimizeHover = ImageIO.read(Toolbar.class.getResource("/assets/Minimize Hover.png"));
+			maximize = ImageIO.read(Toolbar.class.getResource("/assets/Maximize.png"));
+			maximizeHover = ImageIO.read(Toolbar.class.getResource("/assets/Maximize Hover.png"));
+			normalize = ImageIO.read(Toolbar.class.getResource("/assets/Normalize.png"));
+			normalizeHover = ImageIO.read(Toolbar.class.getResource("/assets/Normalize Hover.png"));
+			tabDark = ImageIO.read(Toolbar.class.getResource("/assets/Tab Dark.png"));
+			tabLight = ImageIO.read(Toolbar.class.getResource("/assets/Tab Light.png"));
+			font = new Font("Tahoma", Font.BOLD, 12);
+		}catch(Exception exception){
+			exception.printStackTrace();
+			System.exit(1);
+		}
+	}
+	public Toolbar(Loader loader){
 		this.loader = loader;
-		font = new Font("Tahoma", Font.BOLD, 12);
 		addMouseListener(new MouseAdapter(){
 			@Override
 			public void mousePressed(MouseEvent e){
@@ -70,21 +86,6 @@ public class Toolbar extends JPanel{
 		});
 		setMinimumSize(new Dimension(105, 25));
 		setPreferredSize(new Dimension(105, 25));
-		try{
-			close = ImageIO.read(getClass().getResource("/assets/Close.png"));
-			closeHover = ImageIO.read(getClass().getResource("/assets/Close Hover.png"));
-			minimize = ImageIO.read(getClass().getResource("/assets/Minimize.png"));
-			minimizeHover = ImageIO.read(getClass().getResource("/assets/Minimize Hover.png"));
-			maximize = ImageIO.read(getClass().getResource("/assets/Maximize.png"));
-			maximizeHover = ImageIO.read(getClass().getResource("/assets/Maximize Hover.png"));
-			normalize = ImageIO.read(getClass().getResource("/assets/Normalize.png"));
-			normalizeHover = ImageIO.read(getClass().getResource("/assets/Normalize Hover.png"));
-			tabDark = ImageIO.read(getClass().getResource("/assets/Tab Dark.png"));
-			tabLight = ImageIO.read(getClass().getResource("/assets/Tab Light.png"));
-		}catch(Exception exception){
-			exception.printStackTrace();
-			System.exit(1);
-		}
 	}
 	@Override
 	public void paint(Graphics g1){
@@ -147,6 +148,7 @@ public class Toolbar extends JPanel{
 		}else if(p.x<TABS.length*TAB_WIDTH){
 			int clickedTab = p.x/TAB_WIDTH;
 			if(clickedTab!=currentIndex){
+				currentIndex = clickedTab;
 				switch(clickedTab){
 					case 0:
 						Loader.getInstance().buildMainTab();
@@ -159,6 +161,9 @@ public class Toolbar extends JPanel{
 						break;
 					case 3:
 						Loader.getInstance().buildSleepTrackerTab();
+						break;
+					case 4:
+						Loader.getInstance().buildWaterTrackerTab();
 						break;
 					default:
 						// Do nothing.

@@ -15,7 +15,7 @@ import me.ci.popups.LogValuePopup;
 import me.ci.util.LogFile;
 
 @SuppressWarnings("serial")
-public class SleepTracker extends JPanel{
+public class WaterTracker extends JPanel{
 	private int[] values;
 	private int maxValue;
 	private boolean updateHover;
@@ -25,13 +25,13 @@ public class SleepTracker extends JPanel{
 	private static final Color LIGHT_GRAY = new Color(0.2f, 0.2f, 0.2f);
 	static{
 		try{
-			button = ImageIO.read(SleepTracker.class.getResource("/assets/Update Weight Button.png"));
-			buttonHover = ImageIO.read(SleepTracker.class.getResource("/assets/Update Weight Button Hover.png"));
+			button = ImageIO.read(WaterTracker.class.getResource("/assets/Update Weight Button.png"));
+			buttonHover = ImageIO.read(WaterTracker.class.getResource("/assets/Update Weight Button Hover.png"));
 		}catch(Exception exception){
 			exception.printStackTrace();
 		}
 	}
-	public SleepTracker(){
+	public WaterTracker(){
 		addMouseMotionListener(new MouseAdapter(){
 			@Override
 			public void mouseMoved(MouseEvent e){
@@ -48,7 +48,7 @@ public class SleepTracker extends JPanel{
 			@Override
 			public void mouseClicked(MouseEvent e){
 				if(updateHover){
-					new LogValuePopup("Enter Today's Sleep", "Today's Sleep (hour)", 8, 3);
+					new LogValuePopup("Enter Today's Water", "Today's Water (oz)", 32, 4);
 				}
 			}
 		});
@@ -106,19 +106,19 @@ public class SleepTracker extends JPanel{
 		g.drawImage(updateHover?buttonHover:button, getWidth()-78, getHeight()-BOTTOM_BORDER_THICKNESS+3, null);
 		g.dispose();
 	}
-	public void logSleep(int sleep){
-		values[values.length-1] = sleep;
+	public void logWater(int water){
+		values[values.length-1] = water;
 		maxValue = 0;
 		for(int i = 0; i<values.length; i++){
 			maxValue = Math.max(maxValue, values[i]);
 		}
 		repaint();
-		Loader.getResourceLoader().setSleep(sleep);
+		Loader.getResourceLoader().setWater(water);
 		Loader.getResourceLoader().save();
 	}
 	public void recalculateValues(){
 		ArrayList<Integer> valueList = new ArrayList(7);
-		valueList.add(Loader.getResourceLoader().getSleep());
+		valueList.add(Loader.getResourceLoader().getWater());
 		int day = Loader.getResourceLoader().getCurrentDay()-1;
 		int back = day-7;
 		for(int i = day; i>=back; i--){
@@ -126,7 +126,7 @@ public class SleepTracker extends JPanel{
 			if(log==null||log.getWeight()==0){
 				break;
 			}
-			valueList.add(log.getSleep());
+			valueList.add(log.getWater());
 		}
 		values = new int[valueList.size()];
 		maxValue = 0;
